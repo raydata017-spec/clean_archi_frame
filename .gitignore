@@ -1,13 +1,26 @@
 # Miscellaneous
 *.class
-*.lock
 *.log
 *.pyc
 *.swp
+*.lock
+.DS_Store
+.atom/
 .buildlog/
 .history
+.svn/
 
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
 
+# Visual Studio Code related
+.classpath
+.project
+.settings/
+.vscode/
 
 # Flutter repo-specific
 /bin/cache/
@@ -38,13 +51,15 @@ analysis_benchmark.json
 .flutter-plugins-dependencies
 **/generated_plugin_registrant.dart
 .packages
-.pub-preload-cache/
+.pub-cache/
 .pub/
 build/
 flutter_*.png
 linked_*.ds
 unlinked.ds
 unlinked_spec.ds
+pubspec.lock
+.env
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -52,10 +67,7 @@ unlinked_spec.ds
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
-**/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
-**/android/key.properties
-*.jks
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -87,6 +99,14 @@ unlinked_spec.ds
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 
+# iOS Certificates and Keys - DO NOT COMMIT
+**/ios/certs/*.p12
+**/ios/certs/*.p8
+**/ios/certs/*.mobileprovision
+**/ios/certs/*.key
+**/ios/fastlane/.env
+**/ios/fastlane/Matchfile
+
 # macOS
 **/Flutter/ephemeral/
 **/Pods/
@@ -117,3 +137,11 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+/android/app/.cxx
+*.p8
+*.p12
