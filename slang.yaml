@@ -1,0 +1,5 @@
+base_locale: en
+input_directory: lib/app/config/localization/i18n
+output_directory: lib/app/config/localization/generated
+output_file_name: translations.g.dart
+fallback_strategy: base_locale

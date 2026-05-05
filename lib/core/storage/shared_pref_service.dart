@@ -18,7 +18,7 @@ class SharedPrefService {
 
   // --- Keys ---
   static const String _themeModeKey = 'app_theme_mode';
-  static const String _tokenKey = 'auth_token';
+  static const String _localeKey = 'app_locale';
 
   // --- Theme ---
   Future<void> saveThemeMode(bool isDark) async {
@@ -29,17 +29,13 @@ class SharedPrefService {
     return _prefs.getBool(_themeModeKey);
   }
 
-  // --- Auth Token ---
-  Future<void> saveToken(String token) async {
-    await _prefs.setString(_tokenKey, token);
+  // --- Locale ---
+  Future<void> saveLocale(String languageCode) async {
+    await _prefs.setString(_localeKey, languageCode);
   }
 
-  String? getToken() {
-    return _prefs.getString(_tokenKey);
-  }
-
-  Future<void> removeToken() async {
-    await _prefs.remove(_tokenKey);
+  String? getLocale() {
+    return _prefs.getString(_localeKey);
   }
 
   // --- Clear All ---
