@@ -11,5 +11,9 @@
             "one": "You have 1 new message.",
             "other": "You have $n new messages."
         }
+    },
+    "validation": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address"
     }
 }

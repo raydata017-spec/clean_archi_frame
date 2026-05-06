@@ -42,6 +42,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final TranslationsSettingEn setting = TranslationsSettingEn.internal(_root);
 	late final TranslationsKDynamicEn kDynamic = TranslationsKDynamicEn.internal(_root);
+	late final TranslationsValidationEn validation = TranslationsValidationEn.internal(_root);
 }
 
 // Path: setting
@@ -81,6 +82,21 @@ class TranslationsKDynamicEn {
 	);
 }
 
+// Path: validation
+class TranslationsValidationEn {
+	TranslationsValidationEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Email is required'
+	String get emailRequired => 'Email is required';
+
+	/// en: 'Please enter a valid email address'
+	String get emailInvalid => 'Please enter a valid email address';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -94,6 +110,8 @@ extension on Translations {
 			'setting.changeLanguage' => 'Change Language',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
+			'validation.emailRequired' => 'Email is required',
+			'validation.emailInvalid' => 'Please enter a valid email address',
 			_ => null,
 		};
 	}

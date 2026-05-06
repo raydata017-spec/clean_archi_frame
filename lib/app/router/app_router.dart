@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../shared/main_wrapper_screen.dart';
+import 'route_names.dart';
+
+// Navigation Service Keys
+final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
+final shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+
+final appRouterProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    navigatorKey: rootNavigatorKey,
+    initialLocation: RouteNames.homePath,
+    routes: [
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return MainWrapperScreen(navigationShell: navigationShell);
+        },
+        branches: [
+          // --- Branch 1: Home ---
+          StatefulShellBranch(
+            navigatorKey: shellNavigatorHomeKey,
+            routes: [
+              GoRoute(
+                path: RouteNames.homePath,
+                name: RouteNames.homeName,
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
+          ),
+
+          // --- Branch 2: Profile ---
+          StatefulShellBranch(
+            navigatorKey: shellNavigatorProfileKey,
+            routes: [
+              GoRoute(
+                path: RouteNames.profilePath,
+                name: RouteNames.profileName,
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+});

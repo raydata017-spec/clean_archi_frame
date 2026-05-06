@@ -41,6 +41,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 	// Translations
 	@override late final _TranslationsSettingMy setting = _TranslationsSettingMy._(_root);
 	@override late final _TranslationsKDynamicMy kDynamic = _TranslationsKDynamicMy._(_root);
+	@override late final _TranslationsValidationMy validation = _TranslationsValidationMy._(_root);
 }
 
 // Path: setting
@@ -69,6 +70,17 @@ class _TranslationsKDynamicMy extends TranslationsKDynamicEn {
 	);
 }
 
+// Path: validation
+class _TranslationsValidationMy extends TranslationsValidationEn {
+	_TranslationsValidationMy._(TranslationsMy root) : this._root = root, super.internal(root);
+
+	final TranslationsMy _root; // ignore: unused_field
+
+	// Translations
+	@override String get emailRequired => 'အီးမေးလ် လိုအပ်ပါတယ်';
+	@override String get emailInvalid => 'အမှန်တကယ် အီးမေးလ် လိပ်စာ တစ်ခု ထည့်ပါ';
+}
+
 /// The flat map containing all translations for locale <my>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -82,6 +94,8 @@ extension on TranslationsMy {
 			'setting.changeLanguage' => 'ဘာသာစကား ပြောင်းရန်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
+			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
+			'validation.emailInvalid' => 'အမှန်တကယ် အီးမေးလ် လိပ်စာ တစ်ခု ထည့်ပါ',
 			_ => null,
 		};
 	}

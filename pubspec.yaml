@@ -12,15 +12,22 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  connectivity_plus:
   cupertino_back_gesture:
   cupertino_icons:
   flutter_riverpod:
   freezed_annotation:
+  geolocator:
+  go_router:
+  intl:
   json_annotation:
+  logger:
+  permission_handler:
   riverpod_annotation:
   shared_preferences:
   slang:
   slang_flutter:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
