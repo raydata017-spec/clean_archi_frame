@@ -15,6 +15,7 @@ dependencies:
   connectivity_plus:
   cupertino_back_gesture:
   cupertino_icons:
+  drift:
   flutter_riverpod:
   freezed_annotation:
   geolocator:
@@ -22,6 +23,8 @@ dependencies:
   intl:
   json_annotation:
   logger:
+  path:
+  path_provider:
   permission_handler:
   riverpod_annotation:
   shared_preferences:
@@ -33,6 +36,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner:
+  drift_dev:
   flutter_lints: ^6.0.0
   riverpod_generator:
   freezed:
