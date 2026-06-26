@@ -30,6 +30,7 @@ dependencies:
   shared_preferences:
   slang:
   slang_flutter:
+  sqlite3_flutter_libs: ^0.5.25
   url_launcher:
 
 dev_dependencies:

@@ -87,3 +87,131 @@ ref.read(localeControllerProvider.notifier).changeLocale(AppLocale.my);
 ```
 
 > Note: ရွေးချယ်လိုက်သော ဘာသာစကားကို Local Storage တွင် အလိုအလျောက် မှတ်သားထားမည် ဖြစ်သည်။
+
+---
+
+## DAO (Data Access Object)
+
+This framework uses Drift for local database access. DAOs are simple classes that encapsulate table queries and updates.
+
+### Example DAO
+
+A sample DAO can be placed at:
+
+- `lib/features/profile/data/data_sources/local/dao/profile_dao.dart`
+
+It can extend `DatabaseAccessor<AppDatabase>` and use `db.profileTable` directly.
+
+```dart
+class ProfileDao extends DatabaseAccessor<AppDatabase> {
+  ProfileDao(AppDatabase db) : super(db);
+
+  Stream<List<ProfileTableData>> watchProfiles() {
+    return select(db.profileTable).watch();
+  }
+
+  Future<int> insertProfile(ProfileTableCompanion companion) {
+    return into(db.profileTable).insert(companion);
+  }
+}
+```
+
+### Do I need code generation?
+
+- If your DAO is written manually like the example above, then you do not need Drift code generation for that class.
+- If you add the DAO to `@DriftDatabase(daos: [ProfileDao])` or use `@DriftAccessor`, then you must run the generator.
+
+### When to run the generator
+
+Run generator only when you use Drift annotations and want generated DAO wiring or database code.
+
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
+
+### Core frame recommendation
+
+For a clean core frame example, keep DAO classes manual and simple. This makes the frame easy to read and use without forcing generator setup.
+
+---
+
+## Offline Sync Processors
+
+The offline core sends queued requests from the local outbox using processor classes. Each processor handles one `actionType` and implements `OutboxActionProcessor`.
+
+### Processor example
+
+```dart
+import 'package:clean_archi_frame/core/offline/offline_outbox_item.dart';
+import 'package:clean_archi_frame/core/offline/outbox_action_processor.dart';
+import 'package:clean_archi_frame/core/utils/exceptions/sync_exceptions.dart';
+
+class CreatePostProcessor extends OutboxActionProcessor {
+  @override
+  String get actionType => 'create_post';
+
+  @override
+  Future<Map<String, dynamic>?> process(OfflineOutboxItem item) async {
+    final payload = item.payloadAsMap;
+
+    // Replace with your real HTTP or API client call
+    final response = await apiClient.createPost(payload);
+
+    if (response.statusCode == 409) {
+      throw SyncConflictException('Conflict creating post');
+    }
+
+    if (response.statusCode >= 500) {
+      throw SyncServerException('Server error');
+    }
+
+    if (!response.isOk) {
+      throw SyncNetworkException('Network error');
+    }
+
+    return response.body;
+  }
+
+  @override
+  Future<void> onConflict(Object error, OfflineOutboxItem item) async {
+    // Mark local item as conflict, notify user, or open manual resolution UI.
+  }
+
+  @override
+  Future<void> onFailure(Object error, OfflineOutboxItem item, int currentRetries) async {
+    // Log retry progress, update UI state, or notify if retries are exhausted.
+  }
+}
+```
+
+### Registering processors
+
+Register processors with the sync engine before the app starts or when your module initializes.
+
+```dart
+final engine = ref.watch(offlineSyncEngineProvider);
+engine.registerProcessor(CreatePostProcessor());
+engine.registerProcessor(UpdateProfileProcessor());
+```
+
+### Profile feature processor example
+
+A real project may keep processors inside a feature directory.
+
+- `lib/features/profile/data/data_sources/processors/update_profile_processor.dart`
+
+This keeps offline sync logic close to the profile feature.
+
+### How it works
+
+- The engine watches the local outbox table.
+- When an item is pending and network is available, it calls the matching processor.
+- `process()` sends the payload to the server.
+- `onConflict()` handles conflict errors.
+- `onFailure()` handles retry/failure reporting.
+
+### Real project advice
+
+- Use `actionType` as the unique key for each request kind.
+- Keep processors small and focused on one server endpoint.
+- Let the engine manage retry counts, status, and cleanup.
