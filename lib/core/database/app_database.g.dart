@@ -907,6 +907,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ProfileTableTable profileTable = $ProfileTableTable(this);
   late final $OutboxTableTable outboxTable = $OutboxTableTable(this);
+  late final ProfileDao profileDao = ProfileDao(this as AppDatabase);
+  late final OutboxDao outboxDao = OutboxDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

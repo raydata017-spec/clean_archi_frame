@@ -7,11 +7,11 @@ import '../utils/enums/outbox_status_enum.dart';
 import '../utils/enums/sync_engine_enums.dart';
 import '../utils/exceptions/sync_exceptions.dart';
 import '../utils/extensions/duration_extension.dart';
-import 'local_reference_repository.dart';
+import 'repositories/local_reference_repository.dart';
 import 'sync_config.dart';
 import 'outbox_action_processor.dart';
 import 'offline_cleanup_handler.dart';
-import 'offline_outbox_repository.dart';
+import 'repositories/offline_outbox_repository.dart';
 import 'offline_outbox_item.dart';
 
 class OfflineSyncEngine {
@@ -31,15 +31,15 @@ class OfflineSyncEngine {
   SyncEngineEnums get status => _status;
   bool get isProcessing => _isProcessing;
 
-  // UI ဘက်သို့ Engine ၏ အခြေအနေပြောင်းလဲမှုများ လှမ်းအကြောင်းကြားရန် Broadcast Stream Controller
+  // Broadcast stream controller to notify the UI about engine status changes
   final _statusController = StreamController<SyncEngineEnums>.broadcast();
   Stream<SyncEngineEnums> get statusStream => _statusController.stream;
 
   OfflineSyncEngine({required LocalReferenceRepository referenceRepository, required OfflineOutboxRepository outboxRepository, SyncConfig config = const SyncConfig(), Connectivity? connectivity})
-    : _outboxRepository = outboxRepository,
-      _referenceRepository = referenceRepository,
-      _config = config,
-      _connectivity = connectivity ?? Connectivity() {
+      : _outboxRepository = outboxRepository,
+        _referenceRepository = referenceRepository,
+        _config = config,
+        _connectivity = connectivity ?? Connectivity() {
     _initListeners();
   }
 
@@ -55,7 +55,7 @@ class OfflineSyncEngine {
   }
 
   void _initListeners() {
-    // 1. အင်တာနက်လိုင်း အပြောင်းအလဲကို စဉ်ဆက်မပြတ် Listen လုပ်
+    // 1. Continuously listen for internet connectivity changes
     _connectivitySub = _connectivity.onConnectivityChanged.listen((results) {
       final hasConnection = !results.contains(ConnectivityResult.none);
       dev.log('🌐 Connectivity changed: hasConnection=$hasConnection (results=$results)', name: 'OfflineSyncEngine');
@@ -66,11 +66,11 @@ class OfflineSyncEngine {
       }
     });
 
-    // 2. Local Database (Outbox) ထဲသို့ ဒေတာအသစ်ရောက်လာခြင်း သို့မဟုတ် Update ဖြစ်ခြင်းကို စောင့်ကြည့်သည်
+    // 2. Watch for new or updated data arriving in the local outbox database
     _outboxSub = _outboxRepository.watchOutbox().listen((items) {
-      final hasPendingItems = items.any((item) => item.status == OutboxStatusEnum.pending); // ပို့ရန်ကျန်သေးသော 'pending' ဒေတာ ပါ၊ မပါ စစ်ဆေးသည်
+      final hasPendingItems = items.any((item) => item.status == OutboxStatusEnum.pending); // Check whether there are remaining pending items to send
       if (hasPendingItems && _status != SyncEngineEnums.offline) {
-        // ပို့ရန်ရှိပြီး အော့ဖ်လိုင်းမဟုတ်ပါက
+        // If there are pending items and the app is online
         dev.log('📥 Pending items detected in outbox. Triggering sync...', name: 'OfflineSyncEngine');
         triggerSync();
       }
@@ -118,51 +118,51 @@ class OfflineSyncEngine {
         final processor = _processors[item.actionType];
         if (processor == null) {
           dev.log('❌ Error: No processor registered for action type: ${item.actionType}', name: 'OfflineSyncEngine');
-          // ကျန်ရှိနေသော တန်းစီဇယား Block ဖြစ်မသွားစေရန် 'failed' သတ်မှတ်ပြီး ကျော်သည်
+          // Mark as failed and skip so the remaining queue does not block
           await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.failed, retryCount: item.retryCount, lastError: 'No processor registered for ${item.actionType}');
           continue;
         }
 
-        // ပို့တော့မည့် Item ကို Local Database တွင် 'syncing' အခြေအနေသို့ ပြောင်းလဲသည်
+        // Mark the item in the local database as 'syncing' before sending
         await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.syncing, retryCount: item.retryCount);
 
         try {
           dev.log('📤 Processing outbox item #${item.id} (Action: ${item.actionType})', name: 'OfflineSyncEngine');
 
-          // 🛑 ဤနေရာသည် သက်ဆိုင်ရာ Processor ကိုသုံး၍ ဆာဗာသို့ အင်တာနက်မှတစ်ဆင့် အချက်အလက် အမှန်တကယ် ပို့ဆောင်သည့်နေရာဖြစ်သည်
+          // 🛑 This is where the associated processor sends the actual data to the server over the internet
           final response = await processor.process(item);
 
           // Relationship Handling:
-          // Server ဆီက response ရလာပြီး item မှာ clientReferenceId ရှိနေရင်
-          // တခြား pending ဖြစ်နေတဲ့ items တွေထဲမှာ ဒီ reference ကို သုံးထားတာရှိမရှိ စစ်ပြီး Update လုပ်ပေးမယ်
+          // If a response returns from the server and the item has a clientReferenceId
+          // Check for other pending items using that reference and update them as needed
           if (response != null && item.clientReferenceId != null) {
             final serverId = response['id']?.toString();
             if (serverId != null) {
-              // Mapping Table ထဲတွင် client_id = server_id ဆိုပြီး သိမ်းလိုက်ပါပြီ
+              // Store the client_id to server_id mapping in the reference table
               await _referenceRepository.saveMapping(clientId: item.clientReferenceId!, serverId: serverId);
               dev.log('🔗 Saved Reference Mapping: ${item.clientReferenceId} -> $serverId', name: 'OfflineSyncEngine');
             }
           }
 
-          // အောင်မြင်လျှင် Outbox မှ ဖျက်
+          // Delete from the outbox when successful
           await _outboxRepository.deleteOutboxItem(item.id);
           dev.log('✅ Successfully processed and deleted outbox item #${item.id}', name: 'OfflineSyncEngine');
         } on SyncConflictException catch (error) {
           dev.log('❌ Failed to process outbox item #${item.id}: $error', name: 'OfflineSyncEngine');
 
-          // 🛑 ဒေတာထပ်နေသည့် Conflict Error ကို ဖမ်းမိသည့်အခါ
+          // 🛑 Conflict error
           dev.log('⚠️ Conflict detected for item #${item.id}. Invoking conflict handler...', name: 'OfflineSyncEngine');
           await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.conflict, retryCount: item.retryCount, lastError: error.toString());
           await processor.onConflict(error, item);
           dev.log('⚠️ Conflict handled. Queue unblocked.', name: 'OfflineSyncEngine');
         } on SyncNetworkException catch (error) {
-          // 🌐 Network ပိုင်းဆိုင်ရာ Error တက်သည့်အခါ (Retry ပြန်လုပ်မည်)
+          // 🌐 Handle network error
           await _handleRetryableError(item, processor, error);
         } on SyncServerException catch (error) {
-          // 🖥️ Server ပိုင်းဆိုင်ရာ Error (5xx) တက်သည့်အခါ (Retry ပြန်လုပ်မည်)
+          // 🖥️ Handle Server Error (5xx)
           await _handleRetryableError(item, processor, error);
         } catch (error) {
-          // ❌ အခြား မမျှော်လင့်ထားသော Error များ
+          // ❌ Unexpected error
           await _handleFatalError(item, processor, error);
         }
       }
@@ -181,19 +181,18 @@ class OfflineSyncEngine {
     }
   }
 
-  /// တစ်ခုချင်းစီသော Outbox Item ကို logic အပြည့်အစုံဖြင့် ပို့ဆောင်ပေးသည့် method
+  /// One-shot method to fully process each outbox item
   Future<void> _processOutboxItem(OfflineOutboxItem item, OutboxActionProcessor processor) async {
-    // 1. အခြေအနေအား 'syncing' သို့ ပြောင်းလဲပါ
+    // 1. Change the status to 'syncing'
     await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.syncing, retryCount: item.retryCount);
 
     try {
-
       dev.log('📤 Processing outbox item #${item.id} (Action: ${item.actionType})', name: 'OfflineSyncEngine');
 
-      // 3. ဆာဗာသို့ ပို့ဆောင်ခြင်း
+      // 3. Send to the server
       final response = await processor.process(item);
 
-      // 4. အောင်မြင်လျှင် Mapping သိမ်းဆည်းခြင်း
+      // 4. Save mapping on success
       if (response != null && item.clientReferenceId != null) {
         final serverId = response['id']?.toString();
         if (serverId != null) {
@@ -202,7 +201,7 @@ class OfflineSyncEngine {
         }
       }
 
-      // 5. အောင်မြင်လျှင် Outbox မှ ဖျက်ပါ
+      // 5. Delete from the outbox on success
       await _outboxRepository.deleteOutboxItem(item.id);
       dev.log('✅ Successfully processed item #${item.id}', name: 'OfflineSyncEngine');
     } on SyncConflictException catch (error) {
@@ -217,7 +216,7 @@ class OfflineSyncEngine {
     }
   }
 
-  /// Background Task များမှ လှမ်းခေါ်ရန်အတွက် One-shot Sync Method
+  /// One-shot sync method for background tasks to invoke
   Future<void> syncOnce() async {
     if (_isProcessing) return;
     _isProcessing = true;
@@ -226,7 +225,7 @@ class OfflineSyncEngine {
     try {
       dev.log('🚀 Background Sync Started...', name: 'OfflineSyncEngine');
 
-      // Outbox ထဲမှာ ပို့ဖို့ကျန်တာ ရှိနေသရွေ့ Loop ပတ်ပြီး ပို့နေမည်
+      // Loop and send while there are remaining items in the outbox
       while (true) {
         final item = await _outboxRepository.getNextSyncableItem();
         if (item == null) {
@@ -237,12 +236,12 @@ class OfflineSyncEngine {
         final processor = _processors[item.actionType];
         if (processor == null) {
           dev.log('❌ Processor not found for action: ${item.actionType}', name: 'OfflineSyncEngine');
-          // Processor မရှိလျှင် Queue ပိတ်မနေစေရန် ကူးကျော်သည် သို့မဟုတ် Failed ပေးသည်
+          // Skip or mark failed so the queue does not stall if the processor is missing
           await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.failed, retryCount: item.retryCount, lastError: 'Processor missing');
           continue;
         }
 
-        // လက်ရှိ item အား ပို့ဆောင်ခြင်း (ယခင်ရေးထားသည့် try-catch logic အတိုင်း ပို့ပါမည်)
+        // Send the current item using the previously written try-catch logic
         await _processOutboxItem(item, processor);
       }
 
@@ -277,7 +276,7 @@ class OfflineSyncEngine {
       await processor.onFailure(error, item, newRetryCount);
     } else {
       final Duration delay = newRetryCount.getExponentialDelay(maxRetries);
-      dev.log('⏳ Error တက်သဖြင့် Item #${item.id} ကို $delay အကြာမှ ပြန်လည်စမ်းသပ်ပါမည်။', name: 'OfflineSyncEngine');
+      dev.log('⏳ Due to the error, item #${item.id} will retry after $delay.', name: 'OfflineSyncEngine');
 
       await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.failed, retryCount: newRetryCount, lastError: error.toString());
     }
@@ -285,7 +284,7 @@ class OfflineSyncEngine {
   }
 
   Future<void> _handleFatalError(OfflineOutboxItem item, OutboxActionProcessor processor, Object error) async {
-    // ချက်ချင်း Failed သတ်မှတ်မည့် အပိုင်း
+    // Section to immediately mark the item as failed
     final newRetryCount = item.retryCount + 1;
     await _outboxRepository.updateOutboxItem(id: item.id, status: OutboxStatusEnum.failed, retryCount: newRetryCount, lastError: error.toString());
     await processor.onFailure(error, item, newRetryCount);

@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import '../../../../core/database/app_database.dart';
-import '../../../../core/offline/offline_outbox_item.dart';
-import '../../../../core/offline/offline_outbox_repository.dart';
-import '../../../../core/utils/enums/outbox_status_enum.dart';
+import '../../database/app_database.dart';
+import '../offline_outbox_item.dart';
+import 'offline_outbox_repository.dart';
+import '../../utils/enums/outbox_status_enum.dart';
 
 class DriftOutboxRepository implements OfflineOutboxRepository {
   final AppDatabase _db;

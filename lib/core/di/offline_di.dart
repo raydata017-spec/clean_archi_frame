@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/outbox/di/outbox_di.dart';
-import '../offline/local_reference_repository.dart';
+import 'outbox_di.dart';
+import '../offline/repositories/local_reference_repository.dart';
 import '../offline/offline_sync_engine.dart';
 
 /// Provider for OfflineSyncEngine singleton instance.

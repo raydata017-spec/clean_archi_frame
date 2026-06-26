@@ -87,3 +87,164 @@ ref.read(localeControllerProvider.notifier).changeLocale(AppLocale.my);
 ```
 
 > Note: ရွေးချယ်လိုက်သော ဘာသာစကားကို Local Storage တွင် အလိုအလျောက် မှတ်သားထားမည် ဖြစ်သည်။
+
+---
+
+## DAO (Data Access Object)
+
+This framework uses Drift to store and query local data. A DAO is a small class that keeps SQL-related logic in one place.
+
+### What is a DAO?
+
+- A DAO contains query methods for one or more tables.
+- It keeps database access separate from UI and business logic.
+- It usually extends `DatabaseAccessor<AppDatabase>`.
+
+### Example DAO
+
+Put the example DAO here:
+
+- `lib/features/profile/data/data_sources/local/dao/profile_dao.dart`
+
+```dart
+import 'package:drift/drift.dart';
+import '../../../../../../core/database/app_database.dart';
+
+class ProfileDao extends DatabaseAccessor<AppDatabase> {
+  ProfileDao(AppDatabase db) : super(db);
+
+  Stream<List<ProfileTableData>> watchProfiles() {
+    return select(db.profileTable).watch();
+  }
+
+  Future<ProfileTableData?> getProfileById(int id) {
+    return (select(db.profileTable)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+  }
+
+  Future<int> insertProfile(ProfileTableCompanion companion) {
+    return into(db.profileTable).insert(companion);
+  }
+
+  Future<int> updateProfile(int id, ProfileTableCompanion companion) {
+    return (update(db.profileTable)..where((tbl) => tbl.id.equals(id))).write(companion);
+  }
+}
+```
+
+### How to use a DAO
+
+1. Create the DAO class in your feature folder.
+2. Inject it using a Riverpod provider or pass it into your repository.
+3. Call `watchProfiles()` for streams or `insertProfile(...)` for writes.
+
+### Do I need code generation?
+
+- This project uses ready-made DAO wiring with `@DriftDatabase(daos: [ProfileDao, OutboxDao])`.
+- `@DriftAccessor` generates the table mixins for each DAO.
+- Yes — when you use these Drift annotations, run the generator to produce the DAO mixins.
+
+### When should I run the generator?
+
+Run `build_runner` whenever you change the DAO annotations, table definitions, or `@DriftDatabase` configuration.
+
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
+
+### Recommended clean frame approach
+
+- Keep DAOs simple and manual for the framework.
+- Avoid adding generated DAO wiring unless you need it.
+- This makes the core frame easier to understand and reuse.
+
+---
+
+## Offline Sync Processors
+
+The offline core processes queued actions from the local outbox. A processor handles one action type and sends it to the server.
+
+### What is an offline processor?
+
+- It implements `OutboxActionProcessor`.
+- It has one `actionType`, such as `create_post` or `update_profile`.
+- It performs the network call in `process()`.
+- It handles conflict and failure cases in `onConflict()` and `onFailure()`.
+
+### Example processor
+
+```dart
+import 'package:clean_archi_frame/core/offline/offline_outbox_item.dart';
+import 'package:clean_archi_frame/core/offline/outbox_action_processor.dart';
+import 'package:clean_archi_frame/core/utils/exceptions/sync_exceptions.dart';
+
+class CreatePostProcessor extends OutboxActionProcessor {
+  @override
+  String get actionType => 'create_post';
+
+  @override
+  Future<Map<String, dynamic>?> process(OfflineOutboxItem item) async {
+    final payload = item.payloadAsMap;
+
+    // TODO: Replace with your real API client.
+    final response = await apiClient.createPost(payload);
+
+    if (response.statusCode == 409) {
+      throw SyncConflictException('Conflict creating post');
+    }
+
+    if (response.statusCode >= 500) {
+      throw SyncServerException('Server error');
+    }
+
+    if (!response.isOk) {
+      throw SyncNetworkException('Network error');
+    }
+
+    return response.body;
+  }
+
+  @override
+  Future<void> onConflict(Object error, OfflineOutboxItem item) async {
+    // Example: mark the item as conflicted or ask the user to resolve it.
+  }
+
+  @override
+  Future<void> onFailure(Object error, OfflineOutboxItem item, int currentRetries) async {
+    // Example: log the failure or show a message after retries are exhausted.
+  }
+}
+```
+
+### Where to place processors
+
+A good location for feature processors is inside the feature folder:
+
+- `lib/features/profile/data/data_sources/processors/update_profile_processor.dart`
+
+This makes feature-specific sync logic easy to find.
+
+### How to register processors
+
+Register processors in app startup or feature initialization:
+
+```dart
+final engine = ref.watch(offlineSyncEngineProvider);
+engine.registerProcessor(CreatePostProcessor());
+engine.registerProcessor(UpdateProfileProcessor());
+```
+
+### How the offline sync engine works
+
+- It watches the local outbox database.
+- When a pending item appears and there is internet, it triggers sync.
+- It finds a processor by `actionType`.
+- It calls `process()` to send data to the server.
+- On conflict, it calls `onConflict()`.
+- On failure, it calls `onFailure()` and retries as configured.
+
+### Real project advice
+
+- Use a unique `actionType` for each offline request type.
+- Keep processors focused on one endpoint.
+- Keep the engine logic in the core and feature-specific logic in processor classes.
+- Use the local outbox only for queued write actions, not for read-only queries.

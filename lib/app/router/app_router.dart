@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/setting/presentation/screens/setting_screen.dart';
+import '../../core/offline/screens/outbox_list_screen.dart';
 import '../../shared/main_wrapper_screen.dart';
 import 'route_names.dart';
 
@@ -11,6 +13,7 @@ import 'route_names.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
 final shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+final shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -42,6 +45,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: RouteNames.profilePath,
                 name: RouteNames.profileName,
                 builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+
+          // --- Branch 3: Settings ---
+          StatefulShellBranch(
+            navigatorKey: shellNavigatorSettingsKey,
+            routes: [
+              GoRoute(
+                path: RouteNames.settingsPath,
+                name: RouteNames.settingsName,
+                builder: (context, state) => const SettingScreen(),
+                routes: [
+                  GoRoute(
+                    path: RouteNames.outboxPath,
+                    name: RouteNames.outboxName,
+                    builder: (context, state) => const OutboxListScreen(),
+                  ),
+                ],
               ),
             ],
           ),

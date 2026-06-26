@@ -5,7 +5,6 @@ abstract class OutboxActionProcessor {
   String get actionType;
 
   /// Processes the outbox payload (sends data to the server).
-  /// Server ဆီက ပြန်လာမည့် Server-side ID သို့မဟုတ် response data ကို return ပြန်ပေးရန် လိုအပ်သည်
   Future<Map<String, dynamic>?> process(OfflineOutboxItem item);
 
   /// Called when a data conflict is encountered (e.g. unique constraint violation).
@@ -15,7 +14,6 @@ abstract class OutboxActionProcessor {
   Future<void> onConflict(Object error, OfflineOutboxItem item);
 
   /// Called when a general processing failure is encountered.
-  ///
   /// [currentRetries] is the number of times this item has failed so far.
   Future<void> onFailure(Object error, OfflineOutboxItem item, int currentRetries);
 }

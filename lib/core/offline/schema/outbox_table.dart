@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-import '../../../../../core/utils/enums/outbox_status_enum.dart' show OutboxStatusEnum;
+import '../../utils/enums/outbox_status_enum.dart' show OutboxStatusEnum;
 
 
 class OutboxTable extends Table {

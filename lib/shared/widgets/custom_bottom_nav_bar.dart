@@ -45,6 +45,12 @@ class CustomBottomNavBar extends StatelessWidget {
               label: 'Profile',
               index: 1,
             ),
+            _buildNavItem(
+              context: context,
+              icon: Icons.settings_rounded,
+              label: 'Setting',
+              index: 2,
+            ),
           ],
         ),
       ),
