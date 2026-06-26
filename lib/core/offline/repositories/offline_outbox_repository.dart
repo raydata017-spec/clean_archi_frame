@@ -1,5 +1,5 @@
-import '../utils/enums/outbox_status_enum.dart';
-import 'offline_outbox_item.dart';
+import '../../utils/enums/outbox_status_enum.dart';
+import '../offline_outbox_item.dart';
 
 abstract class OfflineOutboxRepository {
   /// Watches the outbox items (notifies whenever items change or are added).

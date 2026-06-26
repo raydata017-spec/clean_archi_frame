@@ -5,8 +5,8 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '../../features/outbox/data/local/schema/outbox_table.dart' show OutboxTable;
-import '../../features/profile/data/local/schema/profiles_schema.dart';
+import '../offline/schema/outbox_table.dart' show OutboxTable;
+import '../../features/profile/data/data_sources/local/schema/profiles_schema.dart';
 import '../utils/enums/outbox_status_enum.dart';
 
 part 'app_database.g.dart';
