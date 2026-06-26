@@ -2,18 +2,22 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../offline/schema/outbox_table.dart' show OutboxTable;
 import '../../features/profile/data/data_sources/local/schema/profiles_schema.dart';
 import '../utils/enums/outbox_status_enum.dart';
+import '../../features/profile/data/data_sources/local/dao/profile_dao.dart';
+import '../offline/dao/outbox_dao.dart';
 
 part 'app_database.g.dart';
 
-// Database, table and DAO declaration
-@DriftDatabase(tables: [ProfileTable, OutboxTable], daos: [])
-
+// Drift Database, tables and daos
+@DriftDatabase(
+  tables: [ProfileTable, OutboxTable],
+  daos: [ProfileDao, OutboxDao],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
