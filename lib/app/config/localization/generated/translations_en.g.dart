@@ -40,14 +40,14 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	late final TranslationsSettingEn setting = TranslationsSettingEn.internal(_root);
-	late final TranslationsKDynamicEn kDynamic = TranslationsKDynamicEn.internal(_root);
-	late final TranslationsValidationEn validation = TranslationsValidationEn.internal(_root);
+	late final Translations$setting$en setting = Translations$setting$en.internal(_root);
+	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en.internal(_root);
+	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
 }
 
 // Path: setting
-class TranslationsSettingEn {
-	TranslationsSettingEn.internal(this._root);
+class Translations$setting$en {
+	Translations$setting$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -56,16 +56,31 @@ class TranslationsSettingEn {
 	/// en: 'Hello'
 	String get hello => 'Hello';
 
+	/// en: 'Settings'
+	String get title => 'Settings';
+
 	/// en: 'Toggle Theme'
 	String get changeTheme => 'Toggle Theme';
 
 	/// en: 'Change Language'
 	String get changeLanguage => 'Change Language';
+
+	/// en: 'Dark mode'
+	String get darkMode => 'Dark mode';
+
+	/// en: 'Light mode'
+	String get lightMode => 'Light mode';
+
+	/// en: 'Offline Sync'
+	String get offlineSync => 'Offline Sync';
+
+	/// en: 'Open offline outbox'
+	String get offlineSyncSubtitle => 'Open offline outbox';
 }
 
 // Path: kDynamic
-class TranslationsKDynamicEn {
-	TranslationsKDynamicEn.internal(this._root);
+class Translations$kDynamic$en {
+	Translations$kDynamic$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -83,8 +98,8 @@ class TranslationsKDynamicEn {
 }
 
 // Path: validation
-class TranslationsValidationEn {
-	TranslationsValidationEn.internal(this._root);
+class Translations$validation$en {
+	Translations$validation$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -106,8 +121,13 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'setting.hello' => 'Hello',
+			'setting.title' => 'Settings',
 			'setting.changeTheme' => 'Toggle Theme',
 			'setting.changeLanguage' => 'Change Language',
+			'setting.darkMode' => 'Dark mode',
+			'setting.lightMode' => 'Light mode',
+			'setting.offlineSync' => 'Offline Sync',
+			'setting.offlineSyncSubtitle' => 'Open offline outbox',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
 			'validation.emailRequired' => 'Email is required',

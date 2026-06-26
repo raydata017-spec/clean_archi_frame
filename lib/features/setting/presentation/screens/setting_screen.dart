@@ -20,14 +20,14 @@ class SettingScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: context.colors.customBackground,
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(t.setting.title),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           SwitchListTile(
             title: Text(t.setting.changeTheme),
-            subtitle: Text(isDarkMode ? 'Dark mode' : 'Light mode'),
+            subtitle: Text(isDarkMode ? t.setting.darkMode : t.setting.lightMode),
             value: isDarkMode,
             onChanged: (_) {
               ref.read(themeControllerProvider.notifier).toggleTheme();
@@ -40,8 +40,7 @@ class SettingScreen extends ConsumerWidget {
             ),
             trailing: const Icon(Icons.language),
             onTap: () {
-              final newLocale =
-                  currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
+              final newLocale = currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
               ref.read(localeControllerProvider.notifier).changeLocale(newLocale);
             },
           ),
@@ -50,8 +49,8 @@ class SettingScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           ListTile(
             leading: const Icon(Icons.sync),
-            title: const Text('Offline Sync'),
-            subtitle: const Text('Open offline outbox'),
+            title: Text(t.setting.offlineSync),
+            subtitle: Text(t.setting.offlineSyncSubtitle),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               context.pushNamed(RouteNames.outboxName);

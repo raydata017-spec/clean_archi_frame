@@ -1,8 +1,13 @@
 {
     "setting": {
         "hello": "Hello",
+        "title": "Settings",
         "changeTheme": "Toggle Theme",
-        "changeLanguage": "Change Language"
+        "changeLanguage": "Change Language",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode",
+        "offlineSync": "Offline Sync",
+        "offlineSyncSubtitle": "Open offline outbox"
     },
     "dynamic": {
         "welcomeMessage": "Welcome back, $name! You have $point points.",

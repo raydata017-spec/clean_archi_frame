@@ -39,26 +39,31 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 	TranslationsMy $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsMy(meta: meta ?? this.$meta);
 
 	// Translations
-	@override late final _TranslationsSettingMy setting = _TranslationsSettingMy._(_root);
-	@override late final _TranslationsKDynamicMy kDynamic = _TranslationsKDynamicMy._(_root);
-	@override late final _TranslationsValidationMy validation = _TranslationsValidationMy._(_root);
+	@override late final _Translations$setting$my setting = _Translations$setting$my._(_root);
+	@override late final _Translations$kDynamic$my kDynamic = _Translations$kDynamic$my._(_root);
+	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
 }
 
 // Path: setting
-class _TranslationsSettingMy extends TranslationsSettingEn {
-	_TranslationsSettingMy._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$setting$my extends Translations$setting$en {
+	_Translations$setting$my._(TranslationsMy root) : this._root = root, super.internal(root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
 	// Translations
 	@override String get hello => 'မင်္ဂလာပါ';
+	@override String get title => 'ဆက်တင်များ';
 	@override String get changeTheme => 'အလင်း/အမှောင် ပြောင်းရန်';
 	@override String get changeLanguage => 'ဘာသာစကား ပြောင်းရန်';
+	@override String get darkMode => 'အမှောင် မုဒ်';
+	@override String get lightMode => 'အလင်း မုဒ်';
+	@override String get offlineSync => 'အော့ဖ်လိုင်း ထပ်တူပြုခြင်း';
+	@override String get offlineSyncSubtitle => 'အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်';
 }
 
 // Path: kDynamic
-class _TranslationsKDynamicMy extends TranslationsKDynamicEn {
-	_TranslationsKDynamicMy._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$kDynamic$my extends Translations$kDynamic$en {
+	_Translations$kDynamic$my._(TranslationsMy root) : this._root = root, super.internal(root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -71,8 +76,8 @@ class _TranslationsKDynamicMy extends TranslationsKDynamicEn {
 }
 
 // Path: validation
-class _TranslationsValidationMy extends TranslationsValidationEn {
-	_TranslationsValidationMy._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$validation$my extends Translations$validation$en {
+	_Translations$validation$my._(TranslationsMy root) : this._root = root, super.internal(root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -90,8 +95,13 @@ extension on TranslationsMy {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'setting.hello' => 'မင်္ဂလာပါ',
+			'setting.title' => 'ဆက်တင်များ',
 			'setting.changeTheme' => 'အလင်း/အမှောင် ပြောင်းရန်',
 			'setting.changeLanguage' => 'ဘာသာစကား ပြောင်းရန်',
+			'setting.darkMode' => 'အမှောင် မုဒ်',
+			'setting.lightMode' => 'အလင်း မုဒ်',
+			'setting.offlineSync' => 'အော့ဖ်လိုင်း ထပ်တူပြုခြင်း',
+			'setting.offlineSyncSubtitle' => 'အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',

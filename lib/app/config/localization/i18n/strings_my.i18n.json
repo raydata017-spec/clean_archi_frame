@@ -1,8 +1,13 @@
 {
   "setting": {
     "hello": "မင်္ဂလာပါ",
+    "title": "ဆက်တင်များ",
     "changeTheme": "အလင်း/အမှောင် ပြောင်းရန်",
-    "changeLanguage": "ဘာသာစကား ပြောင်းရန်"
+    "changeLanguage": "ဘာသာစကား ပြောင်းရန်",
+    "darkMode": "အမှောင် မုဒ်",
+    "lightMode": "အလင်း မုဒ်",
+    "offlineSync": "အော့ဖ်လိုင်း ထပ်တူပြုခြင်း",
+    "offlineSyncSubtitle": "အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်"
   },
   "dynamic": {
     "welcomeMessage": "ပြန်လည်ကြိုဆိုပါတယ် $name! သင့်မှာ အမှတ် $point မှတ် ရှိပါတယ်။",
