@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/setting/presentation/screens/setting_screen.dart';
@@ -11,9 +13,12 @@ import 'route_names.dart';
 
 // Navigation Service Keys
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
-final shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
-final shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
+final shellNavigatorHomeKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellHome');
+final shellNavigatorProfileKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+final shellNavigatorSettingsKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -68,6 +73,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+
+      // --- Auth Routes (outside shell) ---
+      GoRoute(
+        path: RouteNames.loginPath,
+        name: RouteNames.loginName,
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.registerPath,
+        name: RouteNames.registerName,
+        builder: (context, state) => const RegisterScreen(),
       ),
     ],
   );

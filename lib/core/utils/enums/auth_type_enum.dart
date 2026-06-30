@@ -1,0 +1,1 @@
+enum AuthTypeEnum { emailOnly, phoneOnly, both }

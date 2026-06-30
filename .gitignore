@@ -145,3 +145,7 @@ app.*.symbols
 /android/app/.cxx
 *.p8
 *.p12
+
+# AI / Gemini Memory Files
+gemini.md
+genimi.md

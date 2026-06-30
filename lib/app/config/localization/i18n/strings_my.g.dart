@@ -40,6 +40,7 @@ class TranslationsMy with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _Translations$setting$my setting = _Translations$setting$my._(_root);
 	@override late final _Translations$kDynamic$my kDynamic = _Translations$kDynamic$my._(_root);
 	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
+	@override late final _Translations$auth$my auth = _Translations$auth$my._(_root);
 }
 
 // Path: setting
@@ -50,8 +51,13 @@ class _Translations$setting$my implements Translations$setting$en {
 
 	// Translations
 	@override String get hello => 'မင်္ဂလာပါ';
+	@override String get title => 'ဆက်တင်များ';
 	@override String get changeTheme => 'အလင်း/အမှောင် ပြောင်းရန်';
 	@override String get changeLanguage => 'ဘာသာစကား ပြောင်းရန်';
+	@override String get darkMode => 'အမှောင် မုဒ်';
+	@override String get lightMode => 'အလင်း မုဒ်';
+	@override String get offlineSync => 'အော့ဖ်လိုင်း ထပ်တူပြုခြင်း';
+	@override String get offlineSyncSubtitle => 'အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်';
 }
 
 // Path: kDynamic
@@ -76,7 +82,52 @@ class _Translations$validation$my implements Translations$validation$en {
 
 	// Translations
 	@override String get emailRequired => 'အီးမေးလ် လိုအပ်ပါတယ်';
+	@override String get emailInvalid => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ';
+}
+
+// Path: auth
+class _Translations$auth$my implements Translations$auth$en {
+	_Translations$auth$my._(this._root);
+
+	final TranslationsMy _root; // ignore: unused_field
+
+	// Translations
+	@override String get signInToConsole => 'Console သို့ ဝင်ရန်';
+	@override String get createAccount => 'အကောင့်သစ်ဖွင့်ရန်';
+	@override String get emailSubtitle => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် အီးမေးလ်အချက်အလက်များကို ဖြည့်စွက်ပေးပါ။';
+	@override String get phoneSubtitle => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် ဖုန်းနံပါတ်အချက်အလက်များကို ဖြည့်စွက်ပေးပါ။';
+	@override String get bothSubtitle => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် ကြိုက်နှစ်သက်ရာ နည်းလမ်းကို ရွေးချယ်ပါ။';
+	@override String get emailRegisterSubtitle => 'စတင်ရန် အီးမေးလ်ဖြင့် အကောင့်သစ်ဖွင့်ပါ။';
+	@override String get phoneRegisterSubtitle => 'စတင်ရန် ဖုန်းနံပါတ်ဖြင့် အကောင့်သစ်ဖွင့်ပါ။';
+	@override String get bothRegisterSubtitle => 'စတင်ရန် အကောင့်သစ်ဖွင့်မည့် နည်းလမ်းကို ရွေးချယ်ပါ။';
+	@override String get fullName => 'အမည်အပြည့်အစုံ';
+	@override String get emailAddress => 'အီးမေးလ်လိပ်စာ';
+	@override String get phoneNumber => 'ဖုန်းနံပါတ်';
+	@override String get password => 'စကားဝှက်';
+	@override String get confirmPassword => 'စကားဝှက် အတည်ပြုရန်';
+	@override String get forgotPassword => 'စကားဝှက်မေ့နေပါသလား?';
+	@override String get keepMeSignedIn => 'အကောင့်ဝင်ထားလျက်ထားရန်';
+	@override String get signIn => 'အကောင့်ဝင်ရန်';
+	@override String get signUp => 'အကောင့်ဖွင့်ရန်';
+	@override String get dontHaveAccount => 'အကောင့်မရှိသေးဘူးလား?';
+	@override String get alreadyHaveAccount => 'အကောင့်ရှိပြီးသားလား?';
+	@override String get step1Subtitle => 'အဆင့် ၁ (၂ အနက်) - သင့်အခြေခံအချက်အလက်များကို ဖြည့်စွက်ပါ။';
+	@override String get step2Subtitle => 'အဆင့် ၂ (၂ အနက်) - စကားဝှက်အသစ်သတ်မှတ်ပါ။';
+	@override String get continueText => 'ဆက်လက်လုပ်ဆောင်ရန်';
+	@override String get termsOfService => 'ဝန်ဆောင်မှု သဘောတူညီချက်နှင့် ကိုယ်ရေးအချက်အလက် ထိန်းသိမ်းမှု မူဝါဒကို သဘောတူပါသည်။';
+	@override String get termsError => 'ဆက်လက်လုပ်ဆောင်ရန် စည်းမျဉ်းများကို သဘောတူရပါမည်';
+	@override String get emailRequired => 'အီးမေးလ် လိုအပ်ပါတယ်';
 	@override String get emailInvalid => 'အမှန်တကယ် အီးမေးလ် လိပ်စာ တစ်ခု ထည့်ပါ';
+	@override String get passwordRequired => 'စကားဝှက် လိုအပ်ပါတယ်';
+	@override String get passwordLengthError => 'စကားဝှက်သည် အနည်းဆုံး ၆ လုံး ရှိရပါမည်';
+	@override String get confirmPasswordRequired => 'စကားဝှက် အတည်ပြုချက် လိုအပ်ပါတယ်';
+	@override String get passwordsDoNotMatch => 'စကားဝှက်များ ကိုက်ညီမှုမရှိပါ';
+	@override String get nameRequired => 'အမည် လိုအပ်ပါတယ်';
+	@override String get phoneRequired => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်';
+	@override String get phoneInvalid => 'မှန်ကန်သော ဖုန်းနံပါတ် ဖြည့်စွက်ပါ';
+	@override String get email => 'အီးမေးလ်';
+	@override String get phone => 'ဖုန်း';
+	@override String get logout => 'အကောင့်မှ ထွက်ရန်';
 }
 
 /// The flat map containing all translations for locale <my>.
@@ -88,12 +139,53 @@ extension on TranslationsMy {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'setting.hello' => 'မင်္ဂလာပါ',
+			'setting.title' => 'ဆက်တင်များ',
 			'setting.changeTheme' => 'အလင်း/အမှောင် ပြောင်းရန်',
 			'setting.changeLanguage' => 'ဘာသာစကား ပြောင်းရန်',
+			'setting.darkMode' => 'အမှောင် မုဒ်',
+			'setting.lightMode' => 'အလင်း မုဒ်',
+			'setting.offlineSync' => 'အော့ဖ်လိုင်း ထပ်တူပြုခြင်း',
+			'setting.offlineSyncSubtitle' => 'အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
-			'validation.emailInvalid' => 'အမှန်တကယ် အီးမေးလ် လိပ်စာ တစ်ခု ထည့်ပါ',
+			'validation.emailInvalid' => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ',
+			'auth.signInToConsole' => 'Console သို့ ဝင်ရန်',
+			'auth.createAccount' => 'အကောင့်သစ်ဖွင့်ရန်',
+			'auth.emailSubtitle' => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် အီးမေးလ်အချက်အလက်များကို ဖြည့်စွက်ပေးပါ။',
+			'auth.phoneSubtitle' => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် ဖုန်းနံပါတ်အချက်အလက်များကို ဖြည့်စွက်ပေးပါ။',
+			'auth.bothSubtitle' => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် ကြိုက်နှစ်သက်ရာ နည်းလမ်းကို ရွေးချယ်ပါ။',
+			'auth.emailRegisterSubtitle' => 'စတင်ရန် အီးမေးလ်ဖြင့် အကောင့်သစ်ဖွင့်ပါ။',
+			'auth.phoneRegisterSubtitle' => 'စတင်ရန် ဖုန်းနံပါတ်ဖြင့် အကောင့်သစ်ဖွင့်ပါ။',
+			'auth.bothRegisterSubtitle' => 'စတင်ရန် အကောင့်သစ်ဖွင့်မည့် နည်းလမ်းကို ရွေးချယ်ပါ။',
+			'auth.fullName' => 'အမည်အပြည့်အစုံ',
+			'auth.emailAddress' => 'အီးမေးလ်လိပ်စာ',
+			'auth.phoneNumber' => 'ဖုန်းနံပါတ်',
+			'auth.password' => 'စကားဝှက်',
+			'auth.confirmPassword' => 'စကားဝှက် အတည်ပြုရန်',
+			'auth.forgotPassword' => 'စကားဝှက်မေ့နေပါသလား?',
+			'auth.keepMeSignedIn' => 'အကောင့်ဝင်ထားလျက်ထားရန်',
+			'auth.signIn' => 'အကောင့်ဝင်ရန်',
+			'auth.signUp' => 'အကောင့်ဖွင့်ရန်',
+			'auth.dontHaveAccount' => 'အကောင့်မရှိသေးဘူးလား?',
+			'auth.alreadyHaveAccount' => 'အကောင့်ရှိပြီးသားလား?',
+			'auth.step1Subtitle' => 'အဆင့် ၁ (၂ အနက်) - သင့်အခြေခံအချက်အလက်များကို ဖြည့်စွက်ပါ။',
+			'auth.step2Subtitle' => 'အဆင့် ၂ (၂ အနက်) - စကားဝှက်အသစ်သတ်မှတ်ပါ။',
+			'auth.continueText' => 'ဆက်လက်လုပ်ဆောင်ရန်',
+			'auth.termsOfService' => 'ဝန်ဆောင်မှု သဘောတူညီချက်နှင့် ကိုယ်ရေးအချက်အလက် ထိန်းသိမ်းမှု မူဝါဒကို သဘောတူပါသည်။',
+			'auth.termsError' => 'ဆက်လက်လုပ်ဆောင်ရန် စည်းမျဉ်းများကို သဘောတူရပါမည်',
+			'auth.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
+			'auth.emailInvalid' => 'အမှန်တကယ် အီးမေးလ် လိပ်စာ တစ်ခု ထည့်ပါ',
+			'auth.passwordRequired' => 'စကားဝှက် လိုအပ်ပါတယ်',
+			'auth.passwordLengthError' => 'စကားဝှက်သည် အနည်းဆုံး ၆ လုံး ရှိရပါမည်',
+			'auth.confirmPasswordRequired' => 'စကားဝှက် အတည်ပြုချက် လိုအပ်ပါတယ်',
+			'auth.passwordsDoNotMatch' => 'စကားဝှက်များ ကိုက်ညီမှုမရှိပါ',
+			'auth.nameRequired' => 'အမည် လိုအပ်ပါတယ်',
+			'auth.phoneRequired' => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်',
+			'auth.phoneInvalid' => 'မှန်ကန်သော ဖုန်းနံပါတ် ဖြည့်စွက်ပါ',
+			'auth.email' => 'အီးမေးလ်',
+			'auth.phone' => 'ဖုန်း',
+			'auth.logout' => 'အကောင့်မှ ထွက်ရန်',
 			_ => null,
 		};
 	}

@@ -27,7 +27,8 @@ class SettingScreen extends ConsumerWidget {
         children: [
           SwitchListTile(
             title: Text(t.setting.changeTheme),
-            subtitle: Text(isDarkMode ? t.setting.darkMode : t.setting.lightMode),
+            subtitle:
+                Text(isDarkMode ? t.setting.darkMode : t.setting.lightMode),
             value: isDarkMode,
             onChanged: (_) {
               ref.read(themeControllerProvider.notifier).toggleTheme();
@@ -40,8 +41,11 @@ class SettingScreen extends ConsumerWidget {
             ),
             trailing: const Icon(Icons.language),
             onTap: () {
-              final newLocale = currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
-              ref.read(localeControllerProvider.notifier).changeLocale(newLocale);
+              final newLocale =
+                  currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
+              ref
+                  .read(localeControllerProvider.notifier)
+                  .changeLocale(newLocale);
             },
           ),
           const SizedBox(height: 24),
@@ -54,6 +58,15 @@ class SettingScreen extends ConsumerWidget {
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               context.pushNamed(RouteNames.outboxName);
+            },
+          ),
+
+          // Log out
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: Text(t.auth.logout),
+            onTap: () {
+              context.push(RouteNames.loginPath);
             },
           ),
         ],

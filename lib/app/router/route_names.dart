@@ -6,10 +6,14 @@ class RouteNames {
   static const String profilePath = '/profile';
   static const String settingsPath = '/settings';
   static const String outboxPath = 'outbox';
+  static const String loginPath = '/login';
+  static const String registerPath = '/register';
 
   // --- Route Names ---
   static const String homeName = 'home';
   static const String profileName = 'profile';
   static const String settingsName = 'settings';
   static const String outboxName = 'outbox';
+  static const String loginName = 'login';
+  static const String registerName = 'register';
 }
