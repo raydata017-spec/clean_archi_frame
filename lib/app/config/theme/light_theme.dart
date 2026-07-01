@@ -11,6 +11,7 @@ final ThemeData lightThemeData = ThemeData(
     primary: AppColors.primary,
     secondary: AppColors.secondary,
     error: AppColors.error,
+    surface: AppColors.white,
   ),
   extensions: const [
     AppColorsExtension.light,

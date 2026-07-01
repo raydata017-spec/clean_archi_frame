@@ -39,10 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.paddingMarginXl,
-              vertical: AppSizes.defaultSpace,
-            ),
+            padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
             child: Container(
               constraints: const BoxConstraints(maxWidth: 400),
               child: Column(

@@ -11,6 +11,7 @@ final ThemeData darkThemeData = ThemeData(
     primary: AppColors.primary,
     secondary: AppColors.secondary,
     error: AppColors.error,
+    surface: AppColors.black,
   ),
   extensions: const [
     AppColorsExtension.dark,

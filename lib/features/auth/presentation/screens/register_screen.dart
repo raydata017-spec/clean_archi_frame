@@ -78,26 +78,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F172A) : const Color(0xFFFAFAFA),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.paddingMarginXl,
-              vertical: AppSizes.defaultSpace,
-            ),
+            padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
             child: Container(
               constraints: const BoxConstraints(maxWidth: 400),
               child: AnimatedCrossFade(
                 duration: const Duration(milliseconds: 200),
                 crossFadeState:
                     _currentStep == 0 ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                firstChild: _buildStep1(isDark),
-                secondChild: _buildStep2(isDark),
+                firstChild: _buildStep1(),
+                secondChild: _buildStep2(),
               ),
             ),
           ),
@@ -107,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   // --- Step 1: Details Form ---
-  Widget _buildStep1(bool isDark) {
+  Widget _buildStep1() {
     return Form(
       key: _step1FormKey,
       child: Column(
@@ -168,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
           // Underline Tab Selector
           if (widget.loginType == AuthTypeEnum.both) ...[
-            _buildUnderlineSelector(isDark),
+            _buildUnderlineSelector(),
             const SizedBox(height: AppSizes.fontSizeXl),
           ],
 
@@ -176,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (_selectedTab == 0 && widget.loginType != AuthTypeEnum.phoneOnly)
             _buildEmailField()
           else
-            _buildPhoneField(isDark),
+            _buildPhoneField(),
           const SizedBox(height: AppSizes.fontSizeXl),
 
           // Terms & Conditions Checkbox
@@ -297,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   // --- Step 2: Create Password Form ---
-  Widget _buildStep2(bool isDark) {
+  Widget _buildStep2() {
     return Form(
       key: _step2FormKey,
       child: Column(
@@ -502,7 +497,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPhoneField(bool isDark) {
+  Widget _buildPhoneField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -594,7 +589,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildUnderlineSelector(bool isDark) {
+  Widget _buildUnderlineSelector() {
     return Container(
       decoration: BoxDecoration(
         border: Border(

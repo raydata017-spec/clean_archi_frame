@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/config/dimensions.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -23,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
         title: const Text('Profile'),
       ),
       body: ListView.separated(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
         itemCount: _exampleProfiles.length,
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {

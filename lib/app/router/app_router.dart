@@ -13,12 +13,9 @@ import 'route_names.dart';
 
 // Navigation Service Keys
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final shellNavigatorHomeKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shellHome');
-final shellNavigatorProfileKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
-final shellNavigatorSettingsKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
+final shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
+final shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+final shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(

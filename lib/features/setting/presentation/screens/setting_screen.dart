@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
@@ -23,12 +24,11 @@ class SettingScreen extends ConsumerWidget {
         title: Text(t.setting.title),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
         children: [
           SwitchListTile(
             title: Text(t.setting.changeTheme),
-            subtitle:
-                Text(isDarkMode ? t.setting.darkMode : t.setting.lightMode),
+            subtitle: Text(isDarkMode ? t.setting.darkMode : t.setting.lightMode),
             value: isDarkMode,
             onChanged: (_) {
               ref.read(themeControllerProvider.notifier).toggleTheme();
@@ -41,11 +41,8 @@ class SettingScreen extends ConsumerWidget {
             ),
             trailing: const Icon(Icons.language),
             onTap: () {
-              final newLocale =
-                  currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
-              ref
-                  .read(localeControllerProvider.notifier)
-                  .changeLocale(newLocale);
+              final newLocale = currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
+              ref.read(localeControllerProvider.notifier).changeLocale(newLocale);
             },
           ),
           const SizedBox(height: 24),
@@ -66,7 +63,7 @@ class SettingScreen extends ConsumerWidget {
             leading: const Icon(Icons.logout),
             title: Text(t.auth.logout),
             onTap: () {
-              context.push(RouteNames.loginPath);
+              context.go(RouteNames.loginPath);
             },
           ),
         ],

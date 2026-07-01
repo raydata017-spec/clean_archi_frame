@@ -248,3 +248,40 @@ engine.registerProcessor(UpdateProfileProcessor());
 - Keep processors focused on one endpoint.
 - Keep the engine logic in the core and feature-specific logic in processor classes.
 - Use the local outbox only for queued write actions, not for read-only queries.
+
+---
+
+## Auth Type Configuration (AuthTypeEnum)
+
+Commercial project တစ်ခုချင်းစီ၏ လိုအပ်ချက်ပေါ်မူတည်၍ Login/Register ပုံစံများကို `AuthTypeEnum` အသုံးပြုကာ [app_router.dart](file:///d:/Projects/clean_archi_frame/lib/app/router/app_router.dart) တွင် လွယ်ကူစွာ သတ်မှတ်ပေးနိုင်ပါသည်။
+
+- `AuthTypeEnum.both`: Email နှင့် Phone login/register နှစ်မျိုးလုံးကို tab selector ဖြင့် ပြသပေးပါမည်။
+- `AuthTypeEnum.emailOnly`: Email ဖြင့်သာ login/register ပြုလုပ်နိုင်ရန် tab selector ကို ဖျောက်ထားပြီး email field ကို တိုက်ရိုက်ပြသပါမည်။
+- `AuthTypeEnum.phoneOnly`: Phone ဖြင့်သာ login/register ပြုလုပ်နိုင်ရန် tab selector ကို ဖျောက်ထားပြီး phone field ကို တိုက်ရိုက်ပြသပါမည်။
+
+### `app_router.dart` တွင် သတ်မှတ်ပုံဥပမာ (Usage Example in App Router)
+
+[app_router.dart](file:///d:/Projects/clean_archi_frame/lib/app/router/app_router.dart) တွင် အောက်ပါအတိုင်း dynamic သို့မဟုတ် static config အနေဖြင့် သတ်မှတ်နိုင်ပါသည် -
+
+```dart
+import 'package:clean_archi_frame/core/utils/enums/auth_type_enum.dart';
+
+// ...
+
+GoRoute(
+  path: RouteNames.loginPath,
+  name: RouteNames.loginName,
+  builder: (context, state) {
+    // Project constraints အရ email သာလက်ခံရန် သတ်မှတ်ခြင်း
+    return const LoginScreen(loginType: AuthTypeEnum.emailOnly);
+  },
+),
+GoRoute(
+  path: RouteNames.registerPath,
+  name: RouteNames.registerName,
+  builder: (context, state) {
+    // Project constraints အရ email သာလက်ခံရန် သတ်မှတ်ခြင်း
+    return const RegisterScreen(loginType: AuthTypeEnum.emailOnly);
+  },
+),
+```
