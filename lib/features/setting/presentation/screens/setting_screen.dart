@@ -8,6 +8,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
 import '../../../../app/router/route_names.dart';
+import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
 
@@ -39,6 +40,7 @@ class SettingScreen extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        leading: context.drawerLeading,
         centerTitle: false,
       ),
       body: ListView(

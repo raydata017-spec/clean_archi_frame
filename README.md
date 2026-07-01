@@ -285,3 +285,34 @@ GoRoute(
   },
 ),
 ```
+
+---
+
+## 6. Flexible Navigation Configuration (Bottom Nav / Drawer)
+
+Commercial project တစ်ခုချင်းစီ၏ လိုအပ်ချက်ပေါ်မူတည်၍ App ၏ ပင်မ Navigation ပုံစံများကို `NavigationType` အသုံးပြုကာ [navigation_config.dart](file:///d:/Projects/clean_archi_frame/lib/app/config/navigation_config.dart) တွင် လွယ်ကူစွာ သတ်မှတ်ပြောင်းလဲနိုင်ပါသည်။
+
+### ရွေးချယ်နိုင်သော Navigation Modes များ
+
+- `NavigationType.bottomNav`: App ၏အောက်ခြေတွင် Bottom Navigation Bar သက်သက်ကိုသာ ပြသပေးပါမည်။ Drawer ကို ဖျောက်ထားပါမည်။
+- `NavigationType.drawer`: Bottom Navigation Bar ကို ဖျောက်ထားပြီး ဘေးတိုက်ဆွဲဖွင့်နိုင်သော Left Navigation Drawer ကိုသာ ပြသပေးပါမည်။
+- `NavigationType.both`: Bottom Navigation Bar နှင့် Left Navigation Drawer နှစ်မျိုးလုံးကို တွဲဖက်ပြသပေးပြီး အပြန်အလှန် ချိတ်ဆက်လုပ်ဆောင်ပေးပါမည်။
+
+### `navigation_config.dart` တွင် သတ်မှတ်ပုံဥပမာ (Usage Example)
+
+[navigation_config.dart](file:///d:/Projects/clean_archi_frame/lib/app/config/navigation_config.dart) တွင် `mode` static constant တန်ဖိုးကို လိုအပ်သလို ပြောင်းလဲသတ်မှတ်ပေးနိုင်ပါသည် -
+
+```dart
+import 'package:clean_archi_frame/app/config/navigation_config.dart';
+
+class NavigationConfig {
+  // Navigation layout ကို bottomNav, drawer, သို့မဟုတ် both ဟု သတ်မှတ်ခြင်း
+  static const NavigationType mode = NavigationType.both;
+  
+  // Scaffold global key
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+}
+```
+
+သတ်မှတ်ထားသည့် mode ပေါ်မူတည်၍ Screen တစ်ခုချင်းစီ၏ `AppBar` များတွင် Drawer ကို ဆွဲဖွင့်ရန် Hamburger Menu Icon ကို အလိုအလျောက် သင့်လျော်သလို တွဲဖက်ပြသပေးမည် ဖြစ်ပါသည်။
+

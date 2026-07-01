@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../app/config/dimensions.dart';
+import '../../../../core/utils/extensions/app_bar_extension.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -23,6 +24,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        leading: context.drawerLeading,
       ),
       body: ListView.separated(
         padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),

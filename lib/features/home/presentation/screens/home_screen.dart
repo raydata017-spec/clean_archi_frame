@@ -5,6 +5,7 @@ import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
+import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -13,9 +14,11 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      // context.colors (Custom extension)
       backgroundColor: context.colors.customBackground,
-      appBar: AppBar(title: const Text('Theme Architecture')),
+      appBar: AppBar(
+        title: const Text('Theme Architecture'),
+        leading: context.drawerLeading,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.paddingFromScreenEdge),
@@ -34,7 +37,6 @@ class HomeScreen extends ConsumerWidget {
                 spacing: 10,
                 children: [
                   ElevatedButton(
-                    // context.colorScheme (Material default)
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.colorScheme.primary,
                     ),
