@@ -54,7 +54,7 @@ class _EmailFormState extends State<EmailForm> {
             t.auth.emailAddress,
             style: context.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginSm),
@@ -63,10 +63,10 @@ class _EmailFormState extends State<EmailForm> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
               fontSize: AppSizes.fontSizeSm + 1.0,
             ),
-            decoration: _buildInputDecoration(
+            decoration: context.inputDecoration(
               hintText: 'name@company.com',
             ),
             validator: (value) {
@@ -90,7 +90,7 @@ class _EmailFormState extends State<EmailForm> {
                 t.auth.password,
                 style: context.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+                  color: context.colorScheme.onSurface.withValues(alpha: .9),
                 ),
               ),
               if (!widget.isSignUp)
@@ -99,7 +99,7 @@ class _EmailFormState extends State<EmailForm> {
                   child: Text(
                     t.auth.forgotPassword,
                     style: context.textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: context.colorScheme.primary,
                       fontWeight: FontWeight.w600,
                       fontSize: AppSizes.fontSizeSm,
                     ),
@@ -113,18 +113,18 @@ class _EmailFormState extends State<EmailForm> {
             obscureText: _obscurePassword,
             textInputAction: widget.isSignUp ? TextInputAction.next : TextInputAction.done,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
               fontSize: AppSizes.fontSizeSm + 1.0,
             ),
             onFieldSubmitted: (_) {
               if (!widget.isSignUp) _handleEmailSubmit();
             },
-            decoration: _buildInputDecoration(
+            decoration: context.inputDecoration(
               hintText: widget.isSignUp ? 'Choose password' : 'Enter password',
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                  color: context.colorScheme.onSurface.withValues(alpha: .5),
                   size: AppSizes.fontSizeXl,
                 ),
                 onPressed: () {
@@ -152,7 +152,7 @@ class _EmailFormState extends State<EmailForm> {
               t.auth.confirmPassword,
               style: context.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+                color: context.colorScheme.onSurface.withValues(alpha: .9),
               ),
             ),
             const SizedBox(height: AppSizes.paddingMarginSm),
@@ -161,18 +161,18 @@ class _EmailFormState extends State<EmailForm> {
               obscureText: _obscureConfirmPassword,
               textInputAction: TextInputAction.done,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+                color: context.colorScheme.onSurface.withValues(alpha: .9),
                 fontSize: AppSizes.fontSizeSm + 1.0,
               ),
               onFieldSubmitted: (_) => _handleEmailSubmit(),
-              decoration: _buildInputDecoration(
+              decoration: context.inputDecoration(
                 hintText: 'Repeat password',
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscureConfirmPassword
                         ? Icons.visibility_off_outlined
                         : Icons.visibility_outlined,
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                    color: context.colorScheme.onSurface.withValues(alpha: .5),
                     size: AppSizes.fontSizeXl,
                   ),
                   onPressed: () {
@@ -204,12 +204,12 @@ class _EmailFormState extends State<EmailForm> {
                   height: AppSizes.fontSizeXl,
                   child: Checkbox(
                     value: _rememberMe,
-                    activeColor: Theme.of(context).colorScheme.primary,
+                    activeColor: context.colorScheme.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
                     ),
                     side: BorderSide(
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
+                      color: context.colorScheme.onSurface.withValues(alpha: .2),
                       width: 1.5,
                     ),
                     onChanged: (value) {
@@ -229,7 +229,7 @@ class _EmailFormState extends State<EmailForm> {
                   child: Text(
                     t.auth.keepMeSignedIn,
                     style: context.textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                      color: context.colorScheme.onSurface.withValues(alpha: .5),
                       fontSize: AppSizes.fontSizeSm,
                     ),
                   ),
@@ -247,7 +247,7 @@ class _EmailFormState extends State<EmailForm> {
             child: ElevatedButton(
               onPressed: _handleEmailSubmit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: context.colorScheme.primary,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
@@ -269,59 +269,4 @@ class _EmailFormState extends State<EmailForm> {
     );
   }
 
-  InputDecoration _buildInputDecoration({
-    required String hintText,
-    Widget? suffixIcon,
-  }) {
-    return InputDecoration(
-      hintText: hintText,
-      hintStyle: TextStyle(
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
-        fontSize: AppSizes.fontSizeSm,
-        fontWeight: FontWeight.normal,
-      ),
-      suffixIcon: suffixIcon,
-      fillColor: Theme.of(context).colorScheme.surface.withValues(alpha: .9),
-      filled: true,
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.spaceBtwItems,
-        vertical: AppSizes.cardRadiusMd,
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
-          width: AppSizes.dividerThickness,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
-          width: AppSizes.dividerThickness,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.primary,
-          width: 1.5,
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.error,
-          width: AppSizes.dividerThickness,
-        ),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.error,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
 }

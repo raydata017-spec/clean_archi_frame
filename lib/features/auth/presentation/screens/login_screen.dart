@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Icon(
                       Icons.bolt_rounded,
                       size: AppSizes.iconLg,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: context.colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: AppSizes.defaultSpace),
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     _getSubtitleText(),
                     style: context.textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                      color: context.colorScheme.onSurface.withValues(alpha: .5),
                     ),
                   ),
                   const SizedBox(height: AppSizes.paddingMarginXl),
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "${t.auth.dontHaveAccount} ",
                         style: context.textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                          color: context.colorScheme.onSurface.withValues(alpha: .5),
                         ),
                       ),
                       GestureDetector(
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           t.auth.signUp,
                           style: context.textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: context.colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
+            color: context.colorScheme.onSurface.withValues(alpha: .2),
             width: AppSizes.dividerThickness,
           ),
         ),
@@ -174,8 +174,8 @@ class _LoginScreenState extends State<LoginScreen> {
     required int index,
   }) {
     final isActive = _selectedTab == index;
-    final activeColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: .9);
-    final inactiveColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: .5);
+    final activeColor = context.colorScheme.onSurface.withValues(alpha: .9);
+    final inactiveColor = context.colorScheme.onSurface.withValues(alpha: .5);
 
     return GestureDetector(
       onTap: () => setState(() => _selectedTab = index),
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: isActive ? Theme.of(context).colorScheme.primary : Colors.transparent,
+              color: isActive ? context.colorScheme.primary : Colors.transparent,
               width: AppSizes.cardElevation,
             ),
           ),

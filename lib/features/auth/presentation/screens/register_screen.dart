@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/config/dimensions.dart';
@@ -7,6 +6,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/enums/auth_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../shared/widgets/phone_input_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   final AuthTypeEnum loginType;
@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: context.colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -114,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Icon(
               Icons.bolt_rounded,
               size: AppSizes.iconLg,
-              color: Theme.of(context).colorScheme.primary,
+              color: context.colorScheme.primary,
             ),
           ),
           const SizedBox(height: AppSizes.defaultSpace),
@@ -129,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Text(
             t.auth.step1Subtitle,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+              color: context.colorScheme.onSurface.withValues(alpha: .5),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginXl),
@@ -139,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             t.auth.fullName,
             style: context.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginSm),
@@ -148,10 +148,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             keyboardType: TextInputType.name,
             textInputAction: TextInputAction.next,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
               fontSize: AppSizes.fontSizeSm + 1.0,
             ),
-            decoration: _buildInputDecoration(hintText: 'John Doe'),
+            decoration: context.inputDecoration(hintText: 'John Doe'),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return t.auth.nameRequired;
@@ -183,14 +183,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: AppSizes.fontSizeXl,
                 child: Checkbox(
                   value: _acceptTerms,
-                  activeColor: Theme.of(context).colorScheme.primary,
+                  activeColor: context.colorScheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
                   ),
                   side: BorderSide(
                     color: _showTermsError
-                        ? Theme.of(context).colorScheme.error
-                        : Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
+                        ? context.colorScheme.error
+                        : context.colorScheme.onSurface.withValues(alpha: .2),
                     width: 1.5,
                   ),
                   onChanged: (value) {
@@ -214,8 +214,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     t.auth.termsOfService,
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: _showTermsError
-                          ? Theme.of(context).colorScheme.error
-                          : Theme.of(context).colorScheme.onSurface.withValues(alpha: .6),
+                          ? context.colorScheme.error
+                          : context.colorScheme.onSurface.withValues(alpha: .6),
                       fontSize: AppSizes.fontSizeSm,
                     ),
                   ),
@@ -230,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Text(
                 t.auth.termsError,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
+                  color: context.colorScheme.error,
                   fontSize: AppSizes.fontSizeXs,
                 ),
               ),
@@ -244,7 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: ElevatedButton(
               onPressed: _goToStep2,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: context.colorScheme.primary,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
@@ -269,7 +269,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 "${t.auth.alreadyHaveAccount} ",
                 style: context.textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                  color: context.colorScheme.onSurface.withValues(alpha: .5),
                 ),
               ),
               GestureDetector(
@@ -279,7 +279,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Text(
                   t.auth.signIn,
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: context.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -304,7 +304,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+                color: context.colorScheme.onSurface.withValues(alpha: .9),
                 size: AppSizes.fontSizeXl,
               ),
               onPressed: () {
@@ -322,7 +322,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Icon(
               Icons.lock_outline_rounded,
               size: AppSizes.iconLg,
-              color: Theme.of(context).colorScheme.primary,
+              color: context.colorScheme.primary,
             ),
           ),
           const SizedBox(height: AppSizes.defaultSpace),
@@ -337,7 +337,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Text(
             t.auth.step2Subtitle,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+              color: context.colorScheme.onSurface.withValues(alpha: .5),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginXl),
@@ -347,7 +347,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             t.auth.password,
             style: context.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginSm),
@@ -356,15 +356,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             obscureText: _obscurePassword,
             textInputAction: TextInputAction.next,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
               fontSize: AppSizes.fontSizeSm + 1.0,
             ),
-            decoration: _buildInputDecoration(
+            decoration: context.inputDecoration(
               hintText: 'Choose a password',
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                  color: context.colorScheme.onSurface.withValues(alpha: .5),
                   size: AppSizes.fontSizeXl,
                 ),
                 onPressed: () {
@@ -391,7 +391,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             t.auth.confirmPassword,
             style: context.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginSm),
@@ -400,18 +400,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             obscureText: _obscureConfirmPassword,
             textInputAction: TextInputAction.done,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+              color: context.colorScheme.onSurface.withValues(alpha: .9),
               fontSize: AppSizes.fontSizeSm + 1.0,
             ),
             onFieldSubmitted: (_) => _handleRegisterSubmit(),
-            decoration: _buildInputDecoration(
+            decoration: context.inputDecoration(
               hintText: 'Repeat password',
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscureConfirmPassword
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
+                  color: context.colorScheme.onSurface.withValues(alpha: .5),
                   size: AppSizes.fontSizeXl,
                 ),
                 onPressed: () {
@@ -439,7 +439,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: ElevatedButton(
               onPressed: _handleRegisterSubmit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: context.colorScheme.primary,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
@@ -469,7 +469,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           t.auth.emailAddress,
           style: context.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+            color: context.colorScheme.onSurface.withValues(alpha: .9),
           ),
         ),
         const SizedBox(height: AppSizes.paddingMarginSm),
@@ -478,10 +478,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
+            color: context.colorScheme.onSurface.withValues(alpha: .9),
             fontSize: AppSizes.fontSizeSm + 1.0,
           ),
-          decoration: _buildInputDecoration(hintText: 'name@company.com'),
+          decoration: context.inputDecoration(hintText: 'name@company.com'),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
               return t.auth.emailRequired;
@@ -498,94 +498,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPhoneField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          t.auth.phoneNumber,
-          style: context.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
-          ),
-        ),
-        const SizedBox(height: AppSizes.paddingMarginSm),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: AppSizes.buttonHeightMd + 8.0, // 48
-              padding: const EdgeInsets.symmetric(horizontal: AppSizes.cardRadiusMd),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
-                  width: AppSizes.dividerThickness,
-                ),
-                borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-              ),
-              child: Center(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _selectedCountryCode,
-                    dropdownColor: Theme.of(context).colorScheme.surface,
-                    style: TextStyle(
-                      fontSize: AppSizes.fontSizeSm,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
-                    ),
-                    icon: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
-                      size: AppSizes.iconSm,
-                    ),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedCountryCode = newValue;
-                        });
-                      }
-                    },
-                    items: <String>['+95', '+66', '+65', '+1', '+91']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      String flag = '🇲🇲';
-                      if (value == '+66') flag = '🇹🇭';
-                      if (value == '+65') flag = '🇸🇬';
-                      if (value == '+1') flag = '🇺🇸';
-                      if (value == '+91') flag = '🇮🇳';
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text('$flag $value'),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSizes.paddingMarginSm),
-            Expanded(
-              child: TextFormField(
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                textInputAction: TextInputAction.next,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .9),
-                  fontSize: AppSizes.fontSizeSm + 1.0,
-                ),
-                decoration: _buildInputDecoration(hintText: '9 1234 5678'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return t.auth.phoneRequired;
-                  }
-                  if (value.trim().length < 8) {
-                    return t.auth.phoneInvalid;
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
+    return PhoneInputField(
+      controller: _phoneController,
+      initialCountryCode: _selectedCountryCode,
+      onCountryCodeChanged: (code) {
+        _selectedCountryCode = code;
+      },
+      textInputAction: TextInputAction.next,
     );
   }
 
@@ -594,7 +513,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
+            color: context.colorScheme.onSurface.withValues(alpha: .2),
             width: AppSizes.dividerThickness,
           ),
         ),
@@ -611,8 +530,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildTabItem({required String label, required int index}) {
     final isActive = _selectedTab == index;
-    final activeColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: .9);
-    final inactiveColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: .5);
+    final activeColor = context.colorScheme.onSurface.withValues(alpha: .9);
+    final inactiveColor = context.colorScheme.onSurface.withValues(alpha: .5);
 
     return GestureDetector(
       onTap: () => setState(() => _selectedTab = index),
@@ -621,7 +540,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: isActive ? Theme.of(context).colorScheme.primary : Colors.transparent,
+              color: isActive ? context.colorScheme.primary : Colors.transparent,
               width: AppSizes.cardElevation,
             ),
           ),
@@ -638,59 +557,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  InputDecoration _buildInputDecoration({
-    required String hintText,
-    Widget? suffixIcon,
-  }) {
-    return InputDecoration(
-      hintText: hintText,
-      hintStyle: TextStyle(
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .5),
-        fontSize: AppSizes.fontSizeSm,
-        fontWeight: FontWeight.normal,
-      ),
-      suffixIcon: suffixIcon,
-      fillColor: Theme.of(context).colorScheme.surface.withValues(alpha: .9),
-      filled: true,
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.spaceBtwItems,
-        vertical: AppSizes.cardRadiusMd,
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
-          width: AppSizes.dividerThickness,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .2),
-          width: AppSizes.dividerThickness,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.primary,
-          width: 1.5,
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.error,
-          width: AppSizes.dividerThickness,
-        ),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.error,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
 }
