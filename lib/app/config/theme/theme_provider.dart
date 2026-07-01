@@ -8,16 +8,33 @@ part 'theme_provider.g.dart';
 class ThemeController extends _$ThemeController {
   @override
   ThemeMode build() {
-    final isDark = ref.watch(sharedPrefServiceProvider).getThemeMode();
+    final modeStr = ref.watch(sharedPrefServiceProvider).getThemeMode();
+    switch (modeStr) {
+      case 'light':
+        return ThemeMode.light;
+      case 'dark':
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.system;
+    }
+  }
 
-    if (isDark == null) return ThemeMode.system;
-    return isDark ? ThemeMode.dark : ThemeMode.light;
+  void setThemeMode(ThemeMode mode) {
+    state = mode;
+    String modeStr = 'system';
+    if (mode == ThemeMode.light) {
+      modeStr = 'light';
+    } else if (mode == ThemeMode.dark) {
+      modeStr = 'dark';
+    }
+    ref.read(sharedPrefServiceProvider).saveThemeMode(modeStr);
   }
 
   void toggleTheme() {
-    final currentTheme = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-    state = currentTheme;
-
-    ref.read(sharedPrefServiceProvider).saveThemeMode(currentTheme == ThemeMode.dark);
+    if (state == ThemeMode.dark) {
+      setThemeMode(ThemeMode.light);
+    } else {
+      setThemeMode(ThemeMode.dark);
+    }
   }
 }

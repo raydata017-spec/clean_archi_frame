@@ -21,12 +21,19 @@ class SharedPrefService {
   static const String _localeKey = 'app_locale';
 
   // --- Theme ---
-  Future<void> saveThemeMode(bool isDark) async {
-    await _prefs.setBool(_themeModeKey, isDark);
+  Future<void> saveThemeMode(String mode) async {
+    await _prefs.setString(_themeModeKey, mode);
   }
 
-  bool? getThemeMode() {
-    return _prefs.getBool(_themeModeKey);
+  String getThemeMode() {
+    final value = _prefs.get(_themeModeKey);
+    if (value is bool) {
+      return value ? 'dark' : 'light';
+    }
+    if (value is String) {
+      return value;
+    }
+    return 'system';
   }
 
   // --- Locale ---

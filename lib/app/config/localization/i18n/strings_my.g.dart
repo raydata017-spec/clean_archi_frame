@@ -52,12 +52,19 @@ class _Translations$setting$my implements Translations$setting$en {
 	// Translations
 	@override String get hello => 'မင်္ဂလာပါ';
 	@override String get title => 'ဆက်တင်များ';
-	@override String get changeTheme => 'အလင်း/အမှောင် ပြောင်းရန်';
+	@override String get changeTheme => 'အပြင်အဆင်';
 	@override String get changeLanguage => 'ဘာသာစကား ပြောင်းရန်';
 	@override String get darkMode => 'အမှောင် မုဒ်';
 	@override String get lightMode => 'အလင်း မုဒ်';
+	@override String get systemTheme => 'စနစ်သတ်မှတ်ချက်အတိုင်း';
+	@override String get selectTheme => 'အလင်း/အမှောင် ရွေးချယ်ရန်';
+	@override String get selectLanguage => 'ဘာသာစကား ရွေးချယ်ရန်';
 	@override String get offlineSync => 'အော့ဖ်လိုင်း ထပ်တူပြုခြင်း';
 	@override String get offlineSyncSubtitle => 'အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်';
+	@override String get notificationSetting => 'အကြောင်းကြားချက် ဆက်တင်များ';
+	@override String get general => 'အထွေထွေ';
+	@override String get notifications => 'အကြောင်းကြားချက်များ';
+	@override String get advanced => 'အဆင့်မြင့်';
 }
 
 // Path: kDynamic
@@ -140,12 +147,19 @@ extension on TranslationsMy {
 		return switch (path) {
 			'setting.hello' => 'မင်္ဂလာပါ',
 			'setting.title' => 'ဆက်တင်များ',
-			'setting.changeTheme' => 'အလင်း/အမှောင် ပြောင်းရန်',
+			'setting.changeTheme' => 'အပြင်အဆင်',
 			'setting.changeLanguage' => 'ဘာသာစကား ပြောင်းရန်',
 			'setting.darkMode' => 'အမှောင် မုဒ်',
 			'setting.lightMode' => 'အလင်း မုဒ်',
+			'setting.systemTheme' => 'စနစ်သတ်မှတ်ချက်အတိုင်း',
+			'setting.selectTheme' => 'အလင်း/အမှောင် ရွေးချယ်ရန်',
+			'setting.selectLanguage' => 'ဘာသာစကား ရွေးချယ်ရန်',
 			'setting.offlineSync' => 'အော့ဖ်လိုင်း ထပ်တူပြုခြင်း',
 			'setting.offlineSyncSubtitle' => 'အော့ဖ်လိုင်း အောက်ဘောက်ဖွင့်ရန်',
+			'setting.notificationSetting' => 'အကြောင်းကြားချက် ဆက်တင်များ',
+			'setting.general' => 'အထွေထွေ',
+			'setting.notifications' => 'အကြောင်းကြားချက်များ',
+			'setting.advanced' => 'အဆင့်မြင့်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',

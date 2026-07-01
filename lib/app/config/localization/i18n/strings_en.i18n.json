@@ -2,12 +2,19 @@
     "setting": {
         "hello": "Hello",
         "title": "Settings",
-        "changeTheme": "Toggle Theme",
+        "changeTheme": "App Theme",
         "changeLanguage": "Change Language",
         "darkMode": "Dark mode",
         "lightMode": "Light mode",
+        "systemTheme": "System default",
+        "selectTheme": "Select Theme",
+        "selectLanguage": "Select Language",
         "offlineSync": "Offline Sync",
-        "offlineSyncSubtitle": "Open offline outbox"
+        "offlineSyncSubtitle": "Open offline outbox",
+        "notificationSetting": "Notification Settings",
+        "general": "General",
+        "notifications": "Notifications",
+        "advanced": "Advanced"
     },
     "dynamic": {
         "welcomeMessage": "Welcome back, $name! You have $point points.",

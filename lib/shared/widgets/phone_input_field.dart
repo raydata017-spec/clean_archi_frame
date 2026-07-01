@@ -94,7 +94,7 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
                 ),
               ),
               const SizedBox(height: AppSizes.paddingMarginSm),
-              const Divider(),
+              Divider(color: context.colorScheme.onSurface.withValues(alpha: .1)),
               ...countries.map((country) {
                 final isSelected = country['code'] == _selectedCountryCode;
                 return ListTile(
@@ -132,8 +132,6 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
       },
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

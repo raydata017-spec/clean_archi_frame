@@ -60,8 +60,8 @@ class Translations$setting$en {
 	/// en: 'Settings'
 	String get title => 'Settings';
 
-	/// en: 'Toggle Theme'
-	String get changeTheme => 'Toggle Theme';
+	/// en: 'App Theme'
+	String get changeTheme => 'App Theme';
 
 	/// en: 'Change Language'
 	String get changeLanguage => 'Change Language';
@@ -72,11 +72,32 @@ class Translations$setting$en {
 	/// en: 'Light mode'
 	String get lightMode => 'Light mode';
 
+	/// en: 'System default'
+	String get systemTheme => 'System default';
+
+	/// en: 'Select Theme'
+	String get selectTheme => 'Select Theme';
+
+	/// en: 'Select Language'
+	String get selectLanguage => 'Select Language';
+
 	/// en: 'Offline Sync'
 	String get offlineSync => 'Offline Sync';
 
 	/// en: 'Open offline outbox'
 	String get offlineSyncSubtitle => 'Open offline outbox';
+
+	/// en: 'Notification Settings'
+	String get notificationSetting => 'Notification Settings';
+
+	/// en: 'General'
+	String get general => 'General';
+
+	/// en: 'Notifications'
+	String get notifications => 'Notifications';
+
+	/// en: 'Advanced'
+	String get advanced => 'Advanced';
 }
 
 // Path: kDynamic
@@ -240,12 +261,19 @@ extension on Translations {
 		return switch (path) {
 			'setting.hello' => 'Hello',
 			'setting.title' => 'Settings',
-			'setting.changeTheme' => 'Toggle Theme',
+			'setting.changeTheme' => 'App Theme',
 			'setting.changeLanguage' => 'Change Language',
 			'setting.darkMode' => 'Dark mode',
 			'setting.lightMode' => 'Light mode',
+			'setting.systemTheme' => 'System default',
+			'setting.selectTheme' => 'Select Theme',
+			'setting.selectLanguage' => 'Select Language',
 			'setting.offlineSync' => 'Offline Sync',
 			'setting.offlineSyncSubtitle' => 'Open offline outbox',
+			'setting.notificationSetting' => 'Notification Settings',
+			'setting.general' => 'General',
+			'setting.notifications' => 'Notifications',
+			'setting.advanced' => 'Advanced',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
 			'validation.emailRequired' => 'Email is required',
