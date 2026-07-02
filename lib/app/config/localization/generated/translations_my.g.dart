@@ -43,6 +43,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$kDynamic$my kDynamic = _Translations$kDynamic$my._(_root);
 	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
 	@override late final _Translations$auth$my auth = _Translations$auth$my._(_root);
+	@override late final _Translations$notification$my notification = _Translations$notification$my._(_root);
 }
 
 // Path: setting
@@ -162,6 +163,30 @@ class _Translations$auth$my extends Translations$auth$en {
 	@override String get logout => 'အကောင့်မှ ထွက်ရန်';
 }
 
+// Path: notification
+class _Translations$notification$my extends Translations$notification$en {
+	_Translations$notification$my._(TranslationsMy root) : this._root = root, super.internal(root);
+
+	final TranslationsMy _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'အကြောင်းကြားချက်များ';
+	@override String get markAllRead => 'အားလုံးဖတ်ပြီးသားမှတ်သားရန်';
+	@override String unread({required Object count}) => 'မဖတ်ရသေးသော (${count})';
+	@override String total({required Object count}) => 'စုစုပေါင်း (${count})';
+	@override String get emptyState => 'အကြောင်းကြားချက်များ မရှိသေးပါ';
+	@override String get allMarkedRead => 'အကြောင်းကြားချက် အားလုံးအား ဖတ်ပြီးသားအဖြစ် မှတ်သားပြီးပါပြီ';
+	@override String get deleted => 'အကြောင်းကြားချက် ဖျက်ပြီးပါပြီ';
+	@override String get actionsTitle => 'အကြောင်းကြားချက် လုပ်ဆောင်ချက်များ';
+	@override String get markRead => 'ဖတ်ပြီးသားအဖြစ် သတ်မှတ်ရန်';
+	@override String get markUnread => 'မဖတ်ရသေးသော အဖြစ် သတ်မှတ်ရန်';
+	@override String get delete => 'ဖျက်ရန်';
+	@override String get undo => 'ပြန်ပြင်ရန်';
+	@override String minutesAgo({required Object minutes}) => 'လွန်ခဲ့သော ${minutes} မိနစ်က';
+	@override String hoursAgo({required Object hours}) => 'လွန်ခဲ့သော ${hours} နာရီက';
+	@override String daysAgo({required Object days}) => 'လွန်ခဲ့သော ${days} ရက်က';
+}
+
 /// The flat map containing all translations for locale <my>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -248,6 +273,21 @@ extension on TranslationsMy {
 			'auth.email' => 'အီးမေးလ်',
 			'auth.phone' => 'ဖုန်း',
 			'auth.logout' => 'အကောင့်မှ ထွက်ရန်',
+			'notification.title' => 'အကြောင်းကြားချက်များ',
+			'notification.markAllRead' => 'အားလုံးဖတ်ပြီးသားမှတ်သားရန်',
+			'notification.unread' => ({required Object count}) => 'မဖတ်ရသေးသော (${count})',
+			'notification.total' => ({required Object count}) => 'စုစုပေါင်း (${count})',
+			'notification.emptyState' => 'အကြောင်းကြားချက်များ မရှိသေးပါ',
+			'notification.allMarkedRead' => 'အကြောင်းကြားချက် အားလုံးအား ဖတ်ပြီးသားအဖြစ် မှတ်သားပြီးပါပြီ',
+			'notification.deleted' => 'အကြောင်းကြားချက် ဖျက်ပြီးပါပြီ',
+			'notification.actionsTitle' => 'အကြောင်းကြားချက် လုပ်ဆောင်ချက်များ',
+			'notification.markRead' => 'ဖတ်ပြီးသားအဖြစ် သတ်မှတ်ရန်',
+			'notification.markUnread' => 'မဖတ်ရသေးသော အဖြစ် သတ်မှတ်ရန်',
+			'notification.delete' => 'ဖျက်ရန်',
+			'notification.undo' => 'ပြန်ပြင်ရန်',
+			'notification.minutesAgo' => ({required Object minutes}) => 'လွန်ခဲ့သော ${minutes} မိနစ်က',
+			'notification.hoursAgo' => ({required Object hours}) => 'လွန်ခဲ့သော ${hours} နာရီက',
+			'notification.daysAgo' => ({required Object days}) => 'လွန်ခဲ့သော ${days} ရက်က',
 			_ => null,
 		};
 	}

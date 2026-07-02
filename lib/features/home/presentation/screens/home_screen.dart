@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
+import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 
@@ -18,6 +20,14 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Theme Architecture'),
         leading: context.drawerLeading,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+            ),
+            onPressed: () => context.push(RouteNames.notificationPath),
+          )
+        ],
       ),
       body: Center(
         child: Padding(

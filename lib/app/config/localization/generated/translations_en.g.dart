@@ -44,6 +44,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en.internal(_root);
 	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
+	late final Translations$notification$en notification = Translations$notification$en.internal(_root);
 }
 
 // Path: setting
@@ -320,6 +321,60 @@ class Translations$auth$en {
 	String get logout => 'Log out';
 }
 
+// Path: notification
+class Translations$notification$en {
+	Translations$notification$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Notifications'
+	String get title => 'Notifications';
+
+	/// en: 'Mark all read'
+	String get markAllRead => 'Mark all read';
+
+	/// en: 'Unread ($count)'
+	String unread({required Object count}) => 'Unread (${count})';
+
+	/// en: 'Total ($count)'
+	String total({required Object count}) => 'Total (${count})';
+
+	/// en: 'No notifications yet'
+	String get emptyState => 'No notifications yet';
+
+	/// en: 'All notifications marked as read'
+	String get allMarkedRead => 'All notifications marked as read';
+
+	/// en: 'Notification deleted'
+	String get deleted => 'Notification deleted';
+
+	/// en: 'Notification Actions'
+	String get actionsTitle => 'Notification Actions';
+
+	/// en: 'Mark as read'
+	String get markRead => 'Mark as read';
+
+	/// en: 'Mark as unread'
+	String get markUnread => 'Mark as unread';
+
+	/// en: 'Delete'
+	String get delete => 'Delete';
+
+	/// en: 'Undo'
+	String get undo => 'Undo';
+
+	/// en: '${minutes}m ago'
+	String minutesAgo({required Object minutes}) => '${minutes}m ago';
+
+	/// en: '${hours}h ago'
+	String hoursAgo({required Object hours}) => '${hours}h ago';
+
+	/// en: '${days}d ago'
+	String daysAgo({required Object days}) => '${days}d ago';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -406,6 +461,21 @@ extension on Translations {
 			'auth.email' => 'Email',
 			'auth.phone' => 'Phone',
 			'auth.logout' => 'Log out',
+			'notification.title' => 'Notifications',
+			'notification.markAllRead' => 'Mark all read',
+			'notification.unread' => ({required Object count}) => 'Unread (${count})',
+			'notification.total' => ({required Object count}) => 'Total (${count})',
+			'notification.emptyState' => 'No notifications yet',
+			'notification.allMarkedRead' => 'All notifications marked as read',
+			'notification.deleted' => 'Notification deleted',
+			'notification.actionsTitle' => 'Notification Actions',
+			'notification.markRead' => 'Mark as read',
+			'notification.markUnread' => 'Mark as unread',
+			'notification.delete' => 'Delete',
+			'notification.undo' => 'Undo',
+			'notification.minutesAgo' => ({required Object minutes}) => '${minutes}m ago',
+			'notification.hoursAgo' => ({required Object hours}) => '${hours}h ago',
+			'notification.daysAgo' => ({required Object days}) => '${days}d ago',
 			_ => null,
 		};
 	}

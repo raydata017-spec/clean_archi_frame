@@ -88,5 +88,22 @@
         "email": "Email",
         "phone": "Phone",
         "logout": "Log out"
+    },
+    "notification": {
+        "title": "Notifications",
+        "markAllRead": "Mark all read",
+        "unread": "Unread ($count)",
+        "total": "Total ($count)",
+        "emptyState": "No notifications yet",
+        "allMarkedRead": "All notifications marked as read",
+        "deleted": "Notification deleted",
+        "actionsTitle": "Notification Actions",
+        "markRead": "Mark as read",
+        "markUnread": "Mark as unread",
+        "delete": "Delete",
+        "undo": "Undo",
+        "minutesAgo": "${minutes}m ago",
+        "hoursAgo": "${hours}h ago",
+        "daysAgo": "${days}d ago"
     }
 }

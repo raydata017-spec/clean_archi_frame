@@ -8,6 +8,7 @@ class RouteNames {
   static const String outboxPath = 'outbox';
   static const String loginPath = '/login';
   static const String registerPath = '/register';
+  static const String notificationPath = '/notification';
 
   // --- Route Names ---
   static const String homeName = 'home';
@@ -16,4 +17,5 @@ class RouteNames {
   static const String outboxName = 'outbox';
   static const String loginName = 'login';
   static const String registerName = 'register';
+  static const String notificationName = 'notification';
 }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/notification/presentation/screens/notification_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/setting/presentation/screens/setting_screen.dart';
 import '../../core/offline/screens/outbox_list_screen.dart';
@@ -82,6 +83,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: RouteNames.registerPath,
         name: RouteNames.registerName,
         builder: (context, state) => const RegisterScreen(),
+      ),
+
+      // Notification Route
+      GoRoute(
+        path: RouteNames.notificationPath,
+        name: RouteNames.notificationName,
+        builder: (context, state) => const NotificationScreen(),
       ),
     ],
   );
