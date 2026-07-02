@@ -41,6 +41,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 	// Translations
 	@override late final _Translations$setting$my setting = _Translations$setting$my._(_root);
 	@override late final _Translations$kDynamic$my kDynamic = _Translations$kDynamic$my._(_root);
+	@override late final _Translations$common$my common = _Translations$common$my._(_root);
 	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
 	@override late final _Translations$auth$my auth = _Translations$auth$my._(_root);
 	@override late final _Translations$notification$my notification = _Translations$notification$my._(_root);
@@ -82,6 +83,16 @@ class _Translations$kDynamic$my extends Translations$kDynamic$en {
 		zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။',
 		other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။',
 	);
+}
+
+// Path: common
+class _Translations$common$my extends Translations$common$en {
+	_Translations$common$my._(TranslationsMy root) : this._root = root, super.internal(root);
+
+	final TranslationsMy _root; // ignore: unused_field
+
+	// Translations
+	@override String get somethingWentWrong => 'တစ်စုံတစ်ခု မှားယွင်းနေပါသည်';
 }
 
 // Path: validation
@@ -212,6 +223,7 @@ extension on TranslationsMy {
 			'setting.advanced' => 'အဆင့်မြင့်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
+			'common.somethingWentWrong' => 'တစ်စုံတစ်ခု မှားယွင်းနေပါသည်',
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
 			'validation.emailInvalid' => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ',
 			'validation.phoneRequired' => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်',

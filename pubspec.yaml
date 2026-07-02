@@ -18,6 +18,7 @@ dependencies:
   cupertino_icons:
   drift:
   flutter_riverpod:
+  flutter_styled_toast:
   freezed_annotation:
   geolocator:
   go_router:

@@ -42,6 +42,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final Translations$setting$en setting = Translations$setting$en.internal(_root);
 	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en.internal(_root);
+	late final Translations$common$en common = Translations$common$en.internal(_root);
 	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
 	late final Translations$notification$en notification = Translations$notification$en.internal(_root);
@@ -118,6 +119,18 @@ class Translations$kDynamic$en {
 		one: 'You have 1 new message.',
 		other: 'You have ${n} new messages.',
 	);
+}
+
+// Path: common
+class Translations$common$en {
+	Translations$common$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Something went wrong'
+	String get somethingWentWrong => 'Something went wrong';
 }
 
 // Path: validation
@@ -400,6 +413,7 @@ extension on Translations {
 			'setting.advanced' => 'Advanced',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
+			'common.somethingWentWrong' => 'Something went wrong',
 			'validation.emailRequired' => 'Email is required',
 			'validation.emailInvalid' => 'Please enter a valid email address',
 			'validation.phoneRequired' => 'Phone number is required',

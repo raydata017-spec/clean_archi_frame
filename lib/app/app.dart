@@ -10,6 +10,8 @@ import 'config/theme/theme.dart';
 import 'config/theme/theme_provider.dart';
 import 'router/app_router.dart';
 
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -23,35 +25,37 @@ class MyApp extends ConsumerWidget {
     // Watch the router provider to get the current router configuration
     final goRouter = ref.watch(appRouterProvider);
 
-    return MaterialApp.router(
-      title: 'BDATA Core Template V1.0.0',
-      // Theme Configuration
-      themeMode: themeMode,
-      theme: lightThemeData,
-      darkTheme: darkThemeData,
+    return StyledToast(
+      child: MaterialApp.router(
+        title: 'BDATA Core Template V1.0.0',
+        // Theme Configuration
+        themeMode: themeMode,
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
 
-      // Slang Localization Configuration
-      locale: TranslationProvider.of(context).flutterLocale,
-      supportedLocales: AppLocaleUtils.supportedLocales,
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      builder: (context, child) {
-        final mediaQuery = MediaQuery.of(context);
-        return MediaQuery(
-          data: mediaQuery.copyWith(
-            textScaler: const TextScaler.linear(1.0),
-          ),
-          child: SafeArea(
-            top: false,
-            bottom: Platform.isAndroid ? true : false,
-            child: GestureDetector(
-              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: child ?? const SizedBox(),
+        // Slang Localization Configuration
+        locale: TranslationProvider.of(context).flutterLocale,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        builder: (context, child) {
+          final mediaQuery = MediaQuery.of(context);
+          return MediaQuery(
+            data: mediaQuery.copyWith(
+              textScaler: const TextScaler.linear(1.0),
             ),
-          ),
-        );
-      },
+            child: SafeArea(
+              top: false,
+              bottom: Platform.isAndroid ? true : false,
+              child: GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                child: child ?? const SizedBox(),
+              ),
+            ),
+          );
+        },
 
-      routerConfig: goRouter,
+        routerConfig: goRouter,
+      ),
     );
   }
 }

@@ -24,6 +24,9 @@
             "other": "You have $n new messages."
         }
     },
+    "common": {
+        "somethingWentWrong": "Something went wrong"
+    },
     "validation": {
         "emailRequired": "Email is required",
         "emailInvalid": "Please enter a valid email address",
