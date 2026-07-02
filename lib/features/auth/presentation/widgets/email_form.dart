@@ -5,6 +5,8 @@ import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../core/utils/validators/email_validator.dart';
+import '../../../../core/utils/validators/password_validator.dart';
 
 class EmailForm extends StatefulWidget {
   final bool isSignUp;
@@ -69,16 +71,7 @@ class _EmailFormState extends State<EmailForm> {
             decoration: context.inputDecoration(
               hintText: 'name@company.com',
             ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return t.auth.emailRequired;
-              }
-              final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-              if (!emailRegExp.hasMatch(value.trim())) {
-                return t.auth.emailInvalid;
-              }
-              return null;
-            },
+            validator: EmailValidator.validate,
           ),
           const SizedBox(height: AppSizes.fontSizeXl),
 
@@ -134,15 +127,7 @@ class _EmailFormState extends State<EmailForm> {
                 },
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return t.auth.passwordRequired;
-              }
-              if (value.length < 6) {
-                return t.auth.passwordLengthError;
-              }
-              return null;
-            },
+            validator: PasswordValidator.validate,
           ),
           
           // Confirm Password Field (Only shown in Sign Up mode)
@@ -182,15 +167,10 @@ class _EmailFormState extends State<EmailForm> {
                   },
                 ),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return t.auth.confirmPasswordRequired;
-                }
-                if (value != _passwordController.text) {
-                  return t.auth.passwordsDoNotMatch;
-                }
-                return null;
-              },
+              validator: (value) => PasswordValidator.validateConfirmPassword(
+                _passwordController.text,
+                value,
+              ),
             ),
           ],
           

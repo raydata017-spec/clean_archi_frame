@@ -10,6 +10,7 @@ class PhoneInputField extends StatefulWidget {
   final String initialCountryCode;
   final ValueChanged<String>? onCountryCodeChanged;
   final TextInputAction textInputAction;
+  final String? Function(String? value)? validator;
 
   const PhoneInputField({
     super.key,
@@ -17,6 +18,7 @@ class PhoneInputField extends StatefulWidget {
     this.initialCountryCode = '+95',
     this.onCountryCodeChanged,
     this.textInputAction = TextInputAction.next,
+    this.validator,
   });
 
   @override
@@ -201,6 +203,10 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
                 ),
                 decoration: context.inputDecoration(hintText: '9 1234 5678'),
                 validator: (value) {
+                  if (widget.validator != null) {
+                    final fullPhoneNumber = '$_selectedCountryCode${value ?? ''}';
+                    return widget.validator!(fullPhoneNumber);
+                  }
                   if (value == null || value.trim().isEmpty) {
                     return t.auth.phoneRequired;
                   }
@@ -217,3 +223,4 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
     );
   }
 }
+

@@ -5,6 +5,8 @@ import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../core/utils/validators/password_validator.dart';
+import '../../../../core/utils/validators/phone_validator.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
 
 class PhoneForm extends StatefulWidget {
@@ -58,6 +60,7 @@ class _PhoneFormState extends State<PhoneForm> {
               _selectedCountryCode = code;
             },
             textInputAction: widget.isSignUp ? TextInputAction.next : TextInputAction.done,
+            validator: PhoneValidator.validate,
           ),
           const SizedBox(height: AppSizes.fontSizeXl),
 
@@ -113,15 +116,7 @@ class _PhoneFormState extends State<PhoneForm> {
                 },
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return t.auth.passwordRequired;
-              }
-              if (value.length < 6) {
-                return t.auth.passwordLengthError;
-              }
-              return null;
-            },
+            validator: PasswordValidator.validate,
           ),
           
           // Confirm Password Field (Only shown in Sign Up mode)
@@ -161,15 +156,10 @@ class _PhoneFormState extends State<PhoneForm> {
                   },
                 ),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return t.auth.confirmPasswordRequired;
-                }
-                if (value != _passwordController.text) {
-                  return t.auth.passwordsDoNotMatch;
-                }
-                return null;
-              },
+              validator: (value) => PasswordValidator.validateConfirmPassword(
+                _passwordController.text,
+                value,
+              ),
             ),
           ],
           

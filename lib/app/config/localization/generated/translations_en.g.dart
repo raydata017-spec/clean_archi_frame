@@ -132,6 +132,75 @@ class Translations$validation$en {
 
 	/// en: 'Please enter a valid email address'
 	String get emailInvalid => 'Please enter a valid email address';
+
+	/// en: 'Phone number is required'
+	String get phoneRequired => 'Phone number is required';
+
+	/// en: 'Please enter a valid phone number'
+	String get phoneInvalid => 'Please enter a valid phone number';
+
+	/// en: 'Phone number must start with +959'
+	String get phoneStartWith => 'Phone number must start with +959';
+
+	/// en: '+959'
+	String get phoneCountryCode => '+959';
+
+	/// en: 'Password is required'
+	String get passwordRequired => 'Password is required';
+
+	/// en: 'Password must be at least 8 characters'
+	String get passwordTooShort => 'Password must be at least 8 characters';
+
+	/// en: 'Password must contain at least one uppercase letter and one number'
+	String get passwordWeakText => 'Password must contain at least one uppercase letter and one number';
+
+	/// en: 'Passwords do not match'
+	String get passwordsDoNotMatch => 'Passwords do not match';
+
+	/// en: 'Confirm password is required'
+	String get confirmPasswordRequired => 'Confirm password is required';
+
+	/// en: 'OTP is required'
+	String get otpRequired => 'OTP is required';
+
+	/// en: 'OTP must be 6 digits'
+	String get otpInvalid => 'OTP must be 6 digits';
+
+	/// en: 'Name is required'
+	String get nameRequired => 'Name is required';
+
+	/// en: 'New password cannot be the same as old password'
+	String get newPasswordSameAsOld => 'New password cannot be the same as old password';
+
+	/// en: '$name is required'
+	String fieldRequired({required Object name}) => '${name} is required';
+
+	/// en: 'Card number is required'
+	String get cardNumberRequired => 'Card number is required';
+
+	/// en: 'Please enter a valid card number'
+	String get cardNumberInvalid => 'Please enter a valid card number';
+
+	/// en: 'CVV is required'
+	String get cvvRequired => 'CVV is required';
+
+	/// en: 'Please enter a valid CVV'
+	String get cvvInvalid => 'Please enter a valid CVV';
+
+	/// en: 'Date is required'
+	String get dateRequired => 'Date is required';
+
+	/// en: 'License plate number is required'
+	String get licenseNumberRequired => 'License plate number is required';
+
+	/// en: 'Please enter a valid license plate number'
+	String get licenseNumberInvalid => 'Please enter a valid license plate number';
+
+	/// en: 'City is required'
+	String get cityRequired => 'City is required';
+
+	/// en: 'Township is required'
+	String get townshipRequired => 'Township is required';
 }
 
 // Path: auth
@@ -278,6 +347,29 @@ extension on Translations {
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
 			'validation.emailRequired' => 'Email is required',
 			'validation.emailInvalid' => 'Please enter a valid email address',
+			'validation.phoneRequired' => 'Phone number is required',
+			'validation.phoneInvalid' => 'Please enter a valid phone number',
+			'validation.phoneStartWith' => 'Phone number must start with +959',
+			'validation.phoneCountryCode' => '+959',
+			'validation.passwordRequired' => 'Password is required',
+			'validation.passwordTooShort' => 'Password must be at least 8 characters',
+			'validation.passwordWeakText' => 'Password must contain at least one uppercase letter and one number',
+			'validation.passwordsDoNotMatch' => 'Passwords do not match',
+			'validation.confirmPasswordRequired' => 'Confirm password is required',
+			'validation.otpRequired' => 'OTP is required',
+			'validation.otpInvalid' => 'OTP must be 6 digits',
+			'validation.nameRequired' => 'Name is required',
+			'validation.newPasswordSameAsOld' => 'New password cannot be the same as old password',
+			'validation.fieldRequired' => ({required Object name}) => '${name} is required',
+			'validation.cardNumberRequired' => 'Card number is required',
+			'validation.cardNumberInvalid' => 'Please enter a valid card number',
+			'validation.cvvRequired' => 'CVV is required',
+			'validation.cvvInvalid' => 'Please enter a valid CVV',
+			'validation.dateRequired' => 'Date is required',
+			'validation.licenseNumberRequired' => 'License plate number is required',
+			'validation.licenseNumberInvalid' => 'Please enter a valid license plate number',
+			'validation.cityRequired' => 'City is required',
+			'validation.townshipRequired' => 'Township is required',
 			'auth.signInToConsole' => 'Sign in to Console',
 			'auth.createAccount' => 'Create Account',
 			'auth.emailSubtitle' => 'Enter your email details below to access your account.',

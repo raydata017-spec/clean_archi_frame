@@ -92,6 +92,29 @@ class _Translations$validation$my extends Translations$validation$en {
 	// Translations
 	@override String get emailRequired => 'အီးမေးလ် လိုအပ်ပါတယ်';
 	@override String get emailInvalid => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ';
+	@override String get phoneRequired => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်';
+	@override String get phoneInvalid => 'မှန်ကန်သော ဖုန်းနံပါတ် ဖြည့်စွက်ပါ';
+	@override String get phoneStartWith => 'ဖုန်းနံပါတ်သည် +959 ဖြင့် စတင်ရပါမည်';
+	@override String get phoneCountryCode => '+959';
+	@override String get passwordRequired => 'စကားဝှက် လိုအပ်ပါတယ်';
+	@override String get passwordTooShort => 'စကားဝှက်သည် အနည်းဆုံး ၈ လုံး ရှိရပါမည်';
+	@override String get passwordWeakText => 'စကားဝှက်တွင် အနည်းဆုံး စာလုံးကြီးတစ်လုံးနှင့် ကိန်းဂဏန်းတစ်ခု ပါဝင်ရပါမည်';
+	@override String get passwordsDoNotMatch => 'စကားဝှက်များ ကိုက်ညီမှုမရှိပါ';
+	@override String get confirmPasswordRequired => 'စကားဝှက် အတည်ပြုချက် လိုအပ်ပါတယ်';
+	@override String get otpRequired => 'OTP လိုအပ်ပါသည်';
+	@override String get otpInvalid => 'OTP သည် ၆ လုံး ဖြစ်ရပါမည်';
+	@override String get nameRequired => 'အမည် လိုအပ်ပါတယ်';
+	@override String get newPasswordSameAsOld => 'စကားဝှက်အသစ်သည် စကားဝှက်ဟောင်းနှင့် တူညီ၍မရပါ';
+	@override String fieldRequired({required Object name}) => '${name} လိုအပ်ပါသည်';
+	@override String get cardNumberRequired => 'ကတ်နံပါတ် လိုအပ်ပါသည်';
+	@override String get cardNumberInvalid => 'မှန်ကန်သော ကတ်နံပါတ် ထည့်ပါ';
+	@override String get cvvRequired => 'CVV လိုအပ်ပါသည်';
+	@override String get cvvInvalid => 'မှန်ကန်သော CVV ထည့်ပါ';
+	@override String get dateRequired => 'ရက်စွဲ လိုအပ်ပါသည်';
+	@override String get licenseNumberRequired => 'လိုင်စင်နံပါတ် လိုအပ်ပါသည်';
+	@override String get licenseNumberInvalid => 'မှန်ကန်သော လိုင်စင်နံပါတ် ထည့်ပါ';
+	@override String get cityRequired => 'မြို့ အမည် လိုအပ်ပါသည်';
+	@override String get townshipRequired => 'မြို့နယ် အမည် လိုအပ်ပါသည်';
 }
 
 // Path: auth
@@ -166,6 +189,29 @@ extension on TranslationsMy {
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
 			'validation.emailInvalid' => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ',
+			'validation.phoneRequired' => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်',
+			'validation.phoneInvalid' => 'မှန်ကန်သော ဖုန်းနံပါတ် ဖြည့်စွက်ပါ',
+			'validation.phoneStartWith' => 'ဖုန်းနံပါတ်သည် +959 ဖြင့် စတင်ရပါမည်',
+			'validation.phoneCountryCode' => '+959',
+			'validation.passwordRequired' => 'စကားဝှက် လိုအပ်ပါတယ်',
+			'validation.passwordTooShort' => 'စကားဝှက်သည် အနည်းဆုံး ၈ လုံး ရှိရပါမည်',
+			'validation.passwordWeakText' => 'စကားဝှက်တွင် အနည်းဆုံး စာလုံးကြီးတစ်လုံးနှင့် ကိန်းဂဏန်းတစ်ခု ပါဝင်ရပါမည်',
+			'validation.passwordsDoNotMatch' => 'စကားဝှက်များ ကိုက်ညီမှုမရှိပါ',
+			'validation.confirmPasswordRequired' => 'စကားဝှက် အတည်ပြုချက် လိုအပ်ပါတယ်',
+			'validation.otpRequired' => 'OTP လိုအပ်ပါသည်',
+			'validation.otpInvalid' => 'OTP သည် ၆ လုံး ဖြစ်ရပါမည်',
+			'validation.nameRequired' => 'အမည် လိုအပ်ပါတယ်',
+			'validation.newPasswordSameAsOld' => 'စကားဝှက်အသစ်သည် စကားဝှက်ဟောင်းနှင့် တူညီ၍မရပါ',
+			'validation.fieldRequired' => ({required Object name}) => '${name} လိုအပ်ပါသည်',
+			'validation.cardNumberRequired' => 'ကတ်နံပါတ် လိုအပ်ပါသည်',
+			'validation.cardNumberInvalid' => 'မှန်ကန်သော ကတ်နံပါတ် ထည့်ပါ',
+			'validation.cvvRequired' => 'CVV လိုအပ်ပါသည်',
+			'validation.cvvInvalid' => 'မှန်ကန်သော CVV ထည့်ပါ',
+			'validation.dateRequired' => 'ရက်စွဲ လိုအပ်ပါသည်',
+			'validation.licenseNumberRequired' => 'လိုင်စင်နံပါတ် လိုအပ်ပါသည်',
+			'validation.licenseNumberInvalid' => 'မှန်ကန်သော လိုင်စင်နံပါတ် ထည့်ပါ',
+			'validation.cityRequired' => 'မြို့ အမည် လိုအပ်ပါသည်',
+			'validation.townshipRequired' => 'မြို့နယ် အမည် လိုအပ်ပါသည်',
 			'auth.signInToConsole' => 'Console သို့ ဝင်ရန်',
 			'auth.createAccount' => 'အကောင့်သစ်ဖွင့်ရန်',
 			'auth.emailSubtitle' => 'သင့်အကောင့်သို့ ဝင်ရောက်ရန် အီးမေးလ်အချက်အလက်များကို ဖြည့်စွက်ပေးပါ။',
