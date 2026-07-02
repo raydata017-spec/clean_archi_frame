@@ -1,13 +1,14 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
 import '../../../../app/router/route_names.dart';
+import '../../../../core/services/permission_service.dart';
 import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
@@ -180,7 +181,7 @@ class SettingScreen extends ConsumerWidget {
                   size: AppSizes.iconSm,
                   color: context.colorScheme.onSurface.withValues(alpha: .3),
                 ),
-                onTap: () => openAppSettings(),
+                onTap: () => ref.read(permissionServiceProvider).openAppSettings(AppSettingsType.notification),
               ),
             ],
           ),
