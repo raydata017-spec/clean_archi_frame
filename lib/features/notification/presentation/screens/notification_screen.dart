@@ -98,7 +98,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     // Show SnackBar with Undo action
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
+    final controller = ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(t.notification.deleted),
         behavior: SnackBarBehavior.floating,
@@ -116,6 +116,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
       ),
     );
+
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        controller.close();
+      }
+    });
   }
 
   void _toggleReadStatus(int index) {
