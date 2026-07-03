@@ -18,6 +18,7 @@
     },
     "dynamic": {
         "welcomeMessage": "Welcome back, $name! You have $point points.",
+        "defaultErrorText": "Something went wrong",
         "inboxCount": {
             "zero": "You have no new messages.",
             "one": "You have 1 new message.",
@@ -25,7 +26,8 @@
         }
     },
     "common": {
-        "somethingWentWrong": "Something went wrong"
+        "somethingWentWrong": "Something went wrong",
+        "retry": "Retry"
     },
     "validation": {
         "emailRequired": "Email is required",

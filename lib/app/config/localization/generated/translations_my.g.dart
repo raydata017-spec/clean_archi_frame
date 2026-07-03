@@ -79,6 +79,7 @@ class _Translations$kDynamic$my extends Translations$kDynamic$en {
 
 	// Translations
 	@override String welcomeMessage({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။';
+	@override String get defaultErrorText => 'တစ်စုံတစ်ခုမှားယွင်းနေသည်';
 	@override String inboxCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n,
 		zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။',
 		other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။',
@@ -93,6 +94,7 @@ class _Translations$common$my extends Translations$common$en {
 
 	// Translations
 	@override String get somethingWentWrong => 'တစ်စုံတစ်ခု မှားယွင်းနေပါသည်';
+	@override String get retry => 'ထပ်ကြိုးစားရန်';
 }
 
 // Path: validation
@@ -226,8 +228,10 @@ extension on TranslationsMy {
 			'setting.notifications' => 'အကြောင်းကြားချက်များ',
 			'setting.advanced' => 'အဆင့်မြင့်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
+			'kDynamic.defaultErrorText' => 'တစ်စုံတစ်ခုမှားယွင်းနေသည်',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
 			'common.somethingWentWrong' => 'တစ်စုံတစ်ခု မှားယွင်းနေပါသည်',
+			'common.retry' => 'ထပ်ကြိုးစားရန်',
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
 			'validation.emailInvalid' => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ',
 			'validation.phoneRequired' => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်',

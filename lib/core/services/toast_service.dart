@@ -4,11 +4,12 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart' as styled;
 import '../../app/config/dimensions.dart';
 import '../../app/config/localization/generated/translations.g.dart';
 import '../../app/router/app_router.dart';
+import '../utils/enums/toast_type_enum.dart';
 import '../utils/extensions/context_extension.dart';
 
-enum ToastType { success, error, warning, info }
 
-sealed class ToastHelper {
+
+sealed class ToastService {
   /// Shows a toast with a given message and type.
   static void showToast({
     required String message,

@@ -18,13 +18,15 @@
   },
   "dynamic": {
     "welcomeMessage": "ပြန်လည်ကြိုဆိုပါတယ် $name! သင့်မှာ အမှတ် $point မှတ် ရှိပါတယ်။",
+    "defaultErrorText": "တစ်စုံတစ်ခုမှားယွင်းနေသည်",
     "inboxCount": {
       "zero": "မက်ဆေ့ချ် အသစ်မရှိပါ။",
       "other": "မက်ဆေ့ချ် အသစ် $n စောင် ရှိပါတယ်။"
     }
   },
   "common": {
-    "somethingWentWrong": "တစ်စုံတစ်ခု မှားယွင်းနေပါသည်"
+    "somethingWentWrong": "တစ်စုံတစ်ခု မှားယွင်းနေပါသည်",
+    "retry": "ထပ်ကြိုးစားရန်"
   },
   "validation": {
     "emailRequired": "အီးမေးလ် လိုအပ်ပါတယ်",

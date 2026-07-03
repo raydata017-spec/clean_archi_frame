@@ -113,6 +113,9 @@ class Translations$kDynamic$en {
 	/// en: 'Welcome back, $name! You have $point points.'
 	String welcomeMessage({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.';
 
+	/// en: 'Something went wrong'
+	String get defaultErrorText => 'Something went wrong';
+
 	/// en: '(zero) {You have no new messages.} (one) {You have 1 new message.} (other) {You have $n new messages.}'
 	String inboxCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
 		zero: 'You have no new messages.',
@@ -131,6 +134,9 @@ class Translations$common$en {
 
 	/// en: 'Something went wrong'
 	String get somethingWentWrong => 'Something went wrong';
+
+	/// en: 'Retry'
+	String get retry => 'Retry';
 }
 
 // Path: validation
@@ -424,8 +430,10 @@ extension on Translations {
 			'setting.notifications' => 'Notifications',
 			'setting.advanced' => 'Advanced',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
+			'kDynamic.defaultErrorText' => 'Something went wrong',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
 			'common.somethingWentWrong' => 'Something went wrong',
+			'common.retry' => 'Retry',
 			'validation.emailRequired' => 'Email is required',
 			'validation.emailInvalid' => 'Please enter a valid email address',
 			'validation.phoneRequired' => 'Phone number is required',
