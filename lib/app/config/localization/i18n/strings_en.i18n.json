@@ -105,6 +105,10 @@
         "markUnread": "Mark as unread",
         "delete": "Delete",
         "undo": "Undo",
+        "deleteTitle": "Delete Notification",
+        "deleteConfirm": "Are you sure you want to delete this notification?",
+        "cancel": "Cancel",
+        "confirm": "Delete",
         "minutesAgo": "${minutes}m ago",
         "hoursAgo": "${hours}h ago",
         "daysAgo": "${days}d ago"

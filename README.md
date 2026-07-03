@@ -354,4 +354,108 @@ AppEmptyWidget(
 )
 ```
 
+---
 
+## Dialog Extension (`showAppDialog`)
+
+Flutter ၏ built-in `showDialog(...)` ကို တိုက်ရိုက်ခေါ်သုံးခြင်းအစား app-level defaults ပါဝင်သော `context.showAppDialog(...)` extension ကို အသုံးပြုရပါမည်။
+
+- **ဖိုင်တည်နေရာ:** [dialog_extension.dart](file:///d:/Projects/clean_archi_frame/lib/core/utils/extensions/dialog_extension.dart)
+- **Extension:** `DialogContextExtension on BuildContext`
+
+### ကွာခြားချက် (Why not raw `showDialog`?)
+
+| | Raw `showDialog` | `context.showAppDialog` |
+|---|---|---|
+| `context:` parameter | ✅ Required | ❌ မလိုဘဲ implicit |
+| App-level defaults | ❌ မရှိ | ✅ ပါဝင်ပြီး |
+| မည်သည့် widget မဆို | ✅ | ✅ |
+
+### Parameter များ
+
+| Parameter | Type | Default | ရှင်းလင်းချက် |
+|---|---|---|---|
+| `builder` | `WidgetBuilder` | required | Dialog ၏ content widget |
+| `barrierDismissible` | `bool` | `true` | Dialog အပြင်ဘက် နှိပ်ပါက ပိတ်မလား |
+| `barrierColor` | `Color?` | `null` (theme default) | Background dim color |
+| `useSafeArea` | `bool` | `true` | SafeArea wrap |
+| `routeSettings` | `RouteSettings?` | `null` | Named route tracking |
+
+### UI တွင် အသုံးပြုနည်း ဥပမာများ (Usage Examples)
+
+```dart
+import 'package:clean_archi_frame/core/utils/extensions/dialog_extension.dart';
+
+// ၁။ AppAlertDialog ဖြင့် သုံးခြင်း (2 buttons)
+context.showAppDialog(
+  barrierDismissible: false,
+  builder: (context) => AppAlertDialog(
+    title: 'Delete',
+    content: 'Are you sure?',
+    cancelLabel: 'Cancel',
+    onCancel: () => Navigator.pop(context),
+    confirmLabel: 'Delete',
+    confirmColor: context.colorScheme.error,
+    onConfirm: () {
+      Navigator.pop(context);
+      // delete logic
+    },
+  ),
+);
+
+// ၂။ Custom widget ဖြင့် သုံးခြင်း
+context.showAppDialog(
+  builder: (context) => MyCustomDialogWidget(),
+);
+
+// ၃။ Return value ရယူခြင်း (type-safe)
+final confirmed = await context.showAppDialog<bool>(
+  builder: (context) => AppAlertDialog(
+    title: 'Confirm',
+    content: 'Proceed?',
+    onCancel: () => Navigator.pop(context, false),
+    confirmLabel: 'Yes',
+    onConfirm: () => Navigator.pop(context, true),
+  ),
+);
+
+if (confirmed == true) {
+  // user confirmed
+}
+```
+
+### `AppAlertDialog` ၏ Button Conditions
+
+`AppAlertDialog` ကို `showAppDialog` နှင့် တွဲသုံးသည့်အခါ button ပြသမှုကို လိုအပ်သလို သတ်မှတ်နိုင်သည် —
+
+```dart
+// 0 buttons — info only
+AppAlertDialog(title: 'Info', content: 'Something happened.')
+
+// 1 button — confirm only
+AppAlertDialog(
+  title: 'Done',
+  content: 'Operation completed.',
+  confirmLabel: 'OK',
+  onConfirm: () => Navigator.pop(context),
+)
+
+// 1 button — cancel only
+AppAlertDialog(
+  title: 'Notice',
+  content: 'Please take note.',
+  cancelLabel: 'Close',
+  onCancel: () => Navigator.pop(context),
+)
+
+// 2 buttons — cancel + confirm
+AppAlertDialog(
+  title: 'Delete',
+  content: 'This cannot be undone.',
+  cancelLabel: 'Cancel',
+  onCancel: () => Navigator.pop(context),
+  confirmLabel: 'Delete',
+  confirmColor: context.colorScheme.error,
+  onConfirm: () { ... },
+)
+```

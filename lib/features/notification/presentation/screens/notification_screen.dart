@@ -21,38 +21,38 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   // Simulating data received from API
   final List<Map<String, dynamic>> _apiResponse = [
-    // {
-    //   'id': '1',
-    //   'title': 'Security Alert',
-    //   'description': 'New login detected from Chrome on Windows 11.',
-    //   'created_at': DateTime.now().subtract(const Duration(minutes: 5)).toIso8601String(),
-    //   'type': 'security',
-    //   'is_read': false,
-    // },
-    // {
-    //   'id': '2',
-    //   'title': 'System Update',
-    //   'description': 'Clean Architecture Framework v1.1.0 is now available.',
-    //   'created_at': DateTime.now().subtract(const Duration(hours: 2)).toIso8601String(),
-    //   'type': 'system',
-    //   'is_read': false,
-    // },
-    // {
-    //   'id': '3',
-    //   'title': 'Report Generated',
-    //   'description': 'Monthly active user analytics report is ready to view.',
-    //   'created_at': DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
-    //   'type': 'analytics',
-    //   'is_read': true,
-    // },
-    // {
-    //   'id': '4',
-    //   'title': 'Welcome onboard',
-    //   'description': 'Explore the starter kit and check out documentation.',
-    //   'created_at': DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
-    //   'type': 'general',
-    //   'is_read': true,
-    // },
+    {
+      'id': '1',
+      'title': 'Security Alert',
+      'description': 'New login detected from Chrome on Windows 11.',
+      'created_at': DateTime.now().subtract(const Duration(minutes: 5)).toIso8601String(),
+      'type': 'security',
+      'is_read': false,
+    },
+    {
+      'id': '2',
+      'title': 'System Update',
+      'description': 'Clean Architecture Framework v1.1.0 is now available.',
+      'created_at': DateTime.now().subtract(const Duration(hours: 2)).toIso8601String(),
+      'type': 'system',
+      'is_read': false,
+    },
+    {
+      'id': '3',
+      'title': 'Report Generated',
+      'description': 'Monthly active user analytics report is ready to view.',
+      'created_at': DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
+      'type': 'analytics',
+      'is_read': true,
+    },
+    {
+      'id': '4',
+      'title': 'Welcome onboard',
+      'description': 'Explore the starter kit and check out documentation.',
+      'created_at': DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
+      'type': 'general',
+      'is_read': true,
+    },
   ];
 
   late List<NotificationEntity> _notifications;
@@ -119,7 +119,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
     );
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         controller.close();
       }
@@ -202,7 +202,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         item: item,
                         animation: animation,
                         onToggleRead: () => _toggleReadStatus(index),
-                        onDelete: () => _deleteNotification(item.id, index, isSwiped: false),
+                        onDelete: () {
+                          final liveIndex = _notifications.indexWhere((n) => n.id == item.id);
+                          if (liveIndex != -1) {
+                            _deleteNotification(
+                              item.id,
+                              liveIndex,
+                              isSwiped: false,
+                            );
+                          }
+                        },
                         onSwipeDelete: () => _deleteNotification(item.id, index, isSwiped: true),
                       );
                     },

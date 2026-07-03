@@ -378,6 +378,18 @@ class Translations$notification$en {
 	/// en: 'Undo'
 	String get undo => 'Undo';
 
+	/// en: 'Delete Notification'
+	String get deleteTitle => 'Delete Notification';
+
+	/// en: 'Are you sure you want to delete this notification?'
+	String get deleteConfirm => 'Are you sure you want to delete this notification?';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Delete'
+	String get confirm => 'Delete';
+
 	/// en: '${minutes}m ago'
 	String minutesAgo({required Object minutes}) => '${minutes}m ago';
 
@@ -487,6 +499,10 @@ extension on Translations {
 			'notification.markUnread' => 'Mark as unread',
 			'notification.delete' => 'Delete',
 			'notification.undo' => 'Undo',
+			'notification.deleteTitle' => 'Delete Notification',
+			'notification.deleteConfirm' => 'Are you sure you want to delete this notification?',
+			'notification.cancel' => 'Cancel',
+			'notification.confirm' => 'Delete',
 			'notification.minutesAgo' => ({required Object minutes}) => '${minutes}m ago',
 			'notification.hoursAgo' => ({required Object hours}) => '${hours}h ago',
 			'notification.daysAgo' => ({required Object days}) => '${days}d ago',

@@ -193,6 +193,10 @@ class _Translations$notification$my extends Translations$notification$en {
 	@override String get markUnread => 'မဖတ်ရသေးသော အဖြစ် သတ်မှတ်ရန်';
 	@override String get delete => 'ဖျက်ရန်';
 	@override String get undo => 'ပြန်ပြင်ရန်';
+	@override String get deleteTitle => 'အကြောင်းကြားချက် ဖျက်ရန်';
+	@override String get deleteConfirm => 'ဤအကြောင်းကြားချက်ကို ဖျက်လိုကြောင်း သေချာပါသလား?';
+	@override String get cancel => 'မလုပ်တော့ပါ';
+	@override String get confirm => 'ဖျက်မည်';
 	@override String minutesAgo({required Object minutes}) => 'လွန်ခဲ့သော ${minutes} မိနစ်က';
 	@override String hoursAgo({required Object hours}) => 'လွန်ခဲ့သော ${hours} နာရီက';
 	@override String daysAgo({required Object days}) => 'လွန်ခဲ့သော ${days} ရက်က';
@@ -297,6 +301,10 @@ extension on TranslationsMy {
 			'notification.markUnread' => 'မဖတ်ရသေးသော အဖြစ် သတ်မှတ်ရန်',
 			'notification.delete' => 'ဖျက်ရန်',
 			'notification.undo' => 'ပြန်ပြင်ရန်',
+			'notification.deleteTitle' => 'အကြောင်းကြားချက် ဖျက်ရန်',
+			'notification.deleteConfirm' => 'ဤအကြောင်းကြားချက်ကို ဖျက်လိုကြောင်း သေချာပါသလား?',
+			'notification.cancel' => 'မလုပ်တော့ပါ',
+			'notification.confirm' => 'ဖျက်မည်',
 			'notification.minutesAgo' => ({required Object minutes}) => 'လွန်ခဲ့သော ${minutes} မိနစ်က',
 			'notification.hoursAgo' => ({required Object hours}) => 'လွန်ခဲ့သော ${hours} နာရီက',
 			'notification.daysAgo' => ({required Object days}) => 'လွန်ခဲ့သော ${days} ရက်က',
