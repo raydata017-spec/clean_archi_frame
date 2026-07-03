@@ -4,6 +4,8 @@ import 'dart:io';
 
 import '../../shared/models/api_error_model.dart';
 import '../../shared/models/app_error_model.dart';
+import '../network/exceptions/api_exception.dart';
+import '../network/exceptions/network_exception.dart';
 import '../utils/enums/error_type_enum.dart';
 import '../services/toast_service.dart';
 
@@ -75,6 +77,18 @@ class ErrorService {
       }
       return ErrorType.apiError;
     }
+    if (error is ApiException) {
+      if (error.statusCode != null && error.statusCode! >= 500) {
+        return ErrorType.serverError;
+      }
+      return ErrorType.apiError;
+    }
+    if (error is NetworkException) {
+      if (error.type == 'cancelled') {
+        return ErrorType.unknown;
+      }
+      return ErrorType.noInternet;
+    }
     return ErrorType.unknown;
   }
 
@@ -97,6 +111,14 @@ class ErrorService {
 
     if (error is ApiError) {
       return error.displayMessage;
+    }
+
+    if (error is ApiException) {
+      return error.apiError?.displayMessage ?? error.message ?? 'API Error occurred';
+    }
+
+    if (error is NetworkException) {
+      return error.message;
     }
 
     if (error is AppError) {

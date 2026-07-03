@@ -16,6 +16,7 @@ dependencies:
   connectivity_plus:
   cupertino_back_gesture:
   cupertino_icons:
+  dio:
   drift:
   flutter_riverpod:
   flutter_styled_toast:

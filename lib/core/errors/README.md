@@ -245,3 +245,4 @@ enum ErrorType {
 
 > [!NOTE]
 > `ErrorService.getUIError()` titles (`'No Connection'`, `'Server Error'` etc.) are currently hardcoded in English. Localize them via `t.errors.*` if multi-language title support is needed.
+

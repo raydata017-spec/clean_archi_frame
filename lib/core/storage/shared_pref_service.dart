@@ -19,6 +19,8 @@ class SharedPrefService {
   // --- Keys ---
   static const String _themeModeKey = 'app_theme_mode';
   static const String _localeKey = 'app_locale';
+  static const String _tokenKey = 'auth_token';
+  static const String _refreshTokenKey = 'refresh_token';
 
   // --- Theme ---
   Future<void> saveThemeMode(String mode) async {
@@ -43,6 +45,32 @@ class SharedPrefService {
 
   String? getLocale() {
     return _prefs.getString(_localeKey);
+  }
+
+  // --- Auth Token ---
+  Future<void> saveAuthToken(String token) async {
+    await _prefs.setString(_tokenKey, token);
+  }
+
+  String? getAuthToken() {
+    return _prefs.getString(_tokenKey);
+  }
+
+  Future<void> deleteAuthToken() async {
+    await _prefs.remove(_tokenKey);
+  }
+
+  // --- Refresh Token ---
+  Future<void> saveRefreshToken(String token) async {
+    await _prefs.setString(_refreshTokenKey, token);
+  }
+
+  String? getRefreshToken() {
+    return _prefs.getString(_refreshTokenKey);
+  }
+
+  Future<void> deleteRefreshToken() async {
+    await _prefs.remove(_refreshTokenKey);
   }
 
   // --- Clear All ---
