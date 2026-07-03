@@ -316,3 +316,42 @@ class NavigationConfig {
 
 သတ်မှတ်ထားသည့် mode ပေါ်မူတည်၍ Screen တစ်ခုချင်းစီ၏ `AppBar` များတွင် Drawer ကို ဆွဲဖွင့်ရန် Hamburger Menu Icon ကို အလိုအလျောက် သင့်လျော်သလို တွဲဖက်ပြသပေးမည် ဖြစ်ပါသည်။
 
+---
+
+## Reusable Empty State Widget (AppEmptyWidget)
+
+App အတွင်း data မရှိသည့် အခြေအနေများ (ဥပမာ - empty inbox, no search results, no notification) တွင် အသုံးပြုရန် [AppEmptyWidget](file:///d:/Projects/clean_archi_frame/lib/shared/widgets/app_empty_widget.dart) ကို ဖန်တီးထားပါသည်။
+
+၎င်း Widget သည် SVG နှင့် PNG ပုံများ (Both Svg and Png) ကို အလိုအလျောက် ခွဲခြားကာ ပြသပေးနိုင်စွမ်း ရှိပါသည်။
+
+### အသုံးပြုနိုင်သော parameter များ (Parameters)
+
+- `imageUrl`: ပြသလိုသော asset image path (ဥပမာ - `AppAssets.noNotification` သို့မဟုတ် path text) ဖြစ်ပြီး SVG `.svg` သို့မဟုတ် PNG / JPG format မည်သည့်ပုံကိုမဆို ပံ့ပိုးပေးပါသည်။
+- `title`: အဓိကပြသမည့် စာသားအကျဉ်း။
+- `subtitle`: အသေးစိတ်ဖော်ပြချက် စာသား။
+- `action`: Empty state တွင် ထည့်သွင်းလိုသော ခလုတ် သို့မဟုတ် လုပ်ဆောင်ချက် widget (ဥပမာ - `AppButton`, `ElevatedButton`)။
+
+### UI တွင် အသုံးပြုနည်း ဥပမာ (Usage Example)
+
+```dart
+import 'package:clean_archi_frame/shared/widgets/app_empty_widget.dart';
+
+// ၁။ SVG image ဖြင့် သုံးခြင်း
+AppEmptyWidget(
+  imageUrl: 'assets/images/app_images/empty_box.svg',
+  title: 'ဒေတာ မရှိပါ',
+  subtitle: 'လောလောဆယ်တွင် ပြသရန် ဒေတာ မရှိသေးပါ။',
+  action: ElevatedButton(
+    onPressed: () => ref.refresh(dataProvider),
+    child: const Text('Refresh'),
+  ),
+)
+
+// ၂။ PNG image ဖြင့် သုံးခြင်း
+AppEmptyWidget(
+  imageUrl: 'assets/images/app_images/empty_state.png',
+  title: 'No Notifications',
+)
+```
+
+
