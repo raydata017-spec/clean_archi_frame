@@ -90,72 +90,87 @@ ref.read(localeControllerProvider.notifier).changeLocale(AppLocale.my);
 
 ---
 
-## DAO (Data Access Object)
+## Local Database (Drift) & DAO
 
-This framework uses Drift to store and query local data. A DAO is a small class that keeps SQL-related logic in one place.
+ဤ project တွင် local data သိမ်းဆည်းရန်နှင့် query များ ပြုလုပ်ရန် **Drift (SQLite)** ကို အသုံးပြုထားပါသည်။ `ProfileTable` နှင့် `ProfileDao` တို့သည် နမူနာအဖြစ်သာ ထည့်သွင်းထားခြင်း ဖြစ်ပြီး၊ ပရောဂျက်အသစ် ရေးသားသောအခါ မိမိတို့ လိုအပ်သော Table များနှင့် DAOs များကို အောက်ပါအဆင့်များအတိုင်း တည်ဆောက်/ပြင်ဆင် ရပါမည်။
 
-### What is a DAO?
+---
 
-- A DAO contains query methods for one or more tables.
-- It keeps database access separate from UI and business logic.
-- It usually extends `DatabaseAccessor<AppDatabase>`.
+### Step-by-Step: Table အသစ်နှင့် DAO အသစ် ဖန်တီးခြင်း
 
-### Example DAO
-
-Put the example DAO here:
-
-- `lib/features/profile/data/data_sources/local/dao/profile_dao.dart`
-
+#### အဆင့် ၁ — Table Schema သတ်မှတ်ခြင်း
+မိမိတို့ ဖန်တီးမည့် feature ၏ `data/data_sources/local/schema/` အောက်တွင် Table class တစ်ခု ဖန်တီးပါ။ (ဥပမာ - `products_schema.dart`)
 ```dart
 import 'package:drift/drift.dart';
-import '../../../../../../core/database/app_database.dart';
 
-class ProfileDao extends DatabaseAccessor<AppDatabase> {
-  ProfileDao(AppDatabase db) : super(db);
-
-  Stream<List<ProfileTableData>> watchProfiles() {
-    return select(db.profileTable).watch();
-  }
-
-  Future<ProfileTableData?> getProfileById(int id) {
-    return (select(db.profileTable)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
-  }
-
-  Future<int> insertProfile(ProfileTableCompanion companion) {
-    return into(db.profileTable).insert(companion);
-  }
-
-  Future<int> updateProfile(int id, ProfileTableCompanion companion) {
-    return (update(db.profileTable)..where((tbl) => tbl.id.equals(id))).write(companion);
-  }
+class ProductTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 100)();
+  RealColumn get price => real()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 ```
 
-### How to use a DAO
+#### အဆင့် ၂ — DAO (Data Access Object) ဖန်တီးခြင်း
+SQL queries များကို စုစည်းထားရန် သက်ဆိုင်ရာ feature ၏ `data/data_sources/local/dao/` အောက်တွင် DAO class တစ်ခု ဖန်တီးပါ။ (ဥပမာ - `product_dao.dart`)
+> **Note:** Database code generator မပြေးရသေးမီ mixin template ဖြစ်သည့် `_$ProductDaoMixin` သည် compile error ပြနေပါလိမ့်မည်။ Code generation ပြေးပြီးပါက error ပျောက်သွားပါမည်။
+```dart
+import 'package:drift/drift.dart';
+import '../../../../../../core/database/app_database.dart';
+import '../schema/products_schema.dart';
 
-1. Create the DAO class in your feature folder.
-2. Inject it using a Riverpod provider or pass it into your repository.
-3. Call `watchProfiles()` for streams or `insertProfile(...)` for writes.
+@DriftAccessor(tables: [ProductTable])
+class ProductDao extends DatabaseAccessor<AppDatabase> with _$ProductDaoMixin {
+  ProductDao(AppDatabase db) : super(db);
 
-### Do I need code generation?
+  // Queries များကို ဤနေရာတွင် ရေးပါ
+  Future<List<ProductTableData>> getAllProducts() => select(productTable).get();
+  Stream<List<ProductTableData>> watchProducts() => select(productTable).watch();
+  Future<int> insertProduct(ProductTableCompanion entity) => into(productTable).insert(entity);
+}
+```
 
-- This project uses ready-made DAO wiring with `@DriftDatabase(daos: [ProfileDao, OutboxDao])`.
-- `@DriftAccessor` generates the table mixins for each DAO.
-- Yes — when you use these Drift annotations, run the generator to produce the DAO mixins.
+#### အဆင့် ၃ — AppDatabase တွင် Table နှင့် DAO ကို Register ပြုလုပ်ခြင်း
+[`lib/core/database/app_database.dart`](file:///d:/Projects/clean_archi_frame/lib/core/database/app_database.dart) သို့သွားပြီး `@DriftDatabase` annotation တွင် မိမိတို့ဖန်တီးခဲ့သော Table နှင့် DAO ကို ထည့်သွင်းပေးပါ။
+```dart
+import '../../features/product/data/data_sources/local/schema/products_schema.dart';
+import '../../features/product/data/data_sources/local/dao/product_dao.dart';
 
-### When should I run the generator?
+@DriftDatabase(
+  tables: [
+    ProfileTable, 
+    OutboxTable,
+    ProductTable, // ← စာရင်းအသစ် ထည့်သွင်းရန်
+  ],
+  daos: [
+    ProfileDao, 
+    OutboxDao,
+    ProductDao, // ← စာရင်းအသစ် ထည့်သွင်းရန်
+  ],
+)
+class AppDatabase extends _$AppDatabase { ... }
+```
 
-Run `build_runner` whenever you change the DAO annotations, table definitions, or `@DriftDatabase` configuration.
-
+#### အဆင့် ၄ — Code Generation ပြေးခြင်း
+Annotation များ ပြင်ဆင်ပြီးပါက Terminal တွင် အောက်ပါ command ကို run ၍ code generate လုပ်ပေးရပါမည်။
 ```bash
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### Recommended clean frame approach
+#### အဆင့် ၅ — Riverpod Provider ဖြင့် Dependency Injection လုပ်ခြင်း
+သက်ဆိုင်ရာ Feature ၏ DI file သို့မဟုတ် database access လုပ်မည့် repository တွင် အသုံးပြုနိုင်ရန် Riverpod Provider ဆောက်ပေးပါ။
+```dart
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../database/app_database.dart';
+import '../di/database_di.dart';
 
-- Keep DAOs simple and manual for the framework.
-- Avoid adding generated DAO wiring unless you need it.
-- This makes the core frame easier to understand and reuse.
+final productDaoProvider = Provider<ProductDao>((ref) {
+  final db = ref.watch(appDatabaseProvider);
+  return ProductDao(db);
+});
+```
+
+---
 
 ---
 
