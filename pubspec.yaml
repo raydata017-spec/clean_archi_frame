@@ -36,6 +36,9 @@ dependencies:
   slang_flutter:
   sqlite3_flutter_libs: ^0.5.25
   url_launcher:
+  firebase_core:
+  firebase_messaging:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:

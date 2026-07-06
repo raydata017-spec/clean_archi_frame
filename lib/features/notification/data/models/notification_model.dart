@@ -1,3 +1,4 @@
+import '../../../../core/utils/enums/notification_type_enum.dart';
 import '../../domain/entities/notification_entity.dart';
 
 class NotificationModel extends NotificationEntity {
@@ -11,13 +12,21 @@ class NotificationModel extends NotificationEntity {
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
+    final Map<String, dynamic> notiData = json['notification'] is Map
+        ? Map<String, dynamic>.from(json['notification'] as Map)
+        : json;
+
     return NotificationModel(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      type: json['type'] as String,
-      isRead: json['is_read'] as bool? ?? false,
+      id: (json['id'] ?? notiData['notification_id'] ?? notiData['id'] ?? '').toString(),
+      title: (json['title'] ?? notiData['title'] ?? '').toString(),
+      description: (json['description'] ?? notiData['description'] ?? notiData['message'] ?? '').toString(),
+      createdAt: json['created_at'] != null 
+          ? DateTime.parse(json['created_at'] as String)
+          : notiData['created_at'] != null
+              ? DateTime.parse(notiData['created_at'] as String)
+              : DateTime.now(),
+      type: NotificationType.fromString((json['type'] ?? json['notification_type'] ?? json['notificationType'] ?? notiData['type'] ?? notiData['notification_type'] ?? notiData['notificationType'] ?? '').toString()),
+      isRead: (json['is_read'] ?? notiData['is_read'] ?? false) as bool,
     );
   }
 
@@ -27,7 +36,7 @@ class NotificationModel extends NotificationEntity {
       'title': title,
       'description': description,
       'created_at': createdAt.toIso8601String(),
-      'type': type,
+      'type': type.name,
       'is_read': isRead,
     };
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
+import '../../../../core/utils/enums/notification_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
 import '../../domain/entities/notification_entity.dart';
@@ -27,15 +28,15 @@ class NotificationCard extends StatelessWidget {
     required this.onSwipeDelete,
   });
 
-  IconData _getIconForType(String type) {
+  IconData _getIconForType(NotificationType type) {
     switch (type) {
-      case 'security':
+      case NotificationType.security:
         return Icons.shield_outlined;
-      case 'system':
+      case NotificationType.system:
         return Icons.system_update_alt_rounded;
-      case 'analytics':
+      case NotificationType.analytics:
         return Icons.analytics_outlined;
-      case 'general':
+      case NotificationType.general:
       default:
         return Icons.notifications_none_rounded;
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/config/assets.dart';
 import '../../../../app/config/dimensions.dart';
@@ -8,15 +9,16 @@ import '../../data/models/notification_model.dart';
 import '../../domain/entities/notification_entity.dart';
 import '../../../../shared/widgets/app_empty_widget.dart';
 import '../widgets/notification_card.dart';
+import '../providers/notification_provider.dart';
 
-class NotificationScreen extends StatefulWidget {
+class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  ConsumerState<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   // Simulating data received from API
@@ -55,19 +57,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
     },
   ];
 
-  late List<NotificationEntity> _notifications;
-
   @override
   void initState() {
     super.initState();
-    _notifications =
-        _apiResponse.map<NotificationEntity>((json) => NotificationModel.fromJson(json)).toList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentList = ref.read(NotificationStates.notificationProvider);
+      if (currentList.isEmpty) {
+        final mockList = _apiResponse
+            .map<NotificationEntity>((json) => NotificationModel.fromJson(json))
+            .toList();
+        ref.read(NotificationStates.notificationProvider.notifier).setNotifications(mockList);
+      }
+    });
   }
 
   void _markAllAsRead() {
-    setState(() {
-      _notifications = _notifications.map((n) => n.copyWith(isRead: true)).toList();
-    });
+    ref.read(NotificationStates.notificationProvider.notifier).markAllAsRead();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(t.notification.allMarkedRead),
@@ -77,14 +82,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _deleteNotification(String id, int index, {bool isSwiped = false}) {
-    if (index < 0 || index >= _notifications.length) return;
+    final notifications = ref.read(NotificationStates.notificationProvider);
+    if (index < 0 || index >= notifications.length) return;
 
-    final removedItem = _notifications[index];
-    final originalIndex = index;
+    final removedItem = notifications[index];
 
-    setState(() {
-      _notifications.removeAt(index);
-    });
+    ref.read(NotificationStates.notificationProvider.notifier).deleteNotification(id);
 
     _listKey.currentState?.removeItem(
       index,
@@ -107,11 +110,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
         action: SnackBarAction(
           label: t.notification.undo,
           onPressed: () {
-            setState(() {
-              _notifications.insert(originalIndex, removedItem);
-            });
+            ref.read(NotificationStates.notificationProvider.notifier).addNewNotification(removedItem);
             _listKey.currentState?.insertItem(
-              originalIndex,
+              0,
               duration: const Duration(milliseconds: 300),
             );
           },
@@ -126,17 +127,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  void _toggleReadStatus(int index) {
-    setState(() {
-      _notifications[index] = _notifications[index].copyWith(
-        isRead: !_notifications[index].isRead,
-      );
-    });
+  void _toggleReadStatus(String id) {
+    ref.read(NotificationStates.notificationProvider.notifier).toggleReadStatus(id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final unreadCount = _notifications.where((n) => !n.isRead).length;
+    final notifications = ref.watch(NotificationStates.notificationProvider);
+    final unreadCount = ref.watch(NotificationStates.unreadNotificationCountProvider);
 
     return Scaffold(
       backgroundColor: context.colors.customBackground,
@@ -144,7 +142,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         title: Text(t.notification.title),
         centerTitle: false,
         actions: [
-          if (_notifications.isNotEmpty) ...[
+          if (notifications.isNotEmpty) ...[
             TextButton.icon(
               onPressed: _markAllAsRead,
               icon: const Icon(Icons.done_all_rounded, size: AppSizes.iconSm),
@@ -161,7 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ]
         ],
       ),
-      body: _notifications.isEmpty
+      body: notifications.isEmpty
           ? AppEmptyWidget(
               imageUrl: Assets.emptyBoxPng,
               title: t.notification.emptyState,
@@ -182,7 +180,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                       ),
                       Text(
-                        t.notification.total(count: _notifications.length),
+                        t.notification.total(count: notifications.length),
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: context.colorScheme.onSurface.withValues(alpha: .5),
                         ),
@@ -193,17 +191,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 Expanded(
                   child: AnimatedList(
                     key: _listKey,
-                    initialItemCount: _notifications.length,
+                    initialItemCount: notifications.length,
                     padding: const EdgeInsets.symmetric(horizontal: AppSizes.paddingMarginMd),
                     itemBuilder: (context, index, animation) {
-                      final item = _notifications[index];
+                      if (index >= notifications.length) return const SizedBox();
+                      final item = notifications[index];
 
                       return NotificationCard(
                         item: item,
                         animation: animation,
-                        onToggleRead: () => _toggleReadStatus(index),
+                        onToggleRead: () => _toggleReadStatus(item.id),
                         onDelete: () {
-                          final liveIndex = _notifications.indexWhere((n) => n.id == item.id);
+                          final liveIndex = notifications.indexWhere((n) => n.id == item.id);
                           if (liveIndex != -1) {
                             _deleteNotification(
                               item.id,

@@ -1,9 +1,11 @@
+import '../../../../core/utils/enums/notification_type_enum.dart';
+
 class NotificationEntity {
   final String id;
   final String title;
   final String description;
   final DateTime createdAt;
-  final String type;
+  final NotificationType type;
   final bool isRead;
 
   const NotificationEntity({
@@ -20,7 +22,7 @@ class NotificationEntity {
     String? title,
     String? description,
     DateTime? createdAt,
-    String? type,
+    NotificationType? type,
     bool? isRead,
   }) {
     return NotificationEntity(
