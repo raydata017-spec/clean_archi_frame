@@ -55,6 +55,10 @@ class MyApp extends ConsumerWidget {
         },
 
         routerConfig: goRouter,
+        // routerDelegate: goRouter.routerDelegate,
+        // routeInformationParser: goRouter.routeInformationParser,
+        // routeInformationProvider: goRouter.routeInformationProvider,
+        // backButtonDispatcher: goRouter.backButtonDispatcher,
       ),
     );
   }

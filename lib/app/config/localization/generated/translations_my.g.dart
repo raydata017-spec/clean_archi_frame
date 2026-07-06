@@ -95,6 +95,10 @@ class _Translations$common$my extends Translations$common$en {
 	// Translations
 	@override String get somethingWentWrong => 'တစ်စုံတစ်ခု မှားယွင်းနေပါသည်';
 	@override String get retry => 'ထပ်ကြိုးစားရန်';
+	@override String get exitAppTitle => 'အက်ပ်မှ ထွက်ရန်';
+	@override String get exitAppConfirm => 'အက်ပ်မှ ထွက်ရန် သေချာပါသလား?';
+	@override String get exit => 'ထွက်မည်';
+	@override String get cancel => 'မလုပ်တော့ပါ';
 }
 
 // Path: validation
@@ -232,6 +236,10 @@ extension on TranslationsMy {
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
 			'common.somethingWentWrong' => 'တစ်စုံတစ်ခု မှားယွင်းနေပါသည်',
 			'common.retry' => 'ထပ်ကြိုးစားရန်',
+			'common.exitAppTitle' => 'အက်ပ်မှ ထွက်ရန်',
+			'common.exitAppConfirm' => 'အက်ပ်မှ ထွက်ရန် သေချာပါသလား?',
+			'common.exit' => 'ထွက်မည်',
+			'common.cancel' => 'မလုပ်တော့ပါ',
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
 			'validation.emailInvalid' => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ',
 			'validation.phoneRequired' => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်',

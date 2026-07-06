@@ -11,6 +11,8 @@ import '../../../../app/router/route_names.dart';
 import '../../../../core/services/permission_service.dart';
 import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../core/utils/extensions/dialog_extension.dart';
+import '../../../../shared/widgets/app_alert_dialog.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
 
 class SettingScreen extends ConsumerWidget {
@@ -181,7 +183,9 @@ class SettingScreen extends ConsumerWidget {
                   size: AppSizes.iconSm,
                   color: context.colorScheme.onSurface.withValues(alpha: .3),
                 ),
-                onTap: () => ref.read(permissionServiceProvider).openAppSettings(AppSettingsType.notification),
+                onTap: () => ref
+                    .read(permissionServiceProvider)
+                    .openAppSettings(AppSettingsType.notification),
               ),
             ],
           ),
@@ -220,9 +224,17 @@ class SettingScreen extends ConsumerWidget {
                   size: AppSizes.iconSm,
                   color: context.colorScheme.error.withValues(alpha: .3),
                 ),
-                onTap: () {
-                  context.go(RouteNames.loginPath);
-                },
+                onTap: () => context.showAppDialog(
+                  builder: (context) => AppAlertDialog(
+                    title: "Do you want to logout?",
+                    content: "Are you sure you want to log out?",
+                    confirmColor: context.colorScheme.error,
+                    cancelLabel: t.common.cancel,
+                    onCancel: () => context.pop(),
+                    confirmLabel: "Yes, Log out",
+                    onConfirm: () => context.go(RouteNames.loginPath),
+                  ),
+                ),
               ),
             ],
           ),

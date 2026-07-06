@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,17 +9,12 @@ import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/setting/presentation/screens/setting_screen.dart';
 import '../../core/offline/screens/outbox_list_screen.dart';
 import '../../shared/main_wrapper_screen.dart';
+import 'navigator_keys.dart';
 import 'route_names.dart';
-
-// Navigation Service Keys
-final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
-final shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
-final shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    navigatorKey: rootNavigatorKey,
+    navigatorKey: NavigatorKeys.root,
     initialLocation: RouteNames.homePath,
     routes: [
       StatefulShellRoute.indexedStack(
@@ -30,7 +24,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         branches: [
           // --- Branch 1: Home ---
           StatefulShellBranch(
-            navigatorKey: shellNavigatorHomeKey,
+            navigatorKey: NavigatorKeys.shellHome,
             routes: [
               GoRoute(
                 path: RouteNames.homePath,
@@ -42,7 +36,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
           // --- Branch 2: Profile ---
           StatefulShellBranch(
-            navigatorKey: shellNavigatorProfileKey,
+            navigatorKey: NavigatorKeys.shellProfile,
             routes: [
               GoRoute(
                 path: RouteNames.profilePath,
@@ -54,7 +48,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
           // --- Branch 3: Settings ---
           StatefulShellBranch(
-            navigatorKey: shellNavigatorSettingsKey,
+            navigatorKey: NavigatorKeys.shellSettings,
             routes: [
               GoRoute(
                 path: RouteNames.settingsPath,

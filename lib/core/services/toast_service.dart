@@ -3,11 +3,9 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart' as styled;
 
 import '../../app/config/dimensions.dart';
 import '../../app/config/localization/generated/translations.g.dart';
-import '../../app/router/app_router.dart';
+import '../../app/router/navigator_keys.dart';
 import '../utils/enums/toast_type_enum.dart';
 import '../utils/extensions/context_extension.dart';
-
-
 
 sealed class ToastService {
   /// Shows a toast with a given message and type.
@@ -16,7 +14,7 @@ sealed class ToastService {
     ToastType type = ToastType.success,
     Duration duration = const Duration(seconds: 4),
   }) {
-    final context = rootNavigatorKey.currentContext;
+    final context = NavigatorKeys.root.currentContext;
     if (context == null) return;
 
     styled.showToastWidget(

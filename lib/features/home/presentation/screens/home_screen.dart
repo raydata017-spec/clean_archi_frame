@@ -23,7 +23,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.notifications,
+              Icons.notifications_outlined,
             ),
             onPressed: () => context.push(RouteNames.notificationPath),
           )

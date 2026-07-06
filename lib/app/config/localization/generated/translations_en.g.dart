@@ -137,6 +137,18 @@ class Translations$common$en {
 
 	/// en: 'Retry'
 	String get retry => 'Retry';
+
+	/// en: 'Exit App'
+	String get exitAppTitle => 'Exit App';
+
+	/// en: 'Are you sure you want to exit?'
+	String get exitAppConfirm => 'Are you sure you want to exit?';
+
+	/// en: 'Exit'
+	String get exit => 'Exit';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
 }
 
 // Path: validation
@@ -434,6 +446,10 @@ extension on Translations {
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
 			'common.somethingWentWrong' => 'Something went wrong',
 			'common.retry' => 'Retry',
+			'common.exitAppTitle' => 'Exit App',
+			'common.exitAppConfirm' => 'Are you sure you want to exit?',
+			'common.exit' => 'Exit',
+			'common.cancel' => 'Cancel',
 			'validation.emailRequired' => 'Email is required',
 			'validation.emailInvalid' => 'Please enter a valid email address',
 			'validation.phoneRequired' => 'Phone number is required',
