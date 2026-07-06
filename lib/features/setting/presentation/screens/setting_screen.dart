@@ -14,6 +14,8 @@ import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/extensions/dialog_extension.dart';
 import '../../../../shared/widgets/app_alert_dialog.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
+import '../widgets/setting_list_tile.dart';
+import '../widgets/setting_section_header.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
@@ -52,36 +54,18 @@ class SettingScreen extends ConsumerWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           // Section 1: General Settings
-          _buildSectionHeader(context, t.setting.general),
+          SettingSectionHeader(title: t.setting.general),
           _buildSettingsGroup(
             context,
             children: [
-              _buildListTile(
-                context,
+              SettingListTile(
                 title: t.setting.changeTheme,
                 subtitle: getThemeLabel(themeMode),
                 icon: Icons.dark_mode_outlined,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      themeMode == ThemeMode.system
-                          ? 'SYS'
-                          : themeMode == ThemeMode.light
-                              ? 'LGT'
-                              : 'DRK',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurface.withValues(alpha: .5),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: AppSizes.paddingMarginXs),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: AppSizes.iconSm,
-                      color: context.colorScheme.onSurface.withValues(alpha: .3),
-                    ),
-                  ],
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: AppSizes.iconSm,
+                  color: context.colorScheme.onSurface.withValues(alpha: .3),
                 ),
                 onTap: () async {
                   final selectedMode = await AppSelectionBottomSheet.show<ThemeMode>(
@@ -114,29 +98,14 @@ class SettingScreen extends ConsumerWidget {
                   }
                 },
               ),
-              _buildDivider(context),
-              _buildListTile(
-                context,
+              SettingListTile(
                 title: t.setting.changeLanguage,
                 subtitle: currentLocale == AppLocale.en ? 'English' : 'မြန်မာ',
                 icon: Icons.language_outlined,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      currentLocale == AppLocale.en ? 'EN' : 'MY',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurface.withValues(alpha: .5),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: AppSizes.paddingMarginXs),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: AppSizes.iconSm,
-                      color: context.colorScheme.onSurface.withValues(alpha: .3),
-                    ),
-                  ],
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: AppSizes.iconSm,
+                  color: context.colorScheme.onSurface.withValues(alpha: .3),
                 ),
                 onTap: () async {
                   final selectedLocale = await AppSelectionBottomSheet.show<AppLocale>(
@@ -169,14 +138,13 @@ class SettingScreen extends ConsumerWidget {
           const SizedBox(height: AppSizes.defaultSpace),
 
           // Section 2: Notifications
-          _buildSectionHeader(context, t.setting.notifications),
+          SettingSectionHeader(title: t.setting.notifications),
           _buildSettingsGroup(
             context,
             children: [
-              _buildListTile(
-                context,
+              SettingListTile(
                 title: t.setting.notificationSetting,
-                subtitle: 'Manage system notification permissions',
+                subtitle: t.setting.manageSystemNotificationPermissions,
                 icon: Icons.notifications_none_outlined,
                 trailing: Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -193,12 +161,11 @@ class SettingScreen extends ConsumerWidget {
           const SizedBox(height: AppSizes.defaultSpace),
 
           // Section 3: Advanced Settings
-          _buildSectionHeader(context, t.setting.advanced),
+          SettingSectionHeader(title: t.setting.advanced),
           _buildSettingsGroup(
             context,
             children: [
-              _buildListTile(
-                context,
+              SettingListTile(
                 title: t.setting.offlineSync,
                 subtitle: t.setting.offlineSyncSubtitle,
                 icon: Icons.sync_rounded,
@@ -211,11 +178,9 @@ class SettingScreen extends ConsumerWidget {
                   context.pushNamed(RouteNames.outboxName);
                 },
               ),
-              _buildDivider(context),
-              _buildListTile(
-                context,
+              SettingListTile(
                 title: t.auth.logout,
-                subtitle: 'Sign out of current account',
+                subtitle: t.setting.signOutOfCurrentAccount,
                 icon: Icons.logout_rounded,
                 iconColor: context.colorScheme.error,
                 textColor: context.colorScheme.error,
@@ -226,12 +191,12 @@ class SettingScreen extends ConsumerWidget {
                 ),
                 onTap: () => context.showAppDialog(
                   builder: (context) => AppAlertDialog(
-                    title: "Do you want to logout?",
-                    content: "Are you sure you want to log out?",
+                    title: t.setting.doYouWantToLogout,
+                    content: t.setting.areYouSureYouWantToLogout,
                     confirmColor: context.colorScheme.error,
                     cancelLabel: t.common.cancel,
                     onCancel: () => context.pop(),
-                    confirmLabel: "Yes, Log out",
+                    confirmLabel: t.setting.yesLogout,
                     onConfirm: () => context.go(RouteNames.loginPath),
                   ),
                 ),
@@ -243,99 +208,9 @@ class SettingScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: AppSizes.paddingMarginXs,
-        bottom: AppSizes.paddingMarginSm,
-      ),
-      child: Text(
-        title.toUpperCase(),
-        style: context.textTheme.bodySmall?.copyWith(
-          color: context.colorScheme.primary,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
   Widget _buildSettingsGroup(BuildContext context, {required List<Widget> children}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colorScheme.surface,
-        border: Border.all(
-          color: context.colorScheme.onSurface.withValues(alpha: .1),
-          width: AppSizes.dividerThickness,
-        ),
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-      ),
-      child: Column(
-        children: children,
-      ),
-    );
-  }
-
-  Widget _buildListTile(
-    BuildContext context, {
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-    Widget? trailing,
-    Color? iconColor,
-    Color? textColor,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.spaceBtwItems,
-          vertical: AppSizes.spaceBtwItems,
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: AppSizes.iconMd,
-              color: iconColor ?? context.colorScheme.onSurface.withValues(alpha: .7),
-            ),
-            const SizedBox(width: AppSizes.spaceBtwItems),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: context.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: textColor,
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: textColor?.withValues(alpha: .7) ??
-                          context.colorScheme.onSurface.withValues(alpha: .5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (trailing != null) trailing,
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDivider(BuildContext context) {
-    return Divider(
-      height: AppSizes.dividerHeight,
-      thickness: AppSizes.dividerThickness,
-      indent: AppSizes.defaultSpace * 2.2, // Aligns with title text
-      color: context.colorScheme.onSurface.withValues(alpha: .05),
+    return Column(
+      children: children,
     );
   }
 }

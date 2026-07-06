@@ -14,7 +14,12 @@
         "notificationSetting": "Notification Settings",
         "general": "General",
         "notifications": "Notifications",
-        "advanced": "Advanced"
+        "advanced": "Advanced",
+        "manageSystemNotificationPermissions": "Manage system notification permissions",
+        "signOutOfCurrentAccount": "Sign out of current account",
+        "doYouWantToLogout": "Do you want to logout?",
+        "areYouSureYouWantToLogout": "Are you sure you want to log out?",
+        "yesLogout": "Yes, Log out"
     },
     "dynamic": {
         "welcomeMessage": "Welcome back, $name! You have $point points.",

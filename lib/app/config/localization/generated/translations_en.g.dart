@@ -100,6 +100,21 @@ class Translations$setting$en {
 
 	/// en: 'Advanced'
 	String get advanced => 'Advanced';
+
+	/// en: 'Manage system notification permissions'
+	String get manageSystemNotificationPermissions => 'Manage system notification permissions';
+
+	/// en: 'Sign out of current account'
+	String get signOutOfCurrentAccount => 'Sign out of current account';
+
+	/// en: 'Do you want to logout?'
+	String get doYouWantToLogout => 'Do you want to logout?';
+
+	/// en: 'Are you sure you want to log out?'
+	String get areYouSureYouWantToLogout => 'Are you sure you want to log out?';
+
+	/// en: 'Yes, Log out'
+	String get yesLogout => 'Yes, Log out';
 }
 
 // Path: kDynamic
@@ -447,6 +462,11 @@ extension on Translations {
 			'setting.general' => 'General',
 			'setting.notifications' => 'Notifications',
 			'setting.advanced' => 'Advanced',
+			'setting.manageSystemNotificationPermissions' => 'Manage system notification permissions',
+			'setting.signOutOfCurrentAccount' => 'Sign out of current account',
+			'setting.doYouWantToLogout' => 'Do you want to logout?',
+			'setting.areYouSureYouWantToLogout' => 'Are you sure you want to log out?',
+			'setting.yesLogout' => 'Yes, Log out',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.defaultErrorText' => 'Something went wrong',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 

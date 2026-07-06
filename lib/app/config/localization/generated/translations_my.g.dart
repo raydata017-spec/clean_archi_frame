@@ -69,6 +69,11 @@ class _Translations$setting$my extends Translations$setting$en {
 	@override String get general => 'အထွေထွေ';
 	@override String get notifications => 'အကြောင်းကြားချက်များ';
 	@override String get advanced => 'အဆင့်မြင့်';
+	@override String get manageSystemNotificationPermissions => 'အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်';
+	@override String get signOutOfCurrentAccount => 'လက်ရှိအကောင့်မှ ထွက်ရန်';
+	@override String get doYouWantToLogout => 'အကောင့်မှ ထွက်လိုပါသလား။';
+	@override String get areYouSureYouWantToLogout => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။';
+	@override String get yesLogout => 'ဟုတ်ကဲ့၊ ထွက်မည်';
 }
 
 // Path: kDynamic
@@ -233,6 +238,11 @@ extension on TranslationsMy {
 			'setting.general' => 'အထွေထွေ',
 			'setting.notifications' => 'အကြောင်းကြားချက်များ',
 			'setting.advanced' => 'အဆင့်မြင့်',
+			'setting.manageSystemNotificationPermissions' => 'အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်',
+			'setting.signOutOfCurrentAccount' => 'လက်ရှိအကောင့်မှ ထွက်ရန်',
+			'setting.doYouWantToLogout' => 'အကောင့်မှ ထွက်လိုပါသလား။',
+			'setting.areYouSureYouWantToLogout' => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။',
+			'setting.yesLogout' => 'ဟုတ်ကဲ့၊ ထွက်မည်',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.defaultErrorText' => 'တစ်စုံတစ်ခုမှားယွင်းနေသည်',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 

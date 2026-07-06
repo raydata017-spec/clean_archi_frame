@@ -14,7 +14,12 @@
     "notificationSetting": "အကြောင်းကြားချက် ဆက်တင်များ",
     "general": "အထွေထွေ",
     "notifications": "အကြောင်းကြားချက်များ",
-    "advanced": "အဆင့်မြင့်"
+    "advanced": "အဆင့်မြင့်",
+    "manageSystemNotificationPermissions": "အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်",
+    "signOutOfCurrentAccount": "လက်ရှိအကောင့်မှ ထွက်ရန်",
+    "doYouWantToLogout": "အကောင့်မှ ထွက်လိုပါသလား။",
+    "areYouSureYouWantToLogout": "အကောင့်မှ ထွက်ရန် သေချာပါသလား။",
+    "yesLogout": "ဟုတ်ကဲ့၊ ထွက်မည်"
   },
   "dynamic": {
     "welcomeMessage": "ပြန်လည်ကြိုဆိုပါတယ် $name! သင့်မှာ အမှတ် $point မှတ် ရှိပါတယ်။",
