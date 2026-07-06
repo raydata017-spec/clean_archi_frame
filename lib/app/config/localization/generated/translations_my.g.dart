@@ -99,6 +99,8 @@ class _Translations$common$my extends Translations$common$en {
 	@override String get exitAppConfirm => 'အက်ပ်မှ ထွက်ရန် သေချာပါသလား?';
 	@override String get exit => 'ထွက်မည်';
 	@override String get cancel => 'မလုပ်တော့ပါ';
+	@override String get noInternet => 'အင်တာနက် ချိတ်ဆက်မှု မရှိပါ။ သင့်ကွန်ရက်ကို စစ်ဆေးပါ။';
+	@override String get internetRestored => 'အင်တာနက် ပြန်လည် ချိတ်ဆက်မိပါပြီ။';
 }
 
 // Path: validation
@@ -240,6 +242,8 @@ extension on TranslationsMy {
 			'common.exitAppConfirm' => 'အက်ပ်မှ ထွက်ရန် သေချာပါသလား?',
 			'common.exit' => 'ထွက်မည်',
 			'common.cancel' => 'မလုပ်တော့ပါ',
+			'common.noInternet' => 'အင်တာနက် ချိတ်ဆက်မှု မရှိပါ။ သင့်ကွန်ရက်ကို စစ်ဆေးပါ။',
+			'common.internetRestored' => 'အင်တာနက် ပြန်လည် ချိတ်ဆက်မိပါပြီ။',
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
 			'validation.emailInvalid' => 'အီးမေးလ် လိပ်စာ အမှန် ထည့်ပါ',
 			'validation.phoneRequired' => 'ဖုန်းနံပါတ် လိုအပ်ပါတယ်',

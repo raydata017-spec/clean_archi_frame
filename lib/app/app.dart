@@ -12,6 +12,9 @@ import 'router/app_router.dart';
 
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
+import '../core/services/connectivity_service.dart';
+import '../core/services/toast_service.dart';
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -24,6 +27,24 @@ class MyApp extends ConsumerWidget {
 
     // Watch the router provider to get the current router configuration
     final goRouter = ref.watch(appRouterProvider);
+
+    // Listen to connectivity changes to show global toasts
+    ref.listen<AsyncValue<bool>>(connectivityStreamProvider, (previous, next) {
+      final isConnected = next.value;
+      if (isConnected == null) return;
+
+      final wasConnected = previous?.value;
+
+      if (!isConnected) {
+        // Lost internet connection (or started offline)
+        Future.delayed(const Duration(milliseconds: 500), () {
+          ToastService.showWarningToast(message: t.common.noInternet);
+        });
+      } else if (wasConnected == false && isConnected) {
+        // Internet connection restored
+        ToastService.showInfoToast(message: t.common.internetRestored);
+      }
+    });
 
     return StyledToast(
       child: MaterialApp.router(

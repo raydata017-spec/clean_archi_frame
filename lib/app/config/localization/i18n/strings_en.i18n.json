@@ -31,7 +31,9 @@
         "exitAppTitle": "Exit App",
         "exitAppConfirm": "Are you sure you want to exit?",
         "exit": "Exit",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "noInternet": "No internet connection. Please check your network.",
+        "internetRestored": "Internet connection restored."
     },
     "validation": {
         "emailRequired": "Email is required",

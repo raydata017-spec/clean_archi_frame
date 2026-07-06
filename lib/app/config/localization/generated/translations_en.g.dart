@@ -149,6 +149,12 @@ class Translations$common$en {
 
 	/// en: 'Cancel'
 	String get cancel => 'Cancel';
+
+	/// en: 'No internet connection. Please check your network.'
+	String get noInternet => 'No internet connection. Please check your network.';
+
+	/// en: 'Internet connection restored.'
+	String get internetRestored => 'Internet connection restored.';
 }
 
 // Path: validation
@@ -450,6 +456,8 @@ extension on Translations {
 			'common.exitAppConfirm' => 'Are you sure you want to exit?',
 			'common.exit' => 'Exit',
 			'common.cancel' => 'Cancel',
+			'common.noInternet' => 'No internet connection. Please check your network.',
+			'common.internetRestored' => 'Internet connection restored.',
 			'validation.emailRequired' => 'Email is required',
 			'validation.emailInvalid' => 'Please enter a valid email address',
 			'validation.phoneRequired' => 'Phone number is required',
