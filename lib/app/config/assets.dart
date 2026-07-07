@@ -7,4 +7,6 @@ sealed class Assets {
   static const String emptyBox = '${appImages}empty_box.svg';
   static const String emptyBoxPng = '${appImages}empty_box.png';
   static const String notFoundBoxPng = '${appImages}404_box.png';
+
+  static const String updateRocketIcon = '${appImages}update_rocket.svg';
 }

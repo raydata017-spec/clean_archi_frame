@@ -39,6 +39,9 @@ dependencies:
   firebase_core:
   firebase_messaging:
   flutter_local_notifications:
+  firebase_remote_config:
+  ota_update:
+  package_info_plus:
 
 dev_dependencies:
   flutter_test:

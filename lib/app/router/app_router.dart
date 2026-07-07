@@ -13,6 +13,8 @@ import '../../shared/main_wrapper_screen.dart';
 import '../../core/utils/enums/app_auth_state_enum.dart';
 import 'navigator_keys.dart';
 import 'route_names.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
+import '../../features/splash/presentation/screens/app_update_screen.dart';
 
 /// Fallback providers for routing state.
 /// Override these or adapt their logic to target project auth providers.
@@ -27,7 +29,7 @@ final appInitializedStateProvider = Provider<bool>((ref) {
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: NavigatorKeys.root,
-    initialLocation: RouteNames.homePath,
+    initialLocation: RouteNames.splashPath,
     redirect: (context, state) {
       if (!RouterRedirectConfig.enableRedirect) return null;
 
@@ -150,6 +152,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: RouteNames.notificationPath,
         name: RouteNames.notificationName,
         builder: (context, state) => const NotificationScreen(),
+      ),
+
+      // Splash Route
+      GoRoute(
+        path: RouteNames.splashPath,
+        name: RouteNames.splashName,
+        builder: (context, state) => const SplashScreen(),
+      ),
+
+      // App Update Route
+      GoRoute(
+        path: RouteNames.appUpdatePath,
+        name: RouteNames.appUpdateName,
+        builder: (context, state) => AppUpdateScreen.fromExtra(state.extra as Map<String, dynamic>?),
       ),
     ],
   );
