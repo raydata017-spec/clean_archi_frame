@@ -10,11 +10,9 @@ class AppAlertDialog extends StatelessWidget {
     required this.title,
     required this.content,
     this.contentAlign,
-    // Confirm button
     this.onConfirm,
     this.confirmLabel = 'OK',
     this.confirmColor,
-    // Cancel button (optional)
     this.onCancel,
     this.cancelLabel = 'Cancel',
     this.cancelColor,
@@ -93,10 +91,10 @@ class AppAlertDialog extends StatelessWidget {
                   if (onConfirm != null)
                     TextButton(
                       onPressed: onConfirm,
-                      style: TextButton.styleFrom(
-                        foregroundColor: confirmColor ?? context.colorScheme.primary,
+                      child: Text(
+                        confirmLabel,
+                        style: TextStyle(color: confirmColor ?? context.colorScheme.primary),
                       ),
-                      child: Text(confirmLabel),
                     ),
                 ],
               ),

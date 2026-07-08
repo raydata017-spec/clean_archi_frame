@@ -185,6 +185,13 @@ class _Translations$auth$my extends Translations$auth$en {
 	@override String get email => 'အီးမေးလ်';
 	@override String get phone => 'ဖုန်း';
 	@override String get logout => 'အကောင့်မှ ထွက်ရန်';
+	@override String get forgotPasswordSubtitle => 'သင့်စကားဝှက်ကို ပြန်လည်သတ်မှတ်ရန် အီးမေးလ် သို့မဟုတ် ဖုန်းနံပါတ် ဖြည့်စွက်ပါ။';
+	@override String get sendCode => 'ကုဒ်ပို့ရန်';
+	@override String get enterOtpCode => 'OTP ကုဒ်ရိုက်ထည့်ပါ';
+	@override String get otpSubtitle => 'သင့်စက်ပစ္စည်းသို့ ပေးပို့ထားသော အတည်ပြုကုဒ်ကို ရိုက်ထည့်ပါ။';
+	@override String get resetPassword => 'စကားဝှက်အသစ် သတ်မှတ်ရန်';
+	@override String get resetPasswordSubtitle => 'စကားဝှက်အသစ်ကို အောက်တွင် သတ်မှတ်ပါ။';
+	@override String get otp => 'OTP';
 }
 
 // Path: notification
@@ -315,6 +322,13 @@ extension on TranslationsMy {
 			'auth.email' => 'အီးမေးလ်',
 			'auth.phone' => 'ဖုန်း',
 			'auth.logout' => 'အကောင့်မှ ထွက်ရန်',
+			'auth.forgotPasswordSubtitle' => 'သင့်စကားဝှက်ကို ပြန်လည်သတ်မှတ်ရန် အီးမေးလ် သို့မဟုတ် ဖုန်းနံပါတ် ဖြည့်စွက်ပါ။',
+			'auth.sendCode' => 'ကုဒ်ပို့ရန်',
+			'auth.enterOtpCode' => 'OTP ကုဒ်ရိုက်ထည့်ပါ',
+			'auth.otpSubtitle' => 'သင့်စက်ပစ္စည်းသို့ ပေးပို့ထားသော အတည်ပြုကုဒ်ကို ရိုက်ထည့်ပါ။',
+			'auth.resetPassword' => 'စကားဝှက်အသစ် သတ်မှတ်ရန်',
+			'auth.resetPasswordSubtitle' => 'စကားဝှက်အသစ်ကို အောက်တွင် သတ်မှတ်ပါ။',
+			'auth.otp' => 'OTP',
 			'notification.title' => 'အကြောင်းကြားချက်များ',
 			'notification.markAllRead' => 'အားလုံးဖတ်ပြီးသားမှတ်သားရန်',
 			'notification.unread' => ({required Object count}) => 'မဖတ်ရသေးသော (${count})',

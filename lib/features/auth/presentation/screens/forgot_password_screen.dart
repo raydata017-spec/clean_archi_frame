@@ -6,30 +6,29 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/enums/auth_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../core/utils/validators/email_validator.dart';
+import '../../../../core/utils/validators/phone_validator.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
 
-class RegisterScreen extends StatefulWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   final AuthTypeEnum loginType;
 
-  const RegisterScreen({
+  const ForgotPasswordScreen({
     super.key,
     this.loginType = AuthTypeEnum.both,
   });
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   int _selectedTab = 0; // 0 = Email, 1 = Phone
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   String _selectedCountryCode = '+95';
-  bool _acceptTerms = false;
-  bool _showTermsError = false;
 
   @override
   void initState() {
@@ -39,32 +38,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     super.dispose();
   }
 
-  void _handleContinue() {
-    setState(() {
-      _showTermsError = !_acceptTerms;
-    });
-
-    if (_formKey.currentState!.validate() && _acceptTerms) {
+  void _handleSendCode() {
+    if (_formKey.currentState!.validate()) {
       context.push(
-        RouteNames.registerPasswordPath,
+        RouteNames.otpPath,
         extra: {
-          'name': _nameController.text.trim(),
-          'email': _selectedTab == 0 ? _emailController.text.trim() : '',
-          'phone': _selectedTab == 1 ? '$_selectedCountryCode ${_phoneController.text.trim()}' : '',
+          'verificationTarget': _getIdentifier(),
+          'onSuccess': (BuildContext otpContext) {
+            otpContext.pop(); // Pop OTP screen
+            context.pushReplacement(RouteNames.resetPasswordPath);
+          },
         },
       );
     }
   }
 
+  String _getIdentifier() {
+    if (_selectedTab == 0 && widget.loginType != AuthTypeEnum.phoneOnly) {
+      return _emailController.text.trim();
+    }
+    return '$_selectedCountryCode ${_phoneController.text.trim()}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.colorScheme.surface,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -73,7 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             color: context.colorScheme.onSurface.withValues(alpha: .9),
             size: AppSizes.fontSizeXl,
           ),
-          onPressed: () => context.go(RouteNames.loginPath),
+          onPressed: () {
+            context.go(RouteNames.loginPath);
+          },
         ),
       ),
       body: SafeArea(
@@ -92,14 +98,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Icon(
-                        Icons.bolt_rounded,
+                        Icons.lock_open_rounded,
                         size: AppSizes.iconLg,
                         color: context.colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: AppSizes.defaultSpace),
                     Text(
-                      t.auth.createAccount,
+                      t.auth.forgotPassword,
                       style: context.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.5,
@@ -107,39 +113,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: AppSizes.paddingMarginSm),
                     Text(
-                      t.auth.step1Subtitle,
+                      t.auth.forgotPasswordSubtitle,
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: context.colorScheme.onSurface.withValues(alpha: .5),
                       ),
                     ),
                     const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Full Name Input
-                    Text(
-                      t.auth.fullName,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: context.colorScheme.onSurface.withValues(alpha: .9),
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginSm),
-                    TextFormField(
-                      controller: _nameController,
-                      keyboardType: TextInputType.name,
-                      textInputAction: TextInputAction.next,
-                      style: TextStyle(
-                        color: context.colorScheme.onSurface.withValues(alpha: .9),
-                        fontSize: AppSizes.fontSizeSm + 1.0,
-                      ),
-                      decoration: context.inputDecoration(hintText: 'John Doe'),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return t.auth.nameRequired;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: AppSizes.fontSizeXl),
 
                     // Underline Tab Selector
                     if (widget.loginType == AuthTypeEnum.both) ...[
@@ -152,77 +131,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _buildEmailField()
                     else
                       _buildPhoneField(),
-                    const SizedBox(height: AppSizes.fontSizeXl),
-
-                    // Terms & Conditions Checkbox
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: AppSizes.fontSizeXl,
-                          width: AppSizes.fontSizeXl,
-                          child: Checkbox(
-                            value: _acceptTerms,
-                            activeColor: context.colorScheme.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
-                            ),
-                            side: BorderSide(
-                              color: _showTermsError
-                                  ? context.colorScheme.error
-                                  : context.colorScheme.onSurface.withValues(alpha: .2),
-                              width: 1.5,
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                _acceptTerms = value ?? false;
-                                if (_acceptTerms) _showTermsError = false;
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: AppSizes.paddingMarginSm),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _acceptTerms = !_acceptTerms;
-                                if (_acceptTerms) _showTermsError = false;
-                              });
-                            },
-                            child: Text(
-                              t.auth.termsOfService,
-                              style: context.textTheme.bodyMedium?.copyWith(
-                                color: _showTermsError
-                                    ? context.colorScheme.error
-                                    : context.colorScheme.onSurface.withValues(alpha: .6),
-                                fontSize: AppSizes.fontSizeSm,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (_showTermsError) ...[
-                      const SizedBox(height: AppSizes.paddingMarginXs),
-                      Padding(
-                        padding: const EdgeInsets.only(left: AppSizes.defaultSpace + 4.0),
-                        child: Text(
-                          t.auth.termsError,
-                          style: TextStyle(
-                            color: context.colorScheme.error,
-                            fontSize: AppSizes.fontSizeXs,
-                          ),
-                        ),
-                      ),
-                    ],
                     const SizedBox(height: AppSizes.paddingMarginXl),
 
-                    // Continue Button
+                    // Send Code Button
                     SizedBox(
                       height: AppSizes.buttonHeightMd + 8.0, // 48
                       child: ElevatedButton(
-                        onPressed: _handleContinue,
+                        onPressed: _handleSendCode,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: context.colorScheme.primary,
                           elevation: 0,
@@ -231,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         child: Text(
-                          t.auth.continueText,
+                          t.auth.sendCode,
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -239,32 +154,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Footer
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${t.auth.alreadyHaveAccount} ",
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.colorScheme.onSurface.withValues(alpha: .5),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.go(RouteNames.loginPath);
-                          },
-                          child: Text(
-                            t.auth.signIn,
-                            style: context.textTheme.bodyMedium?.copyWith(
-                              color: context.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -293,22 +182,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.done,
-          onFieldSubmitted: (_) => _handleContinue(),
+          onFieldSubmitted: (_) => _handleSendCode(),
           style: TextStyle(
             color: context.colorScheme.onSurface.withValues(alpha: .9),
             fontSize: AppSizes.fontSizeSm + 1.0,
           ),
           decoration: context.inputDecoration(hintText: 'name@company.com'),
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return t.auth.emailRequired;
-            }
-            final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-            if (!emailRegExp.hasMatch(value.trim())) {
-              return t.auth.emailInvalid;
-            }
-            return null;
-          },
+          validator: EmailValidator.validate,
         ),
       ],
     );
@@ -322,6 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _selectedCountryCode = code;
       },
       textInputAction: TextInputAction.done,
+      validator: PhoneValidator.validate,
     );
   }
 

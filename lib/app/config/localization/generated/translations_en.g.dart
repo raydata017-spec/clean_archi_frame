@@ -371,6 +371,27 @@ class Translations$auth$en {
 
 	/// en: 'Log out'
 	String get logout => 'Log out';
+
+	/// en: 'Enter your email or phone number to reset your password.'
+	String get forgotPasswordSubtitle => 'Enter your email or phone number to reset your password.';
+
+	/// en: 'Send Code'
+	String get sendCode => 'Send Code';
+
+	/// en: 'Enter OTP Code'
+	String get enterOtpCode => 'Enter OTP Code';
+
+	/// en: 'Enter the verification code sent to your device.'
+	String get otpSubtitle => 'Enter the verification code sent to your device.';
+
+	/// en: 'Reset Password'
+	String get resetPassword => 'Reset Password';
+
+	/// en: 'Set your new password below.'
+	String get resetPasswordSubtitle => 'Set your new password below.';
+
+	/// en: 'OTP'
+	String get otp => 'OTP';
 }
 
 // Path: notification
@@ -539,6 +560,13 @@ extension on Translations {
 			'auth.email' => 'Email',
 			'auth.phone' => 'Phone',
 			'auth.logout' => 'Log out',
+			'auth.forgotPasswordSubtitle' => 'Enter your email or phone number to reset your password.',
+			'auth.sendCode' => 'Send Code',
+			'auth.enterOtpCode' => 'Enter OTP Code',
+			'auth.otpSubtitle' => 'Enter the verification code sent to your device.',
+			'auth.resetPassword' => 'Reset Password',
+			'auth.resetPasswordSubtitle' => 'Set your new password below.',
+			'auth.otp' => 'OTP',
 			'notification.title' => 'Notifications',
 			'notification.markAllRead' => 'Mark all read',
 			'notification.unread' => ({required Object count}) => 'Unread (${count})',

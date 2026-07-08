@@ -1,9 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../config/router_redirect_config.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/auth/presentation/screens/forgot_password_screen.dart';
+import '../../features/auth/presentation/screens/otp_screen.dart';
+import '../../features/auth/presentation/screens/create_password_screen.dart';
+import '../../features/setting/presentation/screens/reset_password_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/notification/presentation/screens/notification_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
@@ -152,6 +157,44 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: RouteNames.registerPath,
         name: RouteNames.registerName,
         builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.registerPasswordPath,
+        name: RouteNames.registerPasswordName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final name = extra?['name'] as String? ?? '';
+          final email = extra?['email'] as String? ?? '';
+          final phone = extra?['phone'] as String? ?? '';
+          return CreatePasswordScreen(
+            name: name,
+            email: email,
+            phone: phone,
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.forgotPasswordPath,
+        name: RouteNames.forgotPasswordName,
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.otpPath,
+        name: RouteNames.otpName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final verificationTarget = extra?['verificationTarget'] as String? ?? '';
+          final onSuccess = extra?['onSuccess'] as void Function(BuildContext)? ?? (_) {};
+          return OtpScreen(
+            verificationTarget: verificationTarget,
+            onSuccess: onSuccess,
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.resetPasswordPath,
+        name: RouteNames.resetPasswordName,
+        builder: (context, state) => const ResetPasswordScreen(),
       ),
 
       // Notification Route

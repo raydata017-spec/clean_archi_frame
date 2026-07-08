@@ -166,6 +166,19 @@ class SettingScreen extends ConsumerWidget {
             context,
             children: [
               SettingListTile(
+                title: t.auth.resetPassword,
+                subtitle: t.auth.resetPasswordSubtitle,
+                icon: Icons.lock_reset_rounded,
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: AppSizes.iconSm,
+                  color: context.colorScheme.onSurface.withValues(alpha: .3),
+                ),
+                onTap: () {
+                  context.push(RouteNames.resetPasswordPath);
+                },
+              ),
+              SettingListTile(
                 title: t.setting.offlineSync,
                 subtitle: t.setting.offlineSyncSubtitle,
                 icon: Icons.sync_rounded,

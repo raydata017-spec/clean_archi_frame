@@ -77,7 +77,7 @@ class _PhoneFormState extends State<PhoneForm> {
               ),
               if (!widget.isSignUp)
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => context.push(RouteNames.forgotPasswordPath),
                   child: Text(
                     t.auth.forgotPassword,
                     style: context.textTheme.bodyMedium?.copyWith(

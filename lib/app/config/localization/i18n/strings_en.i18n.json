@@ -103,7 +103,14 @@
         "phoneInvalid": "Please enter a valid phone number",
         "email": "Email",
         "phone": "Phone",
-        "logout": "Log out"
+        "logout": "Log out",
+        "forgotPasswordSubtitle": "Enter your email or phone number to reset your password.",
+        "sendCode": "Send Code",
+        "enterOtpCode": "Enter OTP Code",
+        "otpSubtitle": "Enter the verification code sent to your device.",
+        "resetPassword": "Reset Password",
+        "resetPasswordSubtitle": "Set your new password below.",
+        "otp": "OTP"
     },
     "notification": {
         "title": "Notifications",
