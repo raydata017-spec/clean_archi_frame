@@ -13,6 +13,7 @@ import '../../shared/main_wrapper_screen.dart';
 import '../../core/utils/enums/app_auth_state_enum.dart';
 import 'navigator_keys.dart';
 import 'route_names.dart';
+import '../../shared/widgets/branch_pop_scope.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../features/splash/presentation/screens/app_update_screen.dart';
 
@@ -97,7 +98,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: RouteNames.homePath,
                 name: RouteNames.homeName,
-                builder: (context, state) => const HomeScreen(),
+                builder: (context, state) => const BranchPopScope(
+                  child: HomeScreen(),
+                ),
               ),
             ],
           ),
@@ -109,7 +112,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: RouteNames.profilePath,
                 name: RouteNames.profileName,
-                builder: (context, state) => const ProfileScreen(),
+                builder: (context, state) => const BranchPopScope(
+                  child: ProfileScreen(),
+                ),
               ),
             ],
           ),
@@ -121,7 +126,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: RouteNames.settingsPath,
                 name: RouteNames.settingsName,
-                builder: (context, state) => const SettingScreen(),
+                builder: (context, state) => const BranchPopScope(
+                  child: SettingScreen(),
+                ),
                 routes: [
                   GoRoute(
                     path: RouteNames.outboxPath,

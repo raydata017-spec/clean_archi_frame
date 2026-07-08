@@ -6,11 +6,12 @@ import '../app/config/localization/generated/translations.g.dart';
 import '../app/config/navigation_config.dart';
 import '../app/router/navigator_keys.dart';
 import '../core/utils/extensions/bottom_navigation_extension.dart';
+import '../core/utils/extensions/dialog_extension.dart';
 import 'widgets/app_alert_dialog.dart';
 import 'widgets/bottom_nav/bottom_navigation_item.dart';
 import 'widgets/custom_navigation_drawer.dart';
 
-class MainWrapperScreen extends StatelessWidget {
+class MainWrapperScreen extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const MainWrapperScreen({
@@ -18,9 +19,36 @@ class MainWrapperScreen extends StatelessWidget {
     required this.navigationShell,
   });
 
+  @override
+  State<MainWrapperScreen> createState() => _MainWrapperScreenState();
+}
+
+class _MainWrapperScreenState extends State<MainWrapperScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Reset when screen initialized
+    NavigationConfig.isExiting = false;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      NavigationConfig.isExiting = false;
+    }
+  }
+
   void _showExitDialog(BuildContext context) {
-    showDialog(
-      context: context,
+    context.showAppDialog(
+      // routeSettings: const RouteSettings(name: 'exit_dialog'),
+      // useRootNavigator: true,
       builder: (context) => AppAlertDialog(
         title: t.common.exitAppTitle,
         content: t.common.exitAppConfirm,
@@ -28,6 +56,7 @@ class MainWrapperScreen extends StatelessWidget {
         confirmLabel: t.common.exit,
         onCancel: () => Navigator.of(context).pop(),
         onConfirm: () {
+          NavigationConfig.isExiting = true;
           Navigator.of(context).pop();
           SystemNavigator.pop();
         },
@@ -47,29 +76,42 @@ class MainWrapperScreen extends StatelessWidget {
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
 
-        // Check if the nested navigator of the current active branch can pop.
-        final activeNavigatorKey = NavigatorKeys.getActiveNavigator(navigationShell.currentIndex);
-        if (activeNavigatorKey?.currentState?.canPop() ?? false) {
+        // 1. Check if drawer is open
+        if (showDrawer && (NavigationConfig.scaffoldKey.currentState?.isDrawerOpen ?? false)) {
+          NavigationConfig.scaffoldKey.currentState?.closeDrawer();
+          return;
+        }
+
+        // 2. Check if the active branch navigator can pop (nested navigation or dialogs inside branch)
+        final activeNavigatorKey = NavigatorKeys.getActiveNavigator(widget.navigationShell.currentIndex);
+        final canPop = activeNavigatorKey?.currentState?.canPop() ?? false;
+
+        if (canPop) {
           activeNavigatorKey!.currentState!.pop();
           return;
         }
 
-        // Handle the back key logic for navigation mode.
-        final currentIndex = navigationShell.currentIndex;
+        // 3. Handle the back key logic for navigation mode.
+        final isDrawerOnlyMode = NavigationConfig.mode == NavigationType.drawer;
 
-        if (currentIndex == 0) {
+        if (isDrawerOnlyMode) {
           _showExitDialog(context);
         } else {
-          navigationShell.goBranch(0);
+          final currentIndex = widget.navigationShell.currentIndex;
+          if (currentIndex == 0) {
+            _showExitDialog(context);
+          } else {
+            widget.navigationShell.goBranch(0);
+          }
         }
       },
       child: Scaffold(
         key: NavigationConfig.scaffoldKey,
-        body: navigationShell,
-        drawer: showDrawer ? CustomNavigationDrawer(navigationShell: navigationShell) : null,
+        body: widget.navigationShell,
+        drawer: showDrawer ? CustomNavigationDrawer(navigationShell: widget.navigationShell) : null,
         bottomNavigationBar: showBottomNav
             ? context.buildBottomNavigationBar(
-                navigationShell: navigationShell,
+                navigationShell: widget.navigationShell,
                 items: const [
                   BottomNavigationItem(
                     icon: Icons.home_outlined,

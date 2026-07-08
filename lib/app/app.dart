@@ -10,10 +10,16 @@ import 'config/theme/theme.dart';
 import 'config/theme/theme_provider.dart';
 import 'router/app_router.dart';
 
+import 'router/main_back_button_dispatcher.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 import '../core/services/connectivity_service.dart';
 import '../core/services/toast_service.dart';
+
+final mainBackButtonDispatcherProvider = Provider<MainBackButtonDispatcher>((ref) {
+  final goRouter = ref.watch(appRouterProvider);
+  return MainBackButtonDispatcher(goRouter);
+});
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -27,6 +33,7 @@ class MyApp extends ConsumerWidget {
 
     // Watch the router provider to get the current router configuration
     final goRouter = ref.watch(appRouterProvider);
+    final backButtonDispatcher = ref.watch(mainBackButtonDispatcherProvider);
 
     // Listen to connectivity changes to show global toasts
     ref.listen<AsyncValue<bool>>(connectivityStreamProvider, (previous, next) {
@@ -75,11 +82,10 @@ class MyApp extends ConsumerWidget {
           );
         },
 
-        routerConfig: goRouter,
-        // routerDelegate: goRouter.routerDelegate,
-        // routeInformationParser: goRouter.routeInformationParser,
-        // routeInformationProvider: goRouter.routeInformationProvider,
-        // backButtonDispatcher: goRouter.backButtonDispatcher,
+        routerDelegate: goRouter.routerDelegate,
+        routeInformationParser: goRouter.routeInformationParser,
+        routeInformationProvider: goRouter.routeInformationProvider,
+        backButtonDispatcher: backButtonDispatcher,
       ),
     );
   }

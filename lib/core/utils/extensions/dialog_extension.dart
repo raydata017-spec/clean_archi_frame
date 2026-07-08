@@ -11,8 +11,10 @@ extension DialogContextExtension on BuildContext {
     Color? barrierColor,
     bool useSafeArea = true,
     RouteSettings? routeSettings,
+    bool useRootNavigator = false,
   }) {
     return showDialog<T>(
+      useRootNavigator: useRootNavigator,
       context: this,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
