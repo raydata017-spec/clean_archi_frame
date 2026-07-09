@@ -22,10 +22,10 @@ class BranchPopScope extends StatelessWidget {
         content: t.common.exitAppConfirm,
         cancelLabel: t.common.cancel,
         confirmLabel: t.common.exit,
-        onCancel: () => Navigator.of(context).pop(),
+        onCancel: () => context.pop(),
         onConfirm: () {
           NavigationConfig.isExiting = true;
-          Navigator.of(context).pop();
+          context.pop();
           SystemNavigator.pop();
         },
       ),

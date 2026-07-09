@@ -1,5 +1,6 @@
-﻿import 'dart:developer';
+import 'dart:developer';
 
+import '../../../app/config/dimensions.dart';
 import '../../di/outbox_di.dart';
 import '../../utils/enums/outbox_status_enum.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +26,9 @@ class OutboxListScreen extends ConsumerWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppSizes.paddingFromScreenEdge),
             itemCount: items.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            separatorBuilder: (_, __) => const SizedBox(height: AppSizes.cardRadiusMd),
             itemBuilder: (context, index) {
               final item = items[index];
               final statusName = item.status >= 0 && item.status < OutboxStatusEnum.values.length ? OutboxStatusEnum.values[item.status].name : 'unknown';
@@ -39,13 +40,13 @@ class OutboxListScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('URL: ${item.url}'),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSizes.paddingMarginXs),
                       Text('Method: ${item.method.toUpperCase()}'),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSizes.paddingMarginXs),
                       Text('Status: $statusName'),
                       if (item.lastError != null && item.lastError!.isNotEmpty)
                         Padding(
-                          padding: const EdgeInsets.only(top: 4),
+                          padding: const EdgeInsets.only(top: AppSizes.paddingMarginXs),
                           child: Text(
                             'Last error: ${item.lastError}',
                             style: Theme.of(context).textTheme.bodySmall,
@@ -58,7 +59,7 @@ class OutboxListScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text('Retries: ${item.retryCount}'),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSizes.paddingMarginXs),
                       Text(item.createdAt.toLocal().toIso8601String().split('T').first),
                     ],
                   ),

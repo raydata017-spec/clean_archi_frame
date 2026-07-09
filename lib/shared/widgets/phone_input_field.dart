@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/config/dimensions.dart';
 import '../../app/config/localization/generated/translations.g.dart';
@@ -124,7 +125,7 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
                     if (widget.onCountryCodeChanged != null) {
                       widget.onCountryCodeChanged!(country['code']!);
                     }
-                    Navigator.pop(context);
+                    context.pop();
                   },
                 );
               }),

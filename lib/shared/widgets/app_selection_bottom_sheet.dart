@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/config/dimensions.dart';
 import '../../core/utils/extensions/context_extension.dart';
@@ -48,7 +49,7 @@ class AppSelectionBottomSheet<T> extends StatelessWidget {
           title: title,
           items: items,
           onSelected: (value) {
-            Navigator.pop(context, value);
+            context.pop(value);
           },
         );
       },
@@ -63,11 +64,11 @@ class AppSelectionBottomSheet<T> extends StatelessWidget {
         children: [
           const SizedBox(height: AppSizes.paddingMarginSm),
           Container(
-            width: 40,
-            height: 4,
+            width: AppSizes.spaceBtwSections,
+            height: AppSizes.borderRadiusSm,
             decoration: BoxDecoration(
               color: context.colorScheme.onSurface.withValues(alpha: .2),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm / 2),
             ),
           ),
           const SizedBox(height: AppSizes.paddingMarginMd),

@@ -168,7 +168,7 @@ class CustomNavigationDrawer extends StatelessWidget {
         child: InkWell(
           onTap: () {
             // Close drawer first
-            Navigator.pop(context);
+            context.pop();
             // Switch branch
             navigationShell.goBranch(
               index,

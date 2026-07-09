@@ -131,7 +131,7 @@ class InAppUpdateService {
           confirmLabel: 'Update',
           confirmColor: colorScheme.primary,
           onConfirm: () {
-            Navigator.of(dialogContext).pop(true);
+            dialogContext.pop(true);
           },
         );
       },
