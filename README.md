@@ -172,6 +172,53 @@ final productDaoProvider = Provider<ProductDao>((ref) {
 
 ---
 
+## Network & API Client (DioClient)
+
+API ချိတ်ဆက်မှုများနှင့် request များ ပြုလုပ်ရန် `DioClient` (`core/network/dio_client.dart`) ကို အသုံးပြုထားပါသည်။ ၎င်းသည် automatic header attachment, error handling, token refresh logic နှင့် retry mechanisms များ ပါဝင်သော application-level provider ဖြစ်သည်။
+
+### Providers
+- **`dioProvider`**: Standard `Dio` instance ကို configure လုပ်ပေးပါသည်။
+- **`dioClientProvider`**: Request verbs များကို wrap လုပ်ထားသော `DioClient` provider ဖြစ်သည်။
+
+### Request ပြုလုပ်ပုံ နမူနာများ (Usage Examples)
+
+```dart
+final client = ref.watch(dioClientProvider);
+
+// GET request
+final response = await client.get('/items');
+
+// POST request
+final response = await client.post('/items', data: {'name': 'New Item'});
+```
+
+### ပုံနှင့် Files များ API သို့ ပေးပို့ခြင်း (File & Image Uploads)
+
+ပုံ သို့မဟုတ် file များကို multipart format ဖြင့် upload ပြုလုပ်ရန် `multipartRequest` method ကို အသုံးပြုရပါမည်။
+
+```dart
+final client = ref.watch(dioClientProvider);
+
+// File/Image upload configuration
+final response = await client.multipartRequest(
+  '/upload-profile',
+  method: 'POST',
+  data: {
+    'name': 'John Doe',
+    'avatar': File('/path/to/avatar.jpg'), // File type ကို auto detect လုပ်ပြီး MultipartFile ပြောင်းပေးပါမည်
+    'attachments': [
+      File('/path/to/doc1.pdf'),
+      File('/path/to/doc2.pdf'),
+    ], // List<File> ကိုလည်း အလိုအလျောက် detect လုပ်ပေးပါမည်
+  },
+);
+```
+
+#### အင်္ဂါရပ်များနှင့် ကန့်သတ်ချက်များ (Features & Constraints)
+1. **Auto FormData Parsing**: parameter data map ထဲတွင် `File` သို့မဟုတ် `List<File>` ပါဝင်ပါက manual ရေးသားစရာမလိုဘဲ `MultipartFile` အဖြစ် အလိုအလျောက် conversion လုပ်ဆောင်ပေးသွားမည် ဖြစ်သည်။
+2. **File Size Validation**: `dimensions.dart` တွင် သတ်မှတ်ထားသော maximum file upload size (5MB) အား ကျော်လွန်ခြင်း ရှိမရှိ အလိုအလျောက် စစ်ဆေးပေးပြီး ကျော်လွန်ပါက `NetworkException` ကို error throw ပေးမည် ဖြစ်သည်။
+3. **Content-Type Overriding**: Content-Type အား `'multipart/form-data'` ဟု အလိုအလျောက် dynamic configuration ပြုလုပ်ပေးသည်။
+
 ---
 
 ## Offline Sync Processors

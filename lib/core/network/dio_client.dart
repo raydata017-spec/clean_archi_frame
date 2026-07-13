@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/config/dimensions.dart';
+
 import '../../shared/models/api_error_model.dart';
 import '../storage/shared_pref_service.dart';
 import 'exceptions/api_exception.dart';
@@ -149,6 +151,79 @@ class DioClient {
         data: data,
         queryParameters: queryParameters,
         options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } on DioException catch (e) {
+      throw _handleDioException(e);
+    }
+  }
+
+  /// Sends a multipart request to upload images or files.
+  /// 
+  /// Automatically converts [File] and [List<File>] inside the [data] map
+  /// into [MultipartFile]s and validates their size against the maximum limit (5MB).
+  Future<Response<T>> multipartRequest<T>(
+    String path, {
+    required String method,
+    required Map<String, dynamic> data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      final formDataMap = <String, dynamic>{};
+      for (final entry in data.entries) {
+        final value = entry.value;
+        if (value is File) {
+          final length = await value.length();
+          if (length > AppSizes.maxFileSizeInBytes) {
+            throw NetworkException(
+              message: 'File "${entry.key}" exceeds the maximum upload limit of 5MB.',
+              type: 'fileTooLarge',
+            );
+          }
+          final fileName = value.path.split(Platform.pathSeparator).last;
+          formDataMap[entry.key] = await MultipartFile.fromFile(
+            value.path,
+            filename: fileName,
+          );
+        } else if (value is List<File>) {
+          final multipartFiles = <MultipartFile>[];
+          for (final file in value) {
+            final length = await file.length();
+            if (length > AppSizes.maxFileSizeInBytes) {
+              throw NetworkException(
+                message: 'One of the files in "${entry.key}" exceeds the maximum upload limit of 5MB.',
+                type: 'fileTooLarge',
+              );
+            }
+            final fileName = file.path.split(Platform.pathSeparator).last;
+            multipartFiles.add(await MultipartFile.fromFile(
+              file.path,
+              filename: fileName,
+            ));
+          }
+          formDataMap[entry.key] = multipartFiles;
+        } else {
+          formDataMap[entry.key] = value;
+        }
+      }
+
+      final formData = FormData.fromMap(formDataMap);
+
+      final response = await _dio.request<T>(
+        path,
+        data: formData,
+        queryParameters: queryParameters,
+        options: (options ?? Options()).copyWith(
+          method: method.toUpperCase(),
+          contentType: 'multipart/form-data',
+        ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
