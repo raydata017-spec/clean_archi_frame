@@ -59,9 +59,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final colorScheme = theme.colorScheme;
 
     // Corporate Flat Style Design setup (no gradient, solid background)
-    final isDark = theme.brightness == Brightness.dark;
-    final backgroundColor = config.backgroundColor ?? 
-        (isDark ? const Color(0xFF0F172A) : const Color(0xFFFAFAFA));
+    final backgroundColor = config.backgroundColor ?? colorScheme.surface;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -87,7 +85,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         color: colorScheme.primary,
                       ),
                     const SizedBox(height: AppSizes.spaceBtwSections),
-                    
+
                     // Loading indicator layout complying with corporate minimal sizes
                     config.loadingIndicator ??
                         SizedBox(

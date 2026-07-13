@@ -74,9 +74,8 @@ class _AppUpdateScreenState extends State<AppUpdateScreen> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final isDark = theme.brightness == Brightness.dark;
-    final surfaceColor = isDark ? const Color(0xFF0F172A) : const Color(0xFFFAFAFA);
-    final contentBgColor = isDark ? const Color(0xFF1E293B) : Colors.white;
+    final surfaceColor = colorScheme.surface;
+    final contentBgColor = colorScheme.surfaceContainer;
 
     return Scaffold(
       backgroundColor: surfaceColor,
@@ -260,16 +259,15 @@ class _VersionBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final badgeColor = isCurrent
-        ? (isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0))
+        ? colorScheme.surfaceContainerHigh
         : colorScheme.primary.withValues(alpha: 0.1);
     final borderColor = isCurrent
-        ? (isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1))
+        ? colorScheme.outlineVariant
         : colorScheme.primary;
     final textColor = isCurrent
-        ? (isDark ? const Color(0xFFF1F5F9) : const Color(0xFF334155))
+        ? colorScheme.onSurfaceVariant
         : colorScheme.primary;
 
     return Container(
