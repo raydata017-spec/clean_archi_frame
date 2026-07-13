@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
+import '../../../../core/utils/enums/notification_action_enum.dart';
 import '../../../../core/utils/enums/notification_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
 import '../../domain/entities/notification_entity.dart';
-
-enum _NotificationAction {
-  toggleRead,
-  delete,
-}
 
 class NotificationCard extends StatelessWidget {
   final NotificationEntity item;
@@ -84,12 +80,12 @@ class NotificationCard extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(vertical: AppSizes.paddingMarginXs - 2),
           onTap: onToggleRead,
           onLongPress: () async {
-            final action = await AppSelectionBottomSheet.show<_NotificationAction>(
+            final action = await AppSelectionBottomSheet.show<NotificationActionEnum>(
               context: context,
               title: t.notification.actionsTitle,
               items: [
                 SelectionItem(
-                  value: _NotificationAction.toggleRead,
+                  value: NotificationActionEnum.toggleRead,
                   label: item.isRead ? t.notification.markUnread : t.notification.markRead,
                   leading: Icon(
                     item.isRead ? Icons.mark_chat_unread_outlined : Icons.mark_chat_read_outlined,
@@ -97,7 +93,7 @@ class NotificationCard extends StatelessWidget {
                   ),
                 ),
                 SelectionItem(
-                  value: _NotificationAction.delete,
+                  value: NotificationActionEnum.delete,
                   label: t.notification.delete,
                   leading: Icon(
                     Icons.delete_outline_rounded,
@@ -107,9 +103,9 @@ class NotificationCard extends StatelessWidget {
               ],
             );
 
-            if (action == _NotificationAction.toggleRead) {
+            if (action == NotificationActionEnum.toggleRead) {
               onToggleRead();
-            } else if (action == _NotificationAction.delete) {
+            } else if (action == NotificationActionEnum.delete) {
               onDelete();
             }
           },

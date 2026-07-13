@@ -1,0 +1,4 @@
+enum NotificationActionEnum {
+  toggleRead,
+  delete,
+}

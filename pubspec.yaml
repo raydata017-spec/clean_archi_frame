@@ -18,6 +18,10 @@ dependencies:
   cupertino_icons:
   dio:
   drift:
+  firebase_core:
+  firebase_messaging:
+  firebase_remote_config:
+  flutter_local_notifications:
   flutter_riverpod:
   flutter_styled_toast:
   flutter_svg:
@@ -27,21 +31,18 @@ dependencies:
   intl:
   json_annotation:
   logger:
+  ota_update:
+  package_info_plus:
   path:
   path_provider:
   permission_handler:
   riverpod_annotation:
   shared_preferences:
+  skeletonizer:
   slang:
   slang_flutter:
   sqlite3_flutter_libs: ^0.5.25
   url_launcher:
-  firebase_core:
-  firebase_messaging:
-  flutter_local_notifications:
-  firebase_remote_config:
-  ota_update:
-  package_info_plus:
 
 dev_dependencies:
   flutter_test:
@@ -49,9 +50,9 @@ dev_dependencies:
   build_runner:
   drift_dev:
   flutter_lints: ^6.0.0
-  riverpod_generator:
   freezed:
   json_serializable:
+  riverpod_generator:
   slang_build_runner:
 
 # Assets Function
