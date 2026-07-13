@@ -1,0 +1,4 @@
+enum AlertLayout {
+  dialog,
+  bottomSheet,
+}

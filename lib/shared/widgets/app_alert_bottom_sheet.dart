@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import '../../app/config/dimensions.dart';
 import '../../core/utils/extensions/context_extension.dart';
 
-/// Flexible Alert Dialog
-class AppAlertDialog extends StatelessWidget {
-  const AppAlertDialog({
+class AppAlertBottomSheet extends StatelessWidget {
+  const AppAlertBottomSheet({
     super.key,
     required this.title,
     required this.content,
@@ -40,11 +39,7 @@ class AppAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasButtons = onConfirm != null || onCancel != null;
 
-    return Dialog(
-      backgroundColor: context.colorScheme.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-      ),
+    return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: AppSizes.paddingMarginMd,
@@ -76,7 +71,7 @@ class AppAlertDialog extends StatelessWidget {
 
             // Buttons section
             if (hasButtons) ...[
-              const SizedBox(height: AppSizes.spaceBtwItems),
+              const SizedBox(height: AppSizes.defaultSpace),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 spacing: AppSizes.spaceBtwButtons,

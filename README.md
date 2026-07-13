@@ -418,106 +418,71 @@ AppEmptyWidget(
 
 ---
 
-## Dialog Extension (`showAppDialog`)
+## Alert Extension (`showAppAlert`)
 
-Flutter ၏ built-in `showDialog(...)` ကို တိုက်ရိုက်ခေါ်သုံးခြင်းအစား app-level defaults ပါဝင်သော `context.showAppDialog(...)` extension ကို အသုံးပြုရပါမည်။
+Flutter ၏ built-in `showDialog(...)` သို့မဟုတ် `showModalBottomSheet(...)` တို့ကို ကိုယ်တိုင်ခေါ်ယူရေးသားခြင်းအစား Center Dialog သို့မဟုတ် BottomSheet Layout များကို လိုသလို ပြောင်းလဲပြသပေးနိုင်သော `context.showAppAlert(...)` extension ကို အသုံးပြုရပါမည်။
 
 - **ဖိုင်တည်နေရာ:** [dialog_extension.dart](file:///d:/Projects/clean_archi_frame/lib/core/utils/extensions/dialog_extension.dart)
 - **Extension:** `DialogContextExtension on BuildContext`
 
-### ကွာခြားချက် (Why not raw `showDialog`?)
+### Layout ပုံစံများ (AlertLayout Modes)
 
-| | Raw `showDialog` | `context.showAppDialog` |
-|---|---|---|
-| `context:` parameter | ✅ Required | ❌ မလိုဘဲ implicit |
-| App-level defaults | ❌ မရှိ | ✅ ပါဝင်ပြီး |
-| မည်သည့် widget မဆို | ✅ | ✅ |
+`AlertLayout` [alert_layout.dart](file:///d:/Projects/clean_archi_frame/lib/core/utils/enums/alert_layout.dart) enum အား အသုံးပြုပြီး Layout ပုံစံကို ရွေးချယ်နိုင်ပါသည် -
+
+- `AlertLayout.dialog`: Center Dialog ပုံစံဖြင့် `AppAlertDialog` ကို ပြသပေးပါမည်။
+- `AlertLayout.bottomSheet`: အောက်ခြေမှ ပွင့်တက်လာသော Bottom Sheet ပုံစံဖြင့် `AppAlertBottomSheet` ကို ပြသပေးပါမည်။
 
 ### Parameter များ
 
 | Parameter | Type | Default | ရှင်းလင်းချက် |
 |---|---|---|---|
-| `builder` | `WidgetBuilder` | required | Dialog ၏ content widget |
-| `barrierDismissible` | `bool` | `true` | Dialog အပြင်ဘက် နှိပ်ပါက ပိတ်မလား |
-| `barrierColor` | `Color?` | `null` (theme default) | Background dim color |
-| `useSafeArea` | `bool` | `true` | SafeArea wrap |
-| `routeSettings` | `RouteSettings?` | `null` | Named route tracking |
+| `title` | `String` | required | Alert box ၏ ခေါင်းစဉ်စာသား |
+| `content` | `String` | required | Alert box ၏ အဓိကဖော်ပြချက် စာသား |
+| `layout` | `AlertLayout` | `AlertLayout.dialog` | ပြသလိုသော Layout ပုံစံ (dialog သို့မဟုတ် bottomSheet) |
+| `contentAlign` | `TextAlign?` | `null` | content စာသား၏ alignment |
+| `barrierDismissible` | `bool` | `true` | အပြင်ဘက်ကိုနှိပ်ပါက Alert box ကို ပိတ်ခွင့်ပြုမလား |
+| `confirmLabel` | `String` | `'OK'` | Confirm button ၏ စာသား |
+| `confirmColor` | `Color?` | `null` | Confirm button text သို့မဟုတ် background ၏ အရောင် |
+| `onConfirm` | `VoidCallback?` | `null` | Confirm button နှိပ်သည့်အခါ လုပ်ဆောင်မည့် callback |
+| `cancelLabel` | `String` | `'Cancel'` | Cancel button ၏ စာသား |
+| `cancelColor` | `Color?` | `null` | Cancel button text သို့မဟုတ် background ၏ အရောင် |
+| `onCancel` | `VoidCallback?` | `null` | Cancel button နှိပ်သည့်အခါ လုပ်ဆောင်မည့် callback |
+| `isConfirmElevated` | `bool` | `false` | Confirm button အား ElevatedButton (solid fill) ပုံစံ ပြသမလား |
+| `isCancelElevated` | `bool` | `false` | Cancel button အား ElevatedButton (solid fill) ပုံစံ ပြသမလား |
 
 ### UI တွင် အသုံးပြုနည်း ဥပမာများ (Usage Examples)
 
 ```dart
 import 'package:clean_archi_frame/core/utils/extensions/dialog_extension.dart';
+import 'package:clean_archi_frame/core/utils/enums/alert_layout.dart';
 
-// ၁။ AppAlertDialog ဖြင့် သုံးခြင်း (2 buttons)
-context.showAppDialog(
-  barrierDismissible: false,
-  builder: (context) => AppAlertDialog(
-    title: 'Delete',
-    content: 'Are you sure?',
-    cancelLabel: 'Cancel',
-    onCancel: () => Navigator.pop(context),
-    confirmLabel: 'Delete',
-    confirmColor: context.colorScheme.error,
-    onConfirm: () {
-      Navigator.pop(context);
-      // delete logic
-    },
-  ),
-);
-
-// ၂။ Custom widget ဖြင့် သုံးခြင်း
-context.showAppDialog(
-  builder: (context) => MyCustomDialogWidget(),
-);
-
-// ၃။ Return value ရယူခြင်း (type-safe)
-final confirmed = await context.showAppDialog<bool>(
-  builder: (context) => AppAlertDialog(
-    title: 'Confirm',
-    content: 'Proceed?',
-    onCancel: () => Navigator.pop(context, false),
-    confirmLabel: 'Yes',
-    onConfirm: () => Navigator.pop(context, true),
-  ),
-);
-
-if (confirmed == true) {
-  // user confirmed
-}
-```
-
-### `AppAlertDialog` ၏ Button Conditions
-
-`AppAlertDialog` ကို `showAppDialog` နှင့် တွဲသုံးသည့်အခါ button ပြသမှုကို လိုအပ်သလို သတ်မှတ်နိုင်သည် —
-
-```dart
-// 0 buttons — info only
-AppAlertDialog(title: 'Info', content: 'Something happened.')
-
-// 1 button — confirm only
-AppAlertDialog(
-  title: 'Done',
-  content: 'Operation completed.',
-  confirmLabel: 'OK',
-  onConfirm: () => Navigator.pop(context),
-)
-
-// 1 button — cancel only
-AppAlertDialog(
-  title: 'Notice',
-  content: 'Please take note.',
-  cancelLabel: 'Close',
-  onCancel: () => Navigator.pop(context),
-)
-
-// 2 buttons — cancel + confirm
-AppAlertDialog(
-  title: 'Delete',
-  content: 'This cannot be undone.',
-  cancelLabel: 'Cancel',
-  onCancel: () => Navigator.pop(context),
+// Dialog ပုံစံဖြင့် ပြသခြင်း (Default)
+context.showAppAlert(
+  title: 'Delete Data',
+  content: 'Are you sure you want to delete this profile?',
   confirmLabel: 'Delete',
   confirmColor: context.colorScheme.error,
-  onConfirm: () { ... },
-)
+  cancelLabel: 'Cancel',
+  onCancel: () => context.pop(),
+  onConfirm: () {
+    // delete logic
+    context.pop();
+  },
+);
+
+// BottomSheet ပုံစံဖြင့် ပြသခြင်း (Elevated Confirm Button ဖြင့်)
+context.showAppAlert(
+  layout: AlertLayout.bottomSheet,
+  title: 'Logout',
+  content: 'Are you sure you want to sign out?',
+  confirmColor: context.colorScheme.error,
+  cancelLabel: 'Cancel',
+  onCancel: () => context.pop(),
+  confirmLabel: 'Logout',
+  isConfirmElevated: true, // Confirm button ကို ElevatedButton ပုံစံပြသရန်
+  onConfirm: () {
+    // logout logic
+  },
+);
 ```
+

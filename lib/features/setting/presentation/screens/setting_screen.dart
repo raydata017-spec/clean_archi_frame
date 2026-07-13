@@ -9,10 +9,10 @@ import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/services/permission_service.dart';
+import '../../../../core/utils/enums/alert_layout.dart';
 import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/extensions/dialog_extension.dart';
-import '../../../../shared/widgets/app_alert_dialog.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
 import '../widgets/setting_list_tile.dart';
 import '../widgets/setting_section_header.dart';
@@ -202,16 +202,16 @@ class SettingScreen extends ConsumerWidget {
                   size: AppSizes.iconSm,
                   color: context.colorScheme.error.withValues(alpha: .3),
                 ),
-                onTap: () => context.showAppDialog(
-                  builder: (context) => AppAlertDialog(
-                    title: t.setting.doYouWantToLogout,
-                    content: t.setting.areYouSureYouWantToLogout,
-                    confirmColor: context.colorScheme.error,
-                    cancelLabel: t.common.cancel,
-                    onCancel: () => context.pop(),
-                    confirmLabel: t.setting.yesLogout,
-                    onConfirm: () => context.go(RouteNames.loginPath),
-                  ),
+                onTap: () => context.showAppAlert(
+                  layout: AlertLayout.bottomSheet,
+                  title: t.setting.doYouWantToLogout,
+                  content: t.setting.areYouSureYouWantToLogout,
+                  confirmColor: context.colorScheme.error,
+                  cancelLabel: t.common.cancel,
+                  onCancel: () => context.pop(),
+                  confirmLabel: t.setting.yesLogout,
+                  isConfirmElevated: true,
+                  onConfirm: () => context.go(RouteNames.loginPath),
                 ),
               ),
             ],

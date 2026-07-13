@@ -8,7 +8,6 @@ import '../app/router/navigator_keys.dart';
 import '../core/utils/extensions/bottom_navigation_extension.dart';
 import '../core/utils/extensions/context_extension.dart';
 import '../core/utils/extensions/dialog_extension.dart';
-import 'widgets/app_alert_dialog.dart';
 import 'widgets/bottom_nav/bottom_navigation_item.dart';
 import 'widgets/custom_navigation_drawer.dart';
 
@@ -47,20 +46,18 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> with WidgetsBindi
   }
 
   void _showExitDialog(BuildContext context) {
-    context.showAppDialog(
-      builder: (context) => AppAlertDialog(
-        title: t.common.exitAppTitle,
-        content: t.common.exitAppConfirm,
-        cancelLabel: t.common.cancel,
-        confirmLabel: t.common.exit,
-        confirmColor: context.colorScheme.error,
-        onCancel: () => context.pop(),
-        onConfirm: () {
-          NavigationConfig.isExiting = true;
-          context.pop();
-          SystemNavigator.pop();
-        },
-      ),
+    context.showAppAlert(
+      title: t.common.exitAppTitle,
+      content: t.common.exitAppConfirm,
+      cancelLabel: t.common.cancel,
+      confirmLabel: t.common.exit,
+      confirmColor: context.colorScheme.error,
+      onCancel: () => context.pop(),
+      onConfirm: () {
+        NavigationConfig.isExiting = true;
+        context.pop();
+        SystemNavigator.pop();
+      },
     );
   }
 

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../app/config/localization/generated/translations.g.dart';
 import '../../app/config/navigation_config.dart';
 import '../../core/utils/extensions/dialog_extension.dart';
-import '../widgets/app_alert_dialog.dart';
 
 class BranchPopScope extends StatelessWidget {
   final Widget child;
@@ -16,19 +15,17 @@ class BranchPopScope extends StatelessWidget {
   });
 
   void _showExitDialog(BuildContext context) {
-    context.showAppDialog(
-      builder: (context) => AppAlertDialog(
-        title: t.common.exitAppTitle,
-        content: t.common.exitAppConfirm,
-        cancelLabel: t.common.cancel,
-        confirmLabel: t.common.exit,
-        onCancel: () => context.pop(),
-        onConfirm: () {
-          NavigationConfig.isExiting = true;
-          context.pop();
-          SystemNavigator.pop();
-        },
-      ),
+    context.showAppAlert(
+      title: t.common.exitAppTitle,
+      content: t.common.exitAppConfirm,
+      cancelLabel: t.common.cancel,
+      confirmLabel: t.common.exit,
+      onCancel: () => context.pop(),
+      onConfirm: () {
+        NavigationConfig.isExiting = true;
+        context.pop();
+        SystemNavigator.pop();
+      },
     );
   }
 
