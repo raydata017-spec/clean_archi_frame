@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../core/utils/validators/otp_validator.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationTarget;
@@ -22,10 +24,12 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
   final _otpController = TextEditingController();
+  final _focusNode = FocusNode();
 
   @override
   void dispose() {
     _otpController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -37,6 +41,48 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultPinTheme = PinTheme(
+      width: AppSizes.textFieldHeight,
+      height: AppSizes.textFieldHeight,
+      textStyle: TextStyle(
+        fontSize: AppSizes.fontSizeXl,
+        color: context.colorScheme.onSurface.withValues(alpha: .9),
+        fontWeight: FontWeight.w600,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: context.colorScheme.onSurface.withValues(alpha: .2),
+          width: AppSizes.dividerThickness,
+        ),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
+        color: context.colorScheme.surface,
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration!.copyWith(
+        border: Border.all(
+          color: context.colorScheme.primary,
+          width: 1.5,
+        ),
+      ),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration!.copyWith(
+        color: context.colorScheme.onSurface.withValues(alpha: .03),
+      ),
+    );
+
+    final errorPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration!.copyWith(
+        border: Border.all(
+          color: context.colorScheme.error,
+          width: 1.5,
+        ),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: context.colorScheme.surface,
       appBar: AppBar(
@@ -99,30 +145,26 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     const SizedBox(height: AppSizes.paddingMarginSm),
-                    TextFormField(
-                      controller: _otpController,
-                      keyboardType: TextInputType.number,
-                      maxLength: 6,
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmitted: (_) => _handleVerify(),
-                      style: TextStyle(
-                        color: context.colorScheme.onSurface.withValues(alpha: .9),
-                        fontSize: AppSizes.fontSizeSm + 1.0,
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Pinput(
+                        length: 6,
+                        controller: _otpController,
+                        focusNode: _focusNode,
+                        defaultPinTheme: defaultPinTheme,
+                        focusedPinTheme: focusedPinTheme,
+                        submittedPinTheme: submittedPinTheme,
+                        errorPinTheme: errorPinTheme,
+                        autofillHints: const [AutofillHints.oneTimeCode],
+                        showCursor: true,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        onCompleted: (_) => _handleVerify(),
+                        errorTextStyle: TextStyle(
+                          color: context.colorScheme.error,
+                          fontSize: AppSizes.fontSizeSm,
+                        ),
+                        validator: OtpValidator.validate,
                       ),
-                      decoration: context.inputDecoration(
-                        hintText: '123456',
-                      ).copyWith(
-                        counterText: '',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return t.validation.otpRequired;
-                        }
-                        if (value.length < 6) {
-                          return t.validation.otpInvalid;
-                        }
-                        return null;
-                      },
                     ),
                     const SizedBox(height: AppSizes.paddingMarginXl),
 
