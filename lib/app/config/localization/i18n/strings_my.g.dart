@@ -8,10 +8,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
-import 'translations.g.dart';
+import 'strings.g.dart';
 
 // Path: <root>
-class TranslationsMy extends Translations with BaseTranslations<AppLocale, Translations> {
+class TranslationsMy with BaseTranslations<AppLocale, Translations> implements Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsMy({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
@@ -21,9 +21,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
-		  ),
-		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
+		  ) {
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
@@ -31,7 +29,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	@override dynamic operator[](String key) => $meta.getTranslation(key);
 
 	late final TranslationsMy _root = this; // ignore: unused_field
 
@@ -49,8 +47,8 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 }
 
 // Path: setting
-class _Translations$setting$my extends Translations$setting$en {
-	_Translations$setting$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$setting$my implements Translations$setting$en {
+	_Translations$setting$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -81,8 +79,8 @@ class _Translations$setting$my extends Translations$setting$en {
 }
 
 // Path: kDynamic
-class _Translations$kDynamic$my extends Translations$kDynamic$en {
-	_Translations$kDynamic$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$kDynamic$my implements Translations$kDynamic$en {
+	_Translations$kDynamic$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -96,8 +94,8 @@ class _Translations$kDynamic$my extends Translations$kDynamic$en {
 }
 
 // Path: common
-class _Translations$common$my extends Translations$common$en {
-	_Translations$common$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$common$my implements Translations$common$en {
+	_Translations$common$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -113,8 +111,8 @@ class _Translations$common$my extends Translations$common$en {
 }
 
 // Path: validation
-class _Translations$validation$my extends Translations$validation$en {
-	_Translations$validation$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$validation$my implements Translations$validation$en {
+	_Translations$validation$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -147,8 +145,8 @@ class _Translations$validation$my extends Translations$validation$en {
 }
 
 // Path: auth
-class _Translations$auth$my extends Translations$auth$en {
-	_Translations$auth$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$auth$my implements Translations$auth$en {
+	_Translations$auth$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -199,8 +197,8 @@ class _Translations$auth$my extends Translations$auth$en {
 }
 
 // Path: notification
-class _Translations$notification$my extends Translations$notification$en {
-	_Translations$notification$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$notification$my implements Translations$notification$en {
+	_Translations$notification$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 
@@ -227,8 +225,8 @@ class _Translations$notification$my extends Translations$notification$en {
 }
 
 // Path: permission
-class _Translations$permission$my extends Translations$permission$en {
-	_Translations$permission$my._(TranslationsMy root) : this._root = root, super.internal(root);
+class _Translations$permission$my implements Translations$permission$en {
+	_Translations$permission$my._(this._root);
 
 	final TranslationsMy _root; // ignore: unused_field
 

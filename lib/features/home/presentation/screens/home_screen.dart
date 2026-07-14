@@ -63,9 +63,9 @@ class HomeScreen extends ConsumerWidget {
                   ElevatedButton(
                     onPressed: () {
                       final currentLocale = LocaleSettings.currentLocale;
-                      final newLocale = currentLocale == AppLocale.en ? AppLocale.my : AppLocale.en;
+                      final newLocaleMode = currentLocale == AppLocale.en ? AppLocaleMode.burmese : AppLocaleMode.english;
 
-                      ref.read(localeControllerProvider.notifier).changeLocale(newLocale);
+                      ref.read(localeControllerProvider.notifier).changeLocale(newLocaleMode);
                     },
                     child: Text(
                       t.setting.changeLanguage,

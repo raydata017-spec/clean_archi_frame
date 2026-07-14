@@ -36,6 +36,17 @@ class SettingScreen extends ConsumerWidget {
       }
     }
 
+    String getLocaleLabel(AppLocaleMode mode) {
+      switch (mode) {
+        case AppLocaleMode.system:
+          return t.setting.systemLanguage;
+        case AppLocaleMode.english:
+          return 'English';
+        case AppLocaleMode.burmese:
+          return 'မြန်မာ';
+      }
+    }
+
     return Scaffold(
       backgroundColor: context.colors.customBackground,
       appBar: AppBar(
@@ -100,7 +111,7 @@ class SettingScreen extends ConsumerWidget {
               ),
               SettingListTile(
                 title: t.setting.changeLanguage,
-                subtitle: currentLocale == AppLocale.en ? 'English' : 'မြန်မာ',
+                subtitle: getLocaleLabel(currentLocale),
                 icon: Icons.language_outlined,
                 trailing: Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -108,20 +119,26 @@ class SettingScreen extends ConsumerWidget {
                   color: context.colorScheme.onSurface.withValues(alpha: .3),
                 ),
                 onTap: () async {
-                  final selectedLocale = await AppSelectionBottomSheet.show<AppLocale>(
+                  final selectedLocale = await AppSelectionBottomSheet.show<AppLocaleMode>(
                     context: context,
                     title: t.setting.selectLanguage,
                     items: [
                       SelectionItem(
-                        value: AppLocale.en,
+                        value: AppLocaleMode.system,
+                        label: t.setting.systemLanguage,
+                        isSelected: currentLocale == AppLocaleMode.system,
+                        leading: const Icon(Icons.settings_suggest_outlined),
+                      ),
+                      SelectionItem(
+                        value: AppLocaleMode.english,
                         label: 'English',
-                        isSelected: currentLocale == AppLocale.en,
+                        isSelected: currentLocale == AppLocaleMode.english,
                         leading: const Text('🇺🇸', style: TextStyle(fontSize: 20)),
                       ),
                       SelectionItem(
-                        value: AppLocale.my,
+                        value: AppLocaleMode.burmese,
                         label: 'မြန်မာ',
-                        isSelected: currentLocale == AppLocale.my,
+                        isSelected: currentLocale == AppLocaleMode.burmese,
                         leading: const Text('🇲🇲', style: TextStyle(fontSize: 20)),
                       ),
                     ],

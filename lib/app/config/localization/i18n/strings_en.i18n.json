@@ -9,6 +9,7 @@
         "systemTheme": "System default",
         "selectTheme": "Select Theme",
         "selectLanguage": "Select Language",
+        "systemLanguage": "System",
         "offlineSync": "Offline Sync",
         "offlineSyncSubtitle": "Open offline outbox",
         "notificationSetting": "Notification Settings",

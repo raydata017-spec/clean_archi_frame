@@ -13,7 +13,7 @@ part of 'locale_provider.dart';
 final localeControllerProvider = LocaleControllerProvider._();
 
 final class LocaleControllerProvider
-    extends $NotifierProvider<LocaleController, AppLocale> {
+    extends $NotifierProvider<LocaleController, AppLocaleMode> {
   LocaleControllerProvider._()
       : super(
           from: null,
@@ -33,24 +33,27 @@ final class LocaleControllerProvider
   LocaleController create() => LocaleController();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AppLocale value) {
+  Override overrideWithValue(AppLocaleMode value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AppLocale>(value),
+      providerOverride: $SyncValueProvider<AppLocaleMode>(value),
     );
   }
 }
 
-String _$localeControllerHash() => r'7f258e8184e6c8abbc3bc36c1e180e483eae928e';
+String _$localeControllerHash() => r'45b501a2a94d823efc6454f2bb912efb819bf021';
 
-abstract class _$LocaleController extends $Notifier<AppLocale> {
-  AppLocale build();
+abstract class _$LocaleController extends $Notifier<AppLocaleMode> {
+  AppLocaleMode build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AppLocale, AppLocale>;
+    final ref = this.ref as $Ref<AppLocaleMode, AppLocaleMode>;
     final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AppLocale, AppLocale>, AppLocale, Object?, Object?>;
+        AnyNotifier<AppLocaleMode, AppLocaleMode>,
+        AppLocaleMode,
+        Object?,
+        Object?>;
     element.handleCreate(ref, build);
   }
 }

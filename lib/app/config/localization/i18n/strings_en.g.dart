@@ -5,7 +5,7 @@
 // ignore_for_file: type=lint, unused_import
 // dart format off
 
-part of 'translations.g.dart';
+part of 'strings.g.dart';
 
 // Path: <root>
 typedef TranslationsEn = Translations; // ignore: unused_element
@@ -40,18 +40,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	late final Translations$setting$en setting = Translations$setting$en.internal(_root);
-	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en.internal(_root);
-	late final Translations$common$en common = Translations$common$en.internal(_root);
-	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
-	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
-	late final Translations$notification$en notification = Translations$notification$en.internal(_root);
-	late final Translations$permission$en permission = Translations$permission$en.internal(_root);
+	late final Translations$setting$en setting = Translations$setting$en._(_root);
+	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en._(_root);
+	late final Translations$common$en common = Translations$common$en._(_root);
+	late final Translations$validation$en validation = Translations$validation$en._(_root);
+	late final Translations$auth$en auth = Translations$auth$en._(_root);
+	late final Translations$notification$en notification = Translations$notification$en._(_root);
+	late final Translations$permission$en permission = Translations$permission$en._(_root);
 }
 
 // Path: setting
 class Translations$setting$en {
-	Translations$setting$en.internal(this._root);
+	Translations$setting$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -129,7 +129,7 @@ class Translations$setting$en {
 
 // Path: kDynamic
 class Translations$kDynamic$en {
-	Translations$kDynamic$en.internal(this._root);
+	Translations$kDynamic$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -151,7 +151,7 @@ class Translations$kDynamic$en {
 
 // Path: common
 class Translations$common$en {
-	Translations$common$en.internal(this._root);
+	Translations$common$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -184,7 +184,7 @@ class Translations$common$en {
 
 // Path: validation
 class Translations$validation$en {
-	Translations$validation$en.internal(this._root);
+	Translations$validation$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -268,7 +268,7 @@ class Translations$validation$en {
 
 // Path: auth
 class Translations$auth$en {
-	Translations$auth$en.internal(this._root);
+	Translations$auth$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -406,7 +406,7 @@ class Translations$auth$en {
 
 // Path: notification
 class Translations$notification$en {
-	Translations$notification$en.internal(this._root);
+	Translations$notification$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -472,7 +472,7 @@ class Translations$notification$en {
 
 // Path: permission
 class Translations$permission$en {
-	Translations$permission$en.internal(this._root);
+	Translations$permission$en._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
