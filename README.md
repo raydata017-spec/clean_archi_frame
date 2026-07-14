@@ -486,3 +486,57 @@ context.showAppAlert(
 );
 ```
 
+---
+
+## Permission Helper (`PermissionHelper`)
+
+`PermissionHelper` သည် App တွင် မရှိမဖြစ်လိုအပ်သော Permissions များအား တောင်းခံရာတွင် User က ငြင်းပယ်ခြင်း (Deny) သို့မဟုတ် လုံးဝပိတ်ပင်ခြင်း (Permanently Denied) များကို UI Layer တွင် စနစ်တကျ ပြန်လည်ကိုင်တွယ်နိုင်ရန် ဖန်တီးထားသော utility class ဖြစ်သည်။ global context ကို အသုံးပြုထားသဖြင့် `BuildContext` ပေးပို့ရန် မလိုအပ်တော့ပါ။
+
+- **ဖိုင်တည်နေရာ:** [permission_helper.dart](file:///d:/Projects/clean_archi_frame/lib/core/utils/helpers/permission_helper.dart)
+
+### Features
+- **Automatic Flow Handling**: Permission status ပေါ်မူတည်၍ သင့်လျော်သော dialog များအား အလိုအလျောက် ပြသပေးခြင်း။
+- **App Settings Redirection**: User မှ permission အား လုံးဝပိတ်ထားပါက (Permanently Denied) App settings သို့ သွားရောက်ဖွင့်ခိုင်းရန် "Open Settings" dialog အား ပြသပေးခြင်း။
+- **Granular Storage Compatibility**: Android 13+ (SDK 33) တွင် storage permission တောင်းဆိုသည့်အခါ `Permission.photos` သို့ အလိုအလျောက် ပြောင်းလဲတောင်းဆိုပေးခြင်း။
+- **Context-Free Requesting**: Global `NavigatorKeys.root` ကို အသုံးပြုထားသဖြင့် UI tree အပြင်ဘက် (ဥပမာ- startup services သို့မဟုတ် configuration files) မှလည်း BuildContext မလိုဘဲ ခေါ်ယူအသုံးပြုနိုင်ပါသည်။
+- **Localization Integration**: Dialog ရှိ စာသားများကို Slang localization (မြန်မာ/အင်္ဂလိပ်) ဖြင့် ချိတ်ဆက်ပြသပေးပါသည်။
+
+### အသုံးပြုနည်း ဥပမာ (Usage Example)
+ခွင့်ပြုချက်တစ်ခု တောင်းခံရန် `PermissionHelper.requestPermission` ကို ခေါ်ယူအသုံးပြုပါ။
+
+```dart
+import 'package:clean_archi_frame/core/services/permission_service.dart';
+import 'package:clean_archi_frame/core/utils/helpers/permission_helper.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/material.dart';
+
+void _checkAndProceedLocation(WidgetRef ref) async {
+  final hasLocation = await PermissionHelper.requestPermission(
+    permission: Permission.location,
+    permissionName: 'Location',
+    permissionService: ref.read(permissionServiceProvider),
+    settingsType: AppSettingsType.location, // Location setting သို့ တိုက်ရိုက်သွားရန်
+  );
+
+  if (hasLocation) {
+    // Permission ရရှိသွားပြီဖြစ်သဖြင့် လုပ်ဆောင်ချက်များကို ဆက်လက်လုပ်ဆောင်ပါ
+    _startLocationTracking();
+  } else {
+    // Permission မရရှိပါက block လုပ်ခြင်း သို့မဟုတ် error screen ပြခြင်း ပြုလုပ်နိုင်ပါသည်
+    _showPermissionRequiredBanner();
+  }
+}
+```
+
+### Parameter များ (requestPermission)
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `permission` | `Permission` | Yes | စစ်ဆေး/တောင်းခံမည့် permission အမျိုးအစား (ဥပမာ- `Permission.location`, `Permission.camera`) |
+| `permissionName` | `String` | Yes | Permission အမည် (ဥပမာ- `'Location'`)။ ၎င်းကို translation messages များတွင် ထည့်သွင်းပြသရန် အသုံးပြုသည်။ |
+| `permissionService` | `PermissionService` | Yes | Settings ဖွင့်လှစ်ရန် အသုံးပြုမည့် service Provider instance။ |
+| `settingsType` | `AppSettingsType` | No (Default: `settings`) | "Open Settings" နှိပ်ချိန်တွင် သွားရောက်မည့် စနစ်၏ settings စာမျက်နှာ အမျိုးအစား။ |
+
+
+

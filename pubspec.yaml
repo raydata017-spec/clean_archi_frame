@@ -16,6 +16,7 @@ dependencies:
   connectivity_plus:
   cupertino_back_gesture:
   cupertino_icons:
+  device_info_plus:
   dio:
   drift:
   firebase_core:
@@ -36,6 +37,7 @@ dependencies:
   path:
   path_provider:
   permission_handler:
+  pinput:
   riverpod_annotation:
   shared_preferences:
   skeletonizer:

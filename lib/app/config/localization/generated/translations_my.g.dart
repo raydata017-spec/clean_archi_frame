@@ -45,6 +45,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
 	@override late final _Translations$auth$my auth = _Translations$auth$my._(_root);
 	@override late final _Translations$notification$my notification = _Translations$notification$my._(_root);
+	@override late final _Translations$permission$my permission = _Translations$permission$my._(_root);
 }
 
 // Path: setting
@@ -70,6 +71,8 @@ class _Translations$setting$my extends Translations$setting$en {
 	@override String get notifications => 'အကြောင်းကြားချက်များ';
 	@override String get advanced => 'အဆင့်မြင့်';
 	@override String get manageSystemNotificationPermissions => 'အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်';
+	@override String get locationSetting => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်';
+	@override String get manageSystemLocationPermissions => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်';
 	@override String get signOutOfCurrentAccount => 'လက်ရှိအကောင့်မှ ထွက်ရန်';
 	@override String get doYouWantToLogout => 'အကောင့်မှ ထွက်လိုပါသလား။';
 	@override String get areYouSureYouWantToLogout => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။';
@@ -222,6 +225,19 @@ class _Translations$notification$my extends Translations$notification$en {
 	@override String daysAgo({required Object days}) => 'လွန်ခဲ့သော ${days} ရက်က';
 }
 
+// Path: permission
+class _Translations$permission$my extends Translations$permission$en {
+	_Translations$permission$my._(TranslationsMy root) : this._root = root, super.internal(root);
+
+	final TranslationsMy _root; // ignore: unused_field
+
+	// Translations
+	@override String get requiredTitle => 'ခွင့်ပြုချက် လိုအပ်ပါသည်';
+	@override String disabledMessage({required Object permissionName}) => '${permissionName} လုပ်ဆောင်ချက် ပိတ်ထားပါသည်။ ဆက်လက်လုပ်ဆောင်ရန် စက်ပစ္စည်း ဆက်တင်များတွင် ဖွင့်ပေးပါ။';
+	@override String get openSettings => 'ဆက်တင်များကို ဖွင့်ရန်';
+	@override String get cancel => 'မလုပ်တော့ပါ';
+}
+
 /// The flat map containing all translations for locale <my>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -246,6 +262,8 @@ extension on TranslationsMy {
 			'setting.notifications' => 'အကြောင်းကြားချက်များ',
 			'setting.advanced' => 'အဆင့်မြင့်',
 			'setting.manageSystemNotificationPermissions' => 'အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်',
+			'setting.locationSetting' => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်',
+			'setting.manageSystemLocationPermissions' => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်',
 			'setting.signOutOfCurrentAccount' => 'လက်ရှိအကောင့်မှ ထွက်ရန်',
 			'setting.doYouWantToLogout' => 'အကောင့်မှ ထွက်လိုပါသလား။',
 			'setting.areYouSureYouWantToLogout' => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။',
@@ -348,6 +366,10 @@ extension on TranslationsMy {
 			'notification.minutesAgo' => ({required Object minutes}) => 'လွန်ခဲ့သော ${minutes} မိနစ်က',
 			'notification.hoursAgo' => ({required Object hours}) => 'လွန်ခဲ့သော ${hours} နာရီက',
 			'notification.daysAgo' => ({required Object days}) => 'လွန်ခဲ့သော ${days} ရက်က',
+			'permission.requiredTitle' => 'ခွင့်ပြုချက် လိုအပ်ပါသည်',
+			'permission.disabledMessage' => ({required Object permissionName}) => '${permissionName} လုပ်ဆောင်ချက် ပိတ်ထားပါသည်။ ဆက်လက်လုပ်ဆောင်ရန် စက်ပစ္စည်း ဆက်တင်များတွင် ဖွင့်ပေးပါ။',
+			'permission.openSettings' => 'ဆက်တင်များကို ဖွင့်ရန်',
+			'permission.cancel' => 'မလုပ်တော့ပါ',
 			_ => null,
 		};
 	}

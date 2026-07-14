@@ -16,6 +16,8 @@
     "notifications": "အကြောင်းကြားချက်များ",
     "advanced": "အဆင့်မြင့်",
     "manageSystemNotificationPermissions": "အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်",
+    "locationSetting": "တည်နေရာဆိုင်ရာခွင့်ပြုချက်",
+    "manageSystemLocationPermissions": "တည်နေရာဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်",
     "signOutOfCurrentAccount": "လက်ရှိအကောင့်မှ ထွက်ရန်",
     "doYouWantToLogout": "အကောင့်မှ ထွက်လိုပါသလား။",
     "areYouSureYouWantToLogout": "အကောင့်မှ ထွက်ရန် သေချာပါသလား။",
@@ -131,5 +133,11 @@
     "minutesAgo": "လွန်ခဲ့သော $minutes မိနစ်က",
     "hoursAgo": "လွန်ခဲ့သော $hours နာရီက",
     "daysAgo": "လွန်ခဲ့သော $days ရက်က"
+  },
+  "permission": {
+    "requiredTitle": "ခွင့်ပြုချက် လိုအပ်ပါသည်",
+    "disabledMessage": "$permissionName လုပ်ဆောင်ချက် ပိတ်ထားပါသည်။ ဆက်လက်လုပ်ဆောင်ရန် စက်ပစ္စည်း ဆက်တင်များတွင် ဖွင့်ပေးပါ။",
+    "openSettings": "ဆက်တင်များကို ဖွင့်ရန်",
+    "cancel": "မလုပ်တော့ပါ"
   }
 }

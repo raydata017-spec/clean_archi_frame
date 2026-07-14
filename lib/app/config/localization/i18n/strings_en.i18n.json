@@ -16,6 +16,8 @@
         "notifications": "Notifications",
         "advanced": "Advanced",
         "manageSystemNotificationPermissions": "Manage system notification permissions",
+        "locationSetting": "Location Permission",
+        "manageSystemLocationPermissions": "Manage system location permissions",
         "signOutOfCurrentAccount": "Sign out of current account",
         "doYouWantToLogout": "Do you want to logout?",
         "areYouSureYouWantToLogout": "Are you sure you want to log out?",
@@ -132,5 +134,11 @@
         "minutesAgo": "${minutes}m ago",
         "hoursAgo": "${hours}h ago",
         "daysAgo": "${days}d ago"
+    },
+    "permission": {
+        "requiredTitle": "Permission Required",
+        "disabledMessage": "$permissionName is currently disabled. Please enable it in your device settings to continue.",
+        "openSettings": "Open Settings",
+        "cancel": "Cancel"
     }
 }

@@ -46,6 +46,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
 	late final Translations$notification$en notification = Translations$notification$en.internal(_root);
+	late final Translations$permission$en permission = Translations$permission$en.internal(_root);
 }
 
 // Path: setting
@@ -103,6 +104,12 @@ class Translations$setting$en {
 
 	/// en: 'Manage system notification permissions'
 	String get manageSystemNotificationPermissions => 'Manage system notification permissions';
+
+	/// en: 'Location Permission'
+	String get locationSetting => 'Location Permission';
+
+	/// en: 'Manage system location permissions'
+	String get manageSystemLocationPermissions => 'Manage system location permissions';
 
 	/// en: 'Sign out of current account'
 	String get signOutOfCurrentAccount => 'Sign out of current account';
@@ -460,6 +467,27 @@ class Translations$notification$en {
 	String daysAgo({required Object days}) => '${days}d ago';
 }
 
+// Path: permission
+class Translations$permission$en {
+	Translations$permission$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Permission Required'
+	String get requiredTitle => 'Permission Required';
+
+	/// en: '$permissionName is currently disabled. Please enable it in your device settings to continue.'
+	String disabledMessage({required Object permissionName}) => '${permissionName} is currently disabled. Please enable it in your device settings to continue.';
+
+	/// en: 'Open Settings'
+	String get openSettings => 'Open Settings';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -484,6 +512,8 @@ extension on Translations {
 			'setting.notifications' => 'Notifications',
 			'setting.advanced' => 'Advanced',
 			'setting.manageSystemNotificationPermissions' => 'Manage system notification permissions',
+			'setting.locationSetting' => 'Location Permission',
+			'setting.manageSystemLocationPermissions' => 'Manage system location permissions',
 			'setting.signOutOfCurrentAccount' => 'Sign out of current account',
 			'setting.doYouWantToLogout' => 'Do you want to logout?',
 			'setting.areYouSureYouWantToLogout' => 'Are you sure you want to log out?',
@@ -586,6 +616,10 @@ extension on Translations {
 			'notification.minutesAgo' => ({required Object minutes}) => '${minutes}m ago',
 			'notification.hoursAgo' => ({required Object hours}) => '${hours}h ago',
 			'notification.daysAgo' => ({required Object days}) => '${days}d ago',
+			'permission.requiredTitle' => 'Permission Required',
+			'permission.disabledMessage' => ({required Object permissionName}) => '${permissionName} is currently disabled. Please enable it in your device settings to continue.',
+			'permission.openSettings' => 'Open Settings',
+			'permission.cancel' => 'Cancel',
 			_ => null,
 		};
 	}

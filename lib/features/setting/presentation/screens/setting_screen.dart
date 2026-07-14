@@ -155,6 +155,17 @@ class SettingScreen extends ConsumerWidget {
                     .read(permissionServiceProvider)
                     .openAppSettings(AppSettingsType.notification),
               ),
+              SettingListTile(
+                title: t.setting.locationSetting,
+                subtitle: t.setting.manageSystemLocationPermissions,
+                icon: Icons.location_on_outlined,
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: AppSizes.iconSm,
+                  color: context.colorScheme.onSurface.withValues(alpha: .3),
+                ),
+                onTap: () => ref.read(permissionServiceProvider).requestLocationPermission(),
+              ),
             ],
           ),
 

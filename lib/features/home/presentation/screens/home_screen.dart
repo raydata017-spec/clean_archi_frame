@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
         leading: context.drawerLeading,
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.notifications_outlined,
             ),
             onPressed: () => context.push(RouteNames.notificationPath),
@@ -42,9 +42,11 @@ class HomeScreen extends ConsumerWidget {
               Text(
                 t.kDynamic.inboxCount(n: 10),
               ),
+              const SizedBox(height: AppSizes.spaceBtwItems),
               // -------------------------------------------
               Wrap(
                 spacing: 10,
+                runSpacing: 10,
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -68,7 +70,7 @@ class HomeScreen extends ConsumerWidget {
                     child: Text(
                       t.setting.changeLanguage,
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
