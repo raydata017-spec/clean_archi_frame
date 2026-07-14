@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,6 +10,7 @@ import 'config/theme/theme_provider.dart';
 import 'router/app_router.dart';
 
 import 'router/main_back_button_dispatcher.dart';
+import 'package:cupertino_back_gesture/cupertino_back_gesture.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 import '../core/services/connectivity_service.dart';
@@ -53,39 +53,42 @@ class MyApp extends ConsumerWidget {
       }
     });
 
-    return StyledToast(
-      child: MaterialApp.router(
-        title: 'BDATA Core Template V1.0.0',
-        // Theme Configuration
-        themeMode: themeMode,
-        theme: lightThemeData,
-        darkTheme: darkThemeData,
+    return BackGestureWidthTheme(
+      backGestureWidth: BackGestureWidth.fraction(0.5),
+      child: StyledToast(
+        child: MaterialApp.router(
+          title: 'BDATA Core Template V1.0.0',
+          // Theme Configuration
+          themeMode: themeMode,
+          theme: lightThemeData,
+          darkTheme: darkThemeData,
 
-        // Slang Localization Configuration
-        locale: TranslationProvider.of(context).flutterLocale,
-        supportedLocales: AppLocaleUtils.supportedLocales,
-        localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        builder: (context, child) {
-          final mediaQuery = MediaQuery.of(context);
-          return MediaQuery(
-            data: mediaQuery.copyWith(
-              textScaler: const TextScaler.linear(1.0),
-            ),
-            child: SafeArea(
-              top: false,
-              bottom: Platform.isAndroid ? true : false,
-              child: GestureDetector(
-                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                child: child ?? const SizedBox(),
+          // Slang Localization Configuration
+          locale: TranslationProvider.of(context).flutterLocale,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          builder: (context, child) {
+            final mediaQuery = MediaQuery.of(context);
+            return MediaQuery(
+              data: mediaQuery.copyWith(
+                textScaler: const TextScaler.linear(1.0),
               ),
-            ),
-          );
-        },
+              child: SafeArea(
+                top: false,
+                bottom: defaultTargetPlatform == TargetPlatform.android,
+                child: GestureDetector(
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: child ?? const SizedBox(),
+                ),
+              ),
+            );
+          },
 
-        routerDelegate: goRouter.routerDelegate,
-        routeInformationParser: goRouter.routeInformationParser,
-        routeInformationProvider: goRouter.routeInformationProvider,
-        backButtonDispatcher: backButtonDispatcher,
+          routerDelegate: goRouter.routerDelegate,
+          routeInformationParser: goRouter.routeInformationParser,
+          routeInformationProvider: goRouter.routeInformationProvider,
+          backButtonDispatcher: backButtonDispatcher,
+        ),
       ),
     );
   }

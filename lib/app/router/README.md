@@ -121,3 +121,65 @@ final appAuthStateProvider = Provider<AsyncValue<AppAuthState>>((ref) {
   );
 });
 ```
+
+---
+
+## Page Transitions & iOS Back Gesture (Page Transition နှင့် iOS Back Gesture ဆိုင်ရာ သတ်မှတ်ချက်များ)
+
+ဤ framework တွင် စာမျက်နှာတစ်ခုမှတစ်ခုသို့ ကူးပြောင်းရာတွင် လှပပြီး ချောမွေ့သော transition effects များကို အသုံးပြုနိုင်ရန်နှင့် iOS device များအတွက် swipe-to-go-back gesture ကို မိမိစိတ်ကြိုက် width သတ်မှတ်နိုင်ရန် [cupertino_back_gesture](https://pub.dev/packages/cupertino_back_gesture) ကို အသုံးပြုထားပါသည်။
+
+### ၁။ Page Transitions အသုံးပြုပုံ (Using Page Transitions)
+
+စာမျက်နှာတစ်ခုချင်းစီတွင် transition effect ပြောင်းလဲရန် `app_router.dart` ရှိ `GoRoute` ၏ `pageBuilder` တွင် `.customTransition` extension method ကို တွဲဖက်အသုံးပြုရပါမည်-
+
+```dart
+GoRoute(
+  path: RouteNames.loginPath,
+  name: RouteNames.loginName,
+  pageBuilder: (context, state) => const LoginScreen().customTransition(
+    state,
+    transitionTypeIndex: 0, // Transition ပုံစံ သတ်မှတ်ရန်
+    disableSwipeBack: false,  // iOS back swipe gesture ပိတ်ရန် (true)
+  ),
+)
+```
+
+#### Transition Type Index များ (Supported Transition Types)
+* `0`: **Slide from Right (Default)** - ညာဘက်မှ slide တိုက်ဝင်လာခြင်း (iOS/Android platform transition settings အတိုင်း အလုပ်လုပ်မည်ဖြစ်ပြီး iOS gesture width customize ကို ဤနေရာတွင် အထောက်အပံ့ပေးသည်)
+* `1`: **Fade Transition** - Fade out/in ပုံစံဖြင့် ကူးပြောင်းခြင်း
+* `2`: **Slide from Bottom** - အောက်ခြေမှ slide တိုက်တက်လာခြင်း (Dialog presentation style)
+* `3`: **Scale Transition** - ပုံရိပ်အကျုံ့အချဲ့စနစ်ဖြင့် ကူးပြောင်းခြင်း
+
+---
+
+### ၂။ iOS Back Gesture Width ကို စိတ်ကြိုက်ပြင်ဆင်ခြင်း (Customizing iOS Back Gesture Width)
+
+iOS transition များတွင် swipe gesture လုပ်ဆောင်နိုင်သော screen width ဧရိယာကို ချိန်ညှိရန် [app.dart](file:///d:/Projects/clean_archi_frame/lib/app/app.dart) တွင် `BackGestureWidthTheme` ကို အသုံးပြုထားပါသည်-
+
+```dart
+BackGestureWidthTheme(
+  backGestureWidth: BackGestureWidth.fraction(0.5), // Screen ၏ ၅၀% အထိ swipe ဆွဲ၍ back သွားနိုင်ရန် သတ်မှတ်ခြင်း
+  child: StyledToast(
+    child: MaterialApp.router(...),
+  ),
+)
+```
+
+**Gesture Width Options:**
+* `BackGestureWidth.fraction(double fraction)`: Screen width ၏ ရာခိုင်နှုန်းဖြင့် သတ်မှတ်ရန် (ဥပမာ- `0.5` သည် ၅၀%)
+* `BackGestureWidth.fixed(double width)`: Logical pixels တန်ဖိုး တိုက်ရိုက်သတ်မှတ်ရန်
+
+---
+
+### ၃။ Android ပေါ်တွင် iOS Back Gesture အား စမ်းသပ်ခြင်း (Testing iOS Back Gesture on Android)
+
+သင်သည် Android device သို့မဟုတ် emulator ပေါ်တွင် iOS back swipe gesture အလုပ်လုပ်ပုံကို စမ်းသပ်လိုပါက [light_theme.dart](file:///d:/Projects/clean_archi_frame/lib/app/config/theme/light_theme.dart) နှင့် [dark_theme.dart](file:///d:/Projects/clean_archi_frame/lib/app/config/theme/dark_theme.dart) တို့တွင် `platform` property ကို ယာယီထည့်သွင်း၍ စမ်းသပ်နိုင်ပါသည်-
+
+```dart
+final ThemeData lightThemeData = ThemeData(
+  useMaterial3: true,
+  platform: TargetPlatform.iOS, // Android ပေါ်တွင် iOS gesture စမ်းသပ်ရန် ယာယီထည့်သွင်းခြင်း
+  brightness: Brightness.light,
+  ...
+);
+```

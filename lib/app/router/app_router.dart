@@ -17,6 +17,7 @@ import '../../core/offline/screens/outbox_list_screen.dart';
 import '../../shared/main_wrapper_screen.dart';
 import '../../core/utils/enums/app_auth_state_enum.dart';
 import 'navigator_keys.dart';
+import 'page_transition.dart';
 import 'route_names.dart';
 import '../../shared/widgets/branch_pop_scope.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -44,8 +45,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       final isGoingToLogin = matchedLocation == RouterRedirectConfig.loginPath;
       final isGoingToSplash = matchedLocation == RouterRedirectConfig.splashPath;
-      final isGoingToSelectBranch =
-          matchedLocation == RouterRedirectConfig.selectBranchPath;
+      final isGoingToSelectBranch = matchedLocation == RouterRedirectConfig.selectBranchPath;
 
       return authStateAsync.when(
         data: (authState) {
@@ -103,9 +103,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: RouteNames.homePath,
                 name: RouteNames.homeName,
-                builder: (context, state) => const BranchPopScope(
+                pageBuilder: (context, state) => const BranchPopScope(
                   child: HomeScreen(),
-                ),
+                ).customTransition(state),
               ),
             ],
           ),
@@ -117,9 +117,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: RouteNames.profilePath,
                 name: RouteNames.profileName,
-                builder: (context, state) => const BranchPopScope(
+                pageBuilder: (context, state) => const BranchPopScope(
                   child: ProfileScreen(),
-                ),
+                ).customTransition(state),
               ),
             ],
           ),
@@ -131,14 +131,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: RouteNames.settingsPath,
                 name: RouteNames.settingsName,
-                builder: (context, state) => const BranchPopScope(
+                pageBuilder: (context, state) => const BranchPopScope(
                   child: SettingScreen(),
-                ),
+                ).customTransition(state),
                 routes: [
                   GoRoute(
                     path: RouteNames.outboxPath,
                     name: RouteNames.outboxName,
-                    builder: (context, state) => const OutboxListScreen(),
+                    pageBuilder: (context, state) =>
+                        const OutboxListScreen().customTransition(state, transitionTypeIndex: 0),
                   ),
                 ],
               ),
@@ -151,17 +152,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.loginPath,
         name: RouteNames.loginName,
-        builder: (context, state) => const LoginScreen(),
+        pageBuilder: (context, state) => const LoginScreen().customTransition(state),
       ),
       GoRoute(
         path: RouteNames.registerPath,
         name: RouteNames.registerName,
-        builder: (context, state) => const RegisterScreen(),
+        pageBuilder: (context, state) => const RegisterScreen().customTransition(state),
       ),
       GoRoute(
         path: RouteNames.registerPasswordPath,
         name: RouteNames.registerPasswordName,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           final name = extra?['name'] as String? ?? '';
           final email = extra?['email'] as String? ?? '';
@@ -170,52 +171,53 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             name: name,
             email: email,
             phone: phone,
-          );
+          ).customTransition(state);
         },
       ),
       GoRoute(
         path: RouteNames.forgotPasswordPath,
         name: RouteNames.forgotPasswordName,
-        builder: (context, state) => const ForgotPasswordScreen(),
+        pageBuilder: (context, state) => const ForgotPasswordScreen().customTransition(state),
       ),
       GoRoute(
         path: RouteNames.otpPath,
         name: RouteNames.otpName,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           final verificationTarget = extra?['verificationTarget'] as String? ?? '';
           final onSuccess = extra?['onSuccess'] as void Function(BuildContext)? ?? (_) {};
           return OtpScreen(
             verificationTarget: verificationTarget,
             onSuccess: onSuccess,
-          );
+          ).customTransition(state);
         },
       ),
       GoRoute(
         path: RouteNames.resetPasswordPath,
         name: RouteNames.resetPasswordName,
-        builder: (context, state) => const ResetPasswordScreen(),
+        pageBuilder: (context, state) => const ResetPasswordScreen().customTransition(state),
       ),
 
       // Notification Route
       GoRoute(
         path: RouteNames.notificationPath,
         name: RouteNames.notificationName,
-        builder: (context, state) => const NotificationScreen(),
+        pageBuilder: (context, state) => const NotificationScreen().customTransition(state),
       ),
 
       // Splash Route
       GoRoute(
         path: RouteNames.splashPath,
         name: RouteNames.splashName,
-        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (context, state) => const SplashScreen().customTransition(state),
       ),
 
       // App Update Route
       GoRoute(
         path: RouteNames.appUpdatePath,
         name: RouteNames.appUpdateName,
-        builder: (context, state) => AppUpdateScreen.fromExtra(state.extra as Map<String, dynamic>?),
+        pageBuilder: (context, state) =>
+            AppUpdateScreen.fromExtra(state.extra as Map<String, dynamic>?).customTransition(state),
       ),
     ],
   );
