@@ -36,82 +36,77 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Column(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Minimalist Logo Icon
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Icon(
+                  Icons.bolt_rounded,
+                  size: AppSizes.iconLg,
+                  color: context.colorScheme.primary,
+                ),
+              ),
+              const SizedBox(height: AppSizes.defaultSpace),
+              Text(
+                t.auth.signInToConsole,
+                style: context.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: AppSizes.paddingMarginSm),
+              Text(
+                _getSubtitleText(),
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.onSurface.withValues(alpha: .5),
+                ),
+              ),
+              const SizedBox(height: AppSizes.paddingMarginXl),
+
+              // Minimalist Underline Tab Selector
+              if (widget.loginType == AuthTypeEnum.both) ...[
+                _buildUnderlineSelector(),
+                const SizedBox(height: AppSizes.fontSizeXl),
+              ],
+
+              // Active Form (Email/Phone)
+              _buildActiveForm(),
+              const SizedBox(height: AppSizes.paddingMarginXl),
+
+              // Sign Up Navigation
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Minimalist Logo Icon
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Icon(
-                      Icons.bolt_rounded,
-                      size: AppSizes.iconLg,
-                      color: context.colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSizes.defaultSpace),
                   Text(
-                    t.auth.signInToConsole,
-                    style: context.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                  const SizedBox(height: AppSizes.spaceBtwTexts - 2),
-                  Text(
-                    _getSubtitleText(),
+                    t.auth.dontHaveAccount,
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: context.colorScheme.onSurface.withValues(alpha: .5),
                     ),
                   ),
-                  const SizedBox(height: AppSizes.paddingMarginXl),
-
-                  // Minimalist Underline Tab Selector
-                  if (widget.loginType == AuthTypeEnum.both) ...[
-                    _buildUnderlineSelector(),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-                  ],
-
-                  // Form Views
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: _buildActiveForm(),
-                  ),
-                  const SizedBox(height: AppSizes.paddingMarginXl),
-
-                  // Register Footer
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${t.auth.dontHaveAccount} ",
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.colorScheme.onSurface.withValues(alpha: .5),
-                        ),
+                  TextButton(
+                    onPressed: () {
+                      context.go(RouteNames.registerPath);
+                    },
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSizes.paddingMarginSm),
+                    ),
+                    child: Text(
+                      t.auth.signUp,
+                      style: TextStyle(
+                        color: context.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          context.go(RouteNames.registerPath);
-                        },
-                        child: Text(
-                          t.auth.signUp,
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
       ),

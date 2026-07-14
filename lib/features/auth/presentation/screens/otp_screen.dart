@@ -99,101 +99,95 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       ),
       body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Logo Icon
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        Icons.domain_verification_rounded,
-                        size: AppSizes.iconLg,
-                        color: context.colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.defaultSpace),
-                    Text(
-                      t.auth.enterOtpCode,
-                      style: context.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginSm),
-                    Text(
-                      '${t.auth.otpSubtitle}\n(${widget.verificationTarget})',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurface.withValues(alpha: .5),
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // OTP field
-                    Text(
-                      t.auth.otp,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: context.colorScheme.onSurface.withValues(alpha: .9),
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginSm),
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Pinput(
-                        length: 6,
-                        controller: _otpController,
-                        focusNode: _focusNode,
-                        defaultPinTheme: defaultPinTheme,
-                        focusedPinTheme: focusedPinTheme,
-                        submittedPinTheme: submittedPinTheme,
-                        errorPinTheme: errorPinTheme,
-                        autofillHints: const [AutofillHints.oneTimeCode],
-                        showCursor: true,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        onCompleted: (_) => _handleVerify(),
-                        errorTextStyle: TextStyle(
-                          color: context.colorScheme.error,
-                          fontSize: AppSizes.fontSizeSm,
-                        ),
-                        validator: OtpValidator.validate,
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Verify Button
-                    SizedBox(
-                      height: AppSizes.buttonHeightMd + 8.0, // 48
-                      child: ElevatedButton(
-                        onPressed: _handleVerify,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.colorScheme.primary,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                          ),
-                        ),
-                        child: Text(
-                          t.auth.continueText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSizes.fontSizeSm + 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Logo Icon
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(
+                    Icons.domain_verification_rounded,
+                    size: AppSizes.iconLg,
+                    color: context.colorScheme.primary,
+                  ),
                 ),
-              ),
+                const SizedBox(height: AppSizes.defaultSpace),
+                Text(
+                  t.auth.enterOtpCode,
+                  style: context.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginSm),
+                Text(
+                  '${t.auth.otpSubtitle}\n(${widget.verificationTarget})',
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: context.colorScheme.onSurface.withValues(alpha: .5),
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // OTP field
+                Text(
+                  t.auth.otp,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: context.colorScheme.onSurface.withValues(alpha: .9),
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginSm),
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Pinput(
+                    length: 6,
+                    controller: _otpController,
+                    focusNode: _focusNode,
+                    defaultPinTheme: defaultPinTheme,
+                    focusedPinTheme: focusedPinTheme,
+                    submittedPinTheme: submittedPinTheme,
+                    errorPinTheme: errorPinTheme,
+                    autofillHints: const [AutofillHints.oneTimeCode],
+                    showCursor: true,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    onCompleted: (_) => _handleVerify(),
+                    errorTextStyle: TextStyle(
+                      color: context.colorScheme.error,
+                      fontSize: AppSizes.fontSizeSm,
+                    ),
+                    validator: OtpValidator.validate,
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // Verify Button
+                SizedBox(
+                  height: AppSizes.buttonHeightMd + 8.0, // 48
+                  child: ElevatedButton(
+                    onPressed: _handleVerify,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colorScheme.primary,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
+                      ),
+                    ),
+                    child: Text(
+                      t.auth.continueText,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppSizes.fontSizeSm + 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

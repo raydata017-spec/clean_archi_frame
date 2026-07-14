@@ -83,82 +83,76 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
       ),
       body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Logo Icon
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        Icons.lock_open_rounded,
-                        size: AppSizes.iconLg,
-                        color: context.colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.defaultSpace),
-                    Text(
-                      t.auth.forgotPassword,
-                      style: context.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginSm),
-                    Text(
-                      t.auth.forgotPasswordSubtitle,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurface.withValues(alpha: .5),
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Underline Tab Selector
-                    if (widget.loginType == AuthTypeEnum.both) ...[
-                      _buildUnderlineSelector(),
-                      const SizedBox(height: AppSizes.fontSizeXl),
-                    ],
-
-                    // Dynamic field Email/Phone
-                    if (_selectedTab == 0 && widget.loginType != AuthTypeEnum.phoneOnly)
-                      _buildEmailField()
-                    else
-                      _buildPhoneField(),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Send Code Button
-                    SizedBox(
-                      height: AppSizes.buttonHeightMd + 8.0, // 48
-                      child: ElevatedButton(
-                        onPressed: _handleSendCode,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.colorScheme.primary,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                          ),
-                        ),
-                        child: Text(
-                          t.auth.sendCode,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSizes.fontSizeSm + 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Logo Icon
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(
+                    Icons.lock_open_rounded,
+                    size: AppSizes.iconLg,
+                    color: context.colorScheme.primary,
+                  ),
                 ),
-              ),
+                const SizedBox(height: AppSizes.defaultSpace),
+                Text(
+                  t.auth.forgotPassword,
+                  style: context.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginSm),
+                Text(
+                  t.auth.forgotPasswordSubtitle,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: context.colorScheme.onSurface.withValues(alpha: .5),
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // Underline Tab Selector
+                if (widget.loginType == AuthTypeEnum.both) ...[
+                  _buildUnderlineSelector(),
+                  const SizedBox(height: AppSizes.fontSizeXl),
+                ],
+
+                // Dynamic field Email/Phone
+                if (_selectedTab == 0 && widget.loginType != AuthTypeEnum.phoneOnly)
+                  _buildEmailField()
+                else
+                  _buildPhoneField(),
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // Send Code Button
+                SizedBox(
+                  height: AppSizes.buttonHeightMd + 8.0, // 48
+                  child: ElevatedButton(
+                    onPressed: _handleSendCode,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colorScheme.primary,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
+                      ),
+                    ),
+                    child: Text(
+                      t.auth.sendCode,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppSizes.fontSizeSm + 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

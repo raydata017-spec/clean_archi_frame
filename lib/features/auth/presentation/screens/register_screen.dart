@@ -77,198 +77,193 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.all(AppSizes.paddingFromScreenEdge),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Logo Icon
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(
+                    Icons.bolt_rounded,
+                    size: AppSizes.iconLg,
+                    color: context.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: AppSizes.defaultSpace),
+                Text(
+                  t.auth.createAccount,
+                  style: context.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginSm),
+                Text(
+                  t.auth.step1Subtitle,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: context.colorScheme.onSurface.withValues(alpha: .5),
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // Full Name Input
+                Text(
+                  t.auth.fullName,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: context.colorScheme.onSurface.withValues(alpha: .9),
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginSm),
+                TextFormField(
+                  controller: _nameController,
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                  style: TextStyle(
+                    color: context.colorScheme.onSurface.withValues(alpha: .9),
+                    fontSize: AppSizes.fontSizeSm + 1.0,
+                  ),
+                  decoration: context.inputDecoration(hintText: 'John Doe'),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return t.auth.nameRequired;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: AppSizes.fontSizeXl),
+
+                // Underline Tab Selector
+                if (widget.loginType == AuthTypeEnum.both) ...[
+                  _buildUnderlineSelector(),
+                  const SizedBox(height: AppSizes.fontSizeXl),
+                ],
+
+                // Dynamic field Email/Phone
+                if (_selectedTab == 0 && widget.loginType != AuthTypeEnum.phoneOnly)
+                  _buildEmailField()
+                else
+                  _buildPhoneField(),
+                const SizedBox(height: AppSizes.fontSizeXl),
+
+                // Terms & Conditions Checkbox
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Logo Icon
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        Icons.bolt_rounded,
-                        size: AppSizes.iconLg,
-                        color: context.colorScheme.primary,
+                    SizedBox(
+                      height: AppSizes.fontSizeXl,
+                      width: AppSizes.fontSizeXl,
+                      child: Checkbox(
+                        value: _acceptTerms,
+                        activeColor: context.colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
+                        ),
+                        side: BorderSide(
+                          color: _showTermsError
+                              ? context.colorScheme.error
+                              : context.colorScheme.onSurface.withValues(alpha: .2),
+                          width: 1.5,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _acceptTerms = value ?? false;
+                            if (_acceptTerms) _showTermsError = false;
+                          });
+                        },
                       ),
                     ),
-                    const SizedBox(height: AppSizes.defaultSpace),
-                    Text(
-                      t.auth.createAccount,
-                      style: context.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.5,
+                    const SizedBox(width: AppSizes.paddingMarginSm),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _acceptTerms = !_acceptTerms;
+                            if (_acceptTerms) _showTermsError = false;
+                          });
+                        },
+                        child: Text(
+                          t.auth.termsOfService,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: _showTermsError
+                                ? context.colorScheme.error
+                                : context.colorScheme.onSurface.withValues(alpha: .6),
+                            fontSize: AppSizes.fontSizeSm,
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: AppSizes.paddingMarginSm),
+                  ],
+                ),
+                if (_showTermsError) ...[
+                  const SizedBox(height: AppSizes.paddingMarginXs),
+                  Padding(
+                    padding: const EdgeInsets.only(left: AppSizes.defaultSpace + 4.0),
+                    child: Text(
+                      t.auth.termsError,
+                      style: TextStyle(
+                        color: context.colorScheme.error,
+                        fontSize: AppSizes.fontSizeXs,
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // Continue Button
+                SizedBox(
+                  height: AppSizes.buttonHeightMd + 8.0, // 48
+                  child: ElevatedButton(
+                    onPressed: _handleContinue,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colorScheme.primary,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
+                      ),
+                    ),
+                    child: Text(
+                      t.auth.continueText,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppSizes.fontSizeSm + 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppSizes.paddingMarginXl),
+
+                // Footer
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Text(
-                      t.auth.step1Subtitle,
+                      "${t.auth.alreadyHaveAccount} ",
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: context.colorScheme.onSurface.withValues(alpha: .5),
                       ),
                     ),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Full Name Input
-                    Text(
-                      t.auth.fullName,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: context.colorScheme.onSurface.withValues(alpha: .9),
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginSm),
-                    TextFormField(
-                      controller: _nameController,
-                      keyboardType: TextInputType.name,
-                      textInputAction: TextInputAction.next,
-                      style: TextStyle(
-                        color: context.colorScheme.onSurface.withValues(alpha: .9),
-                        fontSize: AppSizes.fontSizeSm + 1.0,
-                      ),
-                      decoration: context.inputDecoration(hintText: 'John Doe'),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return t.auth.nameRequired;
-                        }
-                        return null;
+                    GestureDetector(
+                      onTap: () {
+                        context.go(RouteNames.loginPath);
                       },
-                    ),
-                    const SizedBox(height: AppSizes.fontSizeXl),
-
-                    // Underline Tab Selector
-                    if (widget.loginType == AuthTypeEnum.both) ...[
-                      _buildUnderlineSelector(),
-                      const SizedBox(height: AppSizes.fontSizeXl),
-                    ],
-
-                    // Dynamic field Email/Phone
-                    if (_selectedTab == 0 && widget.loginType != AuthTypeEnum.phoneOnly)
-                      _buildEmailField()
-                    else
-                      _buildPhoneField(),
-                    const SizedBox(height: AppSizes.fontSizeXl),
-
-                    // Terms & Conditions Checkbox
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: AppSizes.fontSizeXl,
-                          width: AppSizes.fontSizeXl,
-                          child: Checkbox(
-                            value: _acceptTerms,
-                            activeColor: context.colorScheme.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
-                            ),
-                            side: BorderSide(
-                              color: _showTermsError
-                                  ? context.colorScheme.error
-                                  : context.colorScheme.onSurface.withValues(alpha: .2),
-                              width: 1.5,
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                _acceptTerms = value ?? false;
-                                if (_acceptTerms) _showTermsError = false;
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: AppSizes.paddingMarginSm),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _acceptTerms = !_acceptTerms;
-                                if (_acceptTerms) _showTermsError = false;
-                              });
-                            },
-                            child: Text(
-                              t.auth.termsOfService,
-                              style: context.textTheme.bodyMedium?.copyWith(
-                                color: _showTermsError
-                                    ? context.colorScheme.error
-                                    : context.colorScheme.onSurface.withValues(alpha: .6),
-                                fontSize: AppSizes.fontSizeSm,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (_showTermsError) ...[
-                      const SizedBox(height: AppSizes.paddingMarginXs),
-                      Padding(
-                        padding: const EdgeInsets.only(left: AppSizes.defaultSpace + 4.0),
-                        child: Text(
-                          t.auth.termsError,
-                          style: TextStyle(
-                            color: context.colorScheme.error,
-                            fontSize: AppSizes.fontSizeXs,
-                          ),
+                      child: Text(
+                        t.auth.signIn,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Continue Button
-                    SizedBox(
-                      height: AppSizes.buttonHeightMd + 8.0, // 48
-                      child: ElevatedButton(
-                        onPressed: _handleContinue,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.colorScheme.primary,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                          ),
-                        ),
-                        child: Text(
-                          t.auth.continueText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSizes.fontSizeSm + 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSizes.paddingMarginXl),
-
-                    // Footer
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${t.auth.alreadyHaveAccount} ",
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.colorScheme.onSurface.withValues(alpha: .5),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.go(RouteNames.loginPath);
-                          },
-                          child: Text(
-                            t.auth.signIn,
-                            style: context.textTheme.bodyMedium?.copyWith(
-                              color: context.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
           ),
         ),
