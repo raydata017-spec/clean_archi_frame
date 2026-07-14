@@ -7,6 +7,7 @@ import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/password_validator.dart';
 import '../../../../core/utils/validators/phone_validator.dart';
+import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
 
 class PhoneForm extends StatefulWidget {
@@ -211,27 +212,15 @@ class _PhoneFormState extends State<PhoneForm> {
           ],
 
           // Submit Button
-          SizedBox(
-            height: AppSizes.buttonHeightMd + 8.0, // 48
-            child: ElevatedButton(
-              onPressed: _handlePhoneSubmit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: context.colorScheme.primary,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                ),
-              ),
-              child: Text(
-                widget.isSignUp ? t.auth.createAccount : t.auth.signIn,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.fontSizeSm + 1.0,
-                  letterSpacing: 0.2,
-                ),
-              ),
+           AppButton(
+            btnTitle: widget.isSignUp ? t.auth.createAccount : t.auth.signIn,
+            btnTextStyle: TextStyle(
+              color: context.colorScheme.onPrimary,
+              fontWeight: FontWeight.bold,
+              fontSize: AppSizes.fontSizeSm + 1.0,
+              letterSpacing: 0.2,
             ),
+            btnFunction: _handlePhoneSubmit,
           ),
         ],
       ),

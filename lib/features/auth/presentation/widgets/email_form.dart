@@ -7,6 +7,7 @@ import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/email_validator.dart';
 import '../../../../core/utils/validators/password_validator.dart';
+import '../../../../shared/widgets/app_button.dart';
 
 class EmailForm extends StatefulWidget {
   final bool isSignUp;
@@ -25,7 +26,7 @@ class _EmailFormState extends State<EmailForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _rememberMe = false;
@@ -129,7 +130,7 @@ class _EmailFormState extends State<EmailForm> {
             ),
             validator: PasswordValidator.validate,
           ),
-          
+
           // Confirm Password Field (Only shown in Sign Up mode)
           if (widget.isSignUp) ...[
             const SizedBox(height: AppSizes.fontSizeXl),
@@ -173,7 +174,7 @@ class _EmailFormState extends State<EmailForm> {
               ),
             ),
           ],
-          
+
           const SizedBox(height: AppSizes.spaceBtwItems),
 
           // Remember Me (Only show Keep me signed in on login page)
@@ -222,31 +223,18 @@ class _EmailFormState extends State<EmailForm> {
           ],
 
           // Submit Button
-          SizedBox(
-            height: AppSizes.buttonHeightMd + 8.0, // 48
-            child: ElevatedButton(
-              onPressed: _handleEmailSubmit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: context.colorScheme.primary,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                ),
-              ),
-              child: Text(
-                widget.isSignUp ? t.auth.createAccount : t.auth.signIn,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSizes.fontSizeSm + 1.0,
-                  letterSpacing: 0.2,
-                ),
-              ),
+          AppButton(
+            btnTitle: widget.isSignUp ? t.auth.createAccount : t.auth.signIn,
+            btnTextStyle: TextStyle(
+              color: context.colorScheme.onPrimary,
+              fontWeight: FontWeight.bold,
+              fontSize: AppSizes.fontSizeSm + 1.0,
+              letterSpacing: 0.2,
             ),
+            btnFunction: _handleEmailSubmit,
           ),
         ],
       ),
     );
   }
-
 }

@@ -6,6 +6,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/password_validator.dart';
+import '../../../../shared/widgets/app_button.dart';
 
 class CreatePasswordScreen extends StatefulWidget {
   final String name;
@@ -177,26 +178,15 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                     const SizedBox(height: AppSizes.paddingMarginXl),
 
                     // Submit Button
-                    SizedBox(
-                      height: AppSizes.buttonHeightMd + 8.0, // 48
-                      child: ElevatedButton(
-                        onPressed: _handleRegisterSubmit,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.colorScheme.primary,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                          ),
-                        ),
-                        child: Text(
-                          t.auth.createAccount,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSizes.fontSizeSm + 1.0,
-                          ),
-                        ),
+                    AppButton(
+                      btnTitle: t.auth.createAccount,
+                      btnTextStyle: TextStyle(
+                        color: context.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppSizes.fontSizeSm + 1.0,
+                        letterSpacing: 0.2,
                       ),
+                      btnFunction: _handleRegisterSubmit,
                     ),
                   ],
                 ),

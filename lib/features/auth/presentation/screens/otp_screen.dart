@@ -6,6 +6,7 @@ import '../../../../app/config/dimensions.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/otp_validator.dart';
+import '../../../../shared/widgets/app_button.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationTarget;
@@ -166,26 +167,15 @@ class _OtpScreenState extends State<OtpScreen> {
                 const SizedBox(height: AppSizes.paddingMarginXl),
 
                 // Verify Button
-                SizedBox(
-                  height: AppSizes.buttonHeightMd + 8.0, // 48
-                  child: ElevatedButton(
-                    onPressed: _handleVerify,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.colorScheme.primary,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                      ),
-                    ),
-                    child: Text(
-                      t.auth.continueText,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: AppSizes.fontSizeSm + 1.0,
-                      ),
-                    ),
+                AppButton(
+                  btnTitle: t.auth.continueText,
+                  btnTextStyle: TextStyle(
+                    color: context.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm + 1.0,
+                    letterSpacing: 0.2,
                   ),
+                  btnFunction: _handleVerify,
                 ),
               ],
             ),

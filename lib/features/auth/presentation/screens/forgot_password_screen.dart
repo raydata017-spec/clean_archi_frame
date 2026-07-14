@@ -8,6 +8,7 @@ import '../../../../core/utils/enums/auth_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/email_validator.dart';
 import '../../../../core/utils/validators/phone_validator.dart';
+import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -131,26 +132,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 const SizedBox(height: AppSizes.paddingMarginXl),
 
                 // Send Code Button
-                SizedBox(
-                  height: AppSizes.buttonHeightMd + 8.0, // 48
-                  child: ElevatedButton(
-                    onPressed: _handleSendCode,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.colorScheme.primary,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                      ),
-                    ),
-                    child: Text(
-                      t.auth.sendCode,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: AppSizes.fontSizeSm + 1.0,
-                      ),
-                    ),
+                AppButton(
+                  btnTitle: t.auth.sendCode,
+                  btnTextStyle: TextStyle(
+                    color: context.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm + 1.0,
+                    letterSpacing: 0.2,
                   ),
+                  btnFunction: _handleSendCode,
                 ),
               ],
             ),

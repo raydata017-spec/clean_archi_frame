@@ -6,6 +6,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/password_validator.dart';
+import '../../../../shared/widgets/app_button.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -197,26 +198,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 const SizedBox(height: AppSizes.paddingMarginXl),
 
                 // Submit Button
-                SizedBox(
-                  height: AppSizes.buttonHeightMd + 8.0, // 48
-                  child: ElevatedButton(
-                    onPressed: _handleResetPassword,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.colorScheme.primary,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                      ),
-                    ),
-                    child: Text(
-                      t.auth.resetPassword,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: AppSizes.fontSizeSm + 1.0,
-                      ),
-                    ),
+                AppButton(
+                  btnTitle: t.auth.resetPassword,
+                  btnTextStyle: TextStyle(
+                    color: context.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm + 1.0,
+                    letterSpacing: 0.2,
                   ),
+                  btnFunction: _handleResetPassword,
                 ),
               ],
             ),

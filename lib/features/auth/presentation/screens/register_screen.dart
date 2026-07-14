@@ -6,6 +6,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/enums/auth_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -216,26 +217,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: AppSizes.paddingMarginXl),
 
                 // Continue Button
-                SizedBox(
-                  height: AppSizes.buttonHeightMd + 8.0, // 48
-                  child: ElevatedButton(
-                    onPressed: _handleContinue,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.colorScheme.primary,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                      ),
-                    ),
-                    child: Text(
-                      t.auth.continueText,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: AppSizes.fontSizeSm + 1.0,
-                      ),
-                    ),
+                AppButton(
+                  btnTitle: t.auth.continueText,
+                  btnTextStyle: TextStyle(
+                    color: context.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppSizes.fontSizeSm + 1.0,
+                    letterSpacing: 0.2,
                   ),
+                  btnFunction: _handleContinue,
                 ),
                 const SizedBox(height: AppSizes.paddingMarginXl),
 
