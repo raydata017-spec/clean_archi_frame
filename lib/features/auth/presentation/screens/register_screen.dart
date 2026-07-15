@@ -8,6 +8,7 @@ import '../../../../core/utils/enums/auth_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
+import '../../../../shared/widgets/language_icon_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   final AuthTypeEnum loginType;
@@ -29,6 +30,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   String _selectedCountryCode = '+95';
+  
+  // Step state: 0 = Info, 1 = Password
+  int _currentStep = 0;
   bool _acceptTerms = false;
   bool _showTermsError = false;
 
@@ -47,11 +51,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _handleContinue() {
-    setState(() {
-      _showTermsError = !_acceptTerms;
-    });
-
-    if (_formKey.currentState!.validate() && _acceptTerms) {
+    if (_formKey.currentState!.validate()) {
+      if (!_acceptTerms) {
+        setState(() => _showTermsError = true);
+        return;
+      }
       context.push(
         RouteNames.registerPasswordPath,
         extra: {
@@ -76,6 +80,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           onPressed: () => context.go(RouteNames.loginPath),
         ),
+        actions: const [
+          LanguageIconButton(),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

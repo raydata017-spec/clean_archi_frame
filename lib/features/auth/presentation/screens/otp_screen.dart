@@ -7,6 +7,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/otp_validator.dart';
 import '../../../../shared/widgets/app_button.dart';
+import '../../../../shared/widgets/language_icon_button.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationTarget;
@@ -98,6 +99,9 @@ class _OtpScreenState extends State<OtpScreen> {
             context.pop();
           },
         ),
+        actions: const [
+          LanguageIconButton(),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

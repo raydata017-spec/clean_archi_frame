@@ -10,6 +10,7 @@ import '../../../../core/utils/validators/email_validator.dart';
 import '../../../../core/utils/validators/phone_validator.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/phone_input_field.dart';
+import '../../../../shared/widgets/language_icon_button.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   final AuthTypeEnum loginType;
@@ -82,6 +83,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             context.go(RouteNames.loginPath);
           },
         ),
+        actions: const [
+          LanguageIconButton(),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

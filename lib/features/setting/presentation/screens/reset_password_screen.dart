@@ -7,6 +7,7 @@ import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/validators/password_validator.dart';
 import '../../../../shared/widgets/app_button.dart';
+import '../../../../shared/widgets/language_icon_button.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -81,6 +82,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           ),
           onPressed: () => context.pop(),
         ),
+        actions: const [
+          LanguageIconButton(),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

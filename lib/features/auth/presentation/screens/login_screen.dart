@@ -6,6 +6,7 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/utils/enums/auth_type_enum.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
+import '../../../../shared/widgets/language_icon_button.dart';
 import '../widgets/email_form.dart';
 import '../widgets/phone_form.dart';
 
@@ -35,6 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        actions: const [
+          LanguageIconButton(),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
