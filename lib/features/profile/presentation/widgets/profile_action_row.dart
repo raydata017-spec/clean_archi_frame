@@ -29,10 +29,7 @@ class ProfileActionRow extends StatelessWidget {
         Radius.circular(AppSizes.borderRadiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.paddingMarginMd,
-          vertical: AppSizes.paddingMarginSm,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.paddingMarginSm),
         child: Row(
           children: [
             Icon(
