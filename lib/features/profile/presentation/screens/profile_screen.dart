@@ -14,8 +14,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     // Static Mock Data for User Information
     const String userName = 'Jane Doe';
@@ -26,22 +25,30 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      body: CustomScrollView(
-        slivers: [
-          ProfileHeaderAppBar(
-            userName: userName,
-            userEmail: userEmail,
-            userRole: userRole,
-            leading: context.drawerLeading,
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(AppSizes.paddingFromScreenEdge),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        elevation: 0,
+        leading: context.drawerLeading,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ProfileHeader(
+              userName: userName,
+              userEmail: userEmail,
+              userRole: userRole,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.paddingFromScreenEdge,
+                vertical: AppSizes.paddingFromScreenEdge,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   const ProfileSectionHeader(title: 'Personal Information'),
                   const SizedBox(height: AppSizes.spaceBtwTexts),
-                  const ProfileSectionCard(
+                  ProfileSectionCard(
                     children: [
                       ProfileInfoRow(
                         icon: Icons.email_outlined,
@@ -97,8 +104,8 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

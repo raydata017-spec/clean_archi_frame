@@ -41,6 +41,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final Translations$setting$en setting = Translations$setting$en.internal(_root);
+	late final Translations$profile$en profile = Translations$profile$en.internal(_root);
 	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en.internal(_root);
 	late final Translations$common$en common = Translations$common$en.internal(_root);
 	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
@@ -125,6 +126,42 @@ class Translations$setting$en {
 
 	/// en: 'Yes, Log out'
 	String get yesLogout => 'Yes, Log out';
+}
+
+// Path: profile
+class Translations$profile$en {
+	Translations$profile$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Profile'
+	String get title => 'Profile';
+
+	/// en: 'Personal Information'
+	String get personalInfo => 'Personal Information';
+
+	/// en: 'Settings & Security'
+	String get settingsSecurity => 'Settings & Security';
+
+	/// en: 'Edit Profile Details'
+	String get editProfile => 'Edit Profile Details';
+
+	/// en: 'Change Password'
+	String get changePassword => 'Change Password';
+
+	/// en: 'Email'
+	String get email => 'Email';
+
+	/// en: 'Phone'
+	String get phone => 'Phone';
+
+	/// en: 'Joined'
+	String get joined => 'Joined';
+
+	/// en: 'Role'
+	String get role => 'Role';
 }
 
 // Path: kDynamic
@@ -522,6 +559,15 @@ extension on Translations {
 			'setting.doYouWantToLogout' => 'Do you want to logout?',
 			'setting.areYouSureYouWantToLogout' => 'Are you sure you want to log out?',
 			'setting.yesLogout' => 'Yes, Log out',
+			'profile.title' => 'Profile',
+			'profile.personalInfo' => 'Personal Information',
+			'profile.settingsSecurity' => 'Settings & Security',
+			'profile.editProfile' => 'Edit Profile Details',
+			'profile.changePassword' => 'Change Password',
+			'profile.email' => 'Email',
+			'profile.phone' => 'Phone',
+			'profile.joined' => 'Joined',
+			'profile.role' => 'Role',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.defaultErrorText' => 'Something went wrong',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 

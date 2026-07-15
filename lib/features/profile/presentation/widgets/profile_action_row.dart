@@ -31,7 +31,7 @@ class ProfileActionRow extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSizes.paddingMarginMd,
-          vertical: AppSizes.paddingMarginMd,
+          vertical: AppSizes.paddingMarginSm,
         ),
         child: Row(
           children: [

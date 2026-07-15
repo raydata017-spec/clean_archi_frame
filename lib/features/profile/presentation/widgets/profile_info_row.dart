@@ -17,10 +17,7 @@ class ProfileInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.paddingMarginMd,
-        vertical: AppSizes.paddingMarginMd,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.paddingMarginSm),
       child: Row(
         children: [
           Icon(

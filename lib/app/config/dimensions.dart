@@ -17,6 +17,7 @@ sealed class AppSizes {
   static const double iconSm = 16.0;
   static const double iconMd = 24.0;
   static const double iconLg = 32.0;
+  static const double iconXl = 48.0;
 
   // Font sizes
   static const double fontSizeXs = 12.0;
@@ -39,12 +40,14 @@ sealed class AppSizes {
   // Title Container heightt
   static const double titleContainerHeight = 150.0;
   static const double titlePosition = 16.0;
+  static const double profileHeaderHeight = 220.0;
 
   // Image sizes
   static const double imageThumbSize = 80.0;
   static const double profilePicSm = 12.0;
   static const double profilePicMd = 24.0;
   static const double profilePicLg = 32.0;
+  static const double profilePicXl = 50.0;
 
   // Default spacing between sections
   static const double defaultSpace = 24.0;

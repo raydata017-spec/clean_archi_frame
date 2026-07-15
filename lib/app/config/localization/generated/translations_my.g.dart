@@ -40,6 +40,7 @@ class TranslationsMy extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override late final _Translations$setting$my setting = _Translations$setting$my._(_root);
+	@override late final _Translations$profile$my profile = _Translations$profile$my._(_root);
 	@override late final _Translations$kDynamic$my kDynamic = _Translations$kDynamic$my._(_root);
 	@override late final _Translations$common$my common = _Translations$common$my._(_root);
 	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
@@ -78,6 +79,24 @@ class _Translations$setting$my extends Translations$setting$en {
 	@override String get doYouWantToLogout => 'အကောင့်မှ ထွက်လိုပါသလား။';
 	@override String get areYouSureYouWantToLogout => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။';
 	@override String get yesLogout => 'ဟုတ်ကဲ့၊ ထွက်မည်';
+}
+
+// Path: profile
+class _Translations$profile$my extends Translations$profile$en {
+	_Translations$profile$my._(TranslationsMy root) : this._root = root, super.internal(root);
+
+	final TranslationsMy _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'ပရိုဖိုင်';
+	@override String get personalInfo => 'ကိုယ်ရေးအချက်အလက်';
+	@override String get settingsSecurity => 'ဆက်တင်နှင့် လုံခြုံရေး';
+	@override String get editProfile => 'ကိုယ်ရေးအချက်အလက်ပြင်ရန်';
+	@override String get changePassword => 'စကားဝှက် ပြောင်းရန်';
+	@override String get email => 'အီးမေးလ်';
+	@override String get phone => 'ဖုန်းနံပါတ်';
+	@override String get joined => 'စတင်ပူးပေါင်းသည့်ရက်';
+	@override String get role => 'ရာထူး';
 }
 
 // Path: kDynamic
@@ -270,6 +289,15 @@ extension on TranslationsMy {
 			'setting.doYouWantToLogout' => 'အကောင့်မှ ထွက်လိုပါသလား။',
 			'setting.areYouSureYouWantToLogout' => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။',
 			'setting.yesLogout' => 'ဟုတ်ကဲ့၊ ထွက်မည်',
+			'profile.title' => 'ပရိုဖိုင်',
+			'profile.personalInfo' => 'ကိုယ်ရေးအချက်အလက်',
+			'profile.settingsSecurity' => 'ဆက်တင်နှင့် လုံခြုံရေး',
+			'profile.editProfile' => 'ကိုယ်ရေးအချက်အလက်ပြင်ရန်',
+			'profile.changePassword' => 'စကားဝှက် ပြောင်းရန်',
+			'profile.email' => 'အီးမေးလ်',
+			'profile.phone' => 'ဖုန်းနံပါတ်',
+			'profile.joined' => 'စတင်ပူးပေါင်းသည့်ရက်',
+			'profile.role' => 'ရာထူး',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.defaultErrorText' => 'တစ်စုံတစ်ခုမှားယွင်းနေသည်',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
