@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../app/config/dimensions.dart';
+import '../../../../core/utils/extensions/context_extension.dart';
 
 class ProfileInfoRow extends StatelessWidget {
   final IconData icon;
@@ -15,28 +16,31 @@ class ProfileInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSizes.paddingMarginSm),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.paddingMarginSm,
+        vertical: AppSizes.paddingMarginSm,
+      ),
       child: Row(
         children: [
           Icon(
             icon,
             size: AppSizes.iconMd,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+            color: context.colorScheme.onSurface.withValues(alpha: 0.6),
           ),
           const SizedBox(width: AppSizes.spaceBtwItems),
           Text(
             label,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
           const Spacer(),
           Text(
             value,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.onSurface,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../app/config/dimensions.dart';
+import '../../../../core/utils/extensions/context_extension.dart';
 
 class ProfileSectionHeader extends StatelessWidget {
   final String title;
@@ -10,12 +12,19 @@ class ProfileSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: AppSizes.paddingMarginXs,
+        bottom: AppSizes.paddingMarginXs,
+      ),
+      child: Text(
+        title.toUpperCase(),
+        style: context.textTheme.bodySmall?.copyWith(
+          color: context.colorScheme.primary,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.2,
+        ),
+      ),
     );
   }
 }

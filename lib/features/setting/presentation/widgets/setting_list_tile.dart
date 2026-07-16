@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../app/config/dimensions.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 
@@ -38,7 +37,7 @@ class SettingListTile extends StatelessWidget {
             Icon(
               icon,
               size: AppSizes.iconMd,
-              color: iconColor ?? context.colorScheme.onSurface.withValues(alpha: .7),
+              color: iconColor ?? context.colorScheme.onSurface.withValues(alpha: 0.8),
             ),
             const SizedBox(width: AppSizes.spaceBtwItems),
             Expanded(
@@ -47,16 +46,16 @@ class SettingListTile extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: context.textTheme.bodyLarge?.copyWith(
+                    style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: textColor,
+                      color: textColor ?? context.colorScheme.onSurface,
                     ),
                   ),
                   Text(
                     subtitle,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: textColor?.withValues(alpha: .7) ??
-                          context.colorScheme.onSurface.withValues(alpha: .5),
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: textColor?.withValues(alpha: 0.7) ??
+                          context.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   ),
                 ],

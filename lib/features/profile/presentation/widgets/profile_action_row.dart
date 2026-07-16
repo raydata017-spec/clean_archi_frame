@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../app/config/dimensions.dart';
+import '../../../../core/utils/extensions/context_extension.dart';
 
 class ProfileActionRow extends StatelessWidget {
   final IconData icon;
@@ -19,17 +20,17 @@ class ProfileActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final finalIconColor = iconColor ?? theme.colorScheme.onSurface.withValues(alpha: 0.8);
-    final finalTextColor = textColor ?? theme.colorScheme.onSurface;
+    final finalIconColor = iconColor ?? context.colorScheme.onSurface.withValues(alpha: 0.8);
+    final finalTextColor = textColor ?? context.colorScheme.onSurface;
 
     return InkWell(
       onTap: onTap,
-      borderRadius: const BorderRadius.all(
-        Radius.circular(AppSizes.borderRadiusMd),
-      ),
+      borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSizes.paddingMarginSm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.paddingMarginSm,
+          vertical: AppSizes.paddingMarginSm,
+        ),
         child: Row(
           children: [
             Icon(
@@ -41,16 +42,16 @@ class ProfileActionRow extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: theme.textTheme.bodyMedium?.copyWith(
+                style: context.textTheme.bodyMedium?.copyWith(
                   color: finalTextColor,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             Icon(
               Icons.chevron_right,
               size: AppSizes.iconMd,
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+              color: context.colorScheme.onSurface.withValues(alpha: 0.3),
             ),
           ],
         ),
