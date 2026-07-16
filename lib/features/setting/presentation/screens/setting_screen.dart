@@ -8,17 +8,35 @@ import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
 import '../../../../app/router/route_names.dart';
+import '../../../../core/services/biometrics_service.dart';
 import '../../../../core/services/permission_service.dart';
 import '../../../../core/utils/enums/alert_layout.dart';
+import '../../../auth/presentation/providers/biometric_provider.dart';
 import '../../../../core/utils/extensions/app_bar_extension.dart';
 import '../../../../core/utils/extensions/context_extension.dart';
 import '../../../../core/utils/extensions/dialog_extension.dart';
 import '../../../../shared/widgets/app_selection_bottom_sheet.dart';
+import '../widgets/password_verification_bottom_sheet.dart';
 import '../widgets/setting_list_tile.dart';
 import '../widgets/setting_section_header.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
+
+  Future<bool?> _showPasswordVerificationBottomSheet(BuildContext context) {
+    return showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: context.colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppSizes.borderRadiusXl),
+          topRight: Radius.circular(AppSizes.borderRadiusXl),
+        ),
+      ),
+      builder: (context) => const PasswordVerificationBottomSheet(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -149,6 +167,58 @@ class SettingScreen extends ConsumerWidget {
                   }
                 },
               ),
+              if (ref.watch(biometricSupportProvider).value ?? false)
+                SettingListTile(
+                  title: t.setting.biometrics,
+                  subtitle: t.setting.biometricsSubtitle,
+                  icon: Icons.fingerprint_rounded,
+                  trailing: Switch(
+                    value: ref.watch(biometricEnabledProvider),
+                    activeThumbColor: context.colorScheme.primary,
+                    onChanged: (value) async {
+                      final biometrics = ref.read(biometricsServiceProvider);
+                      final success = await biometrics.authenticate(
+                        reason: t.auth.biometricReason,
+                      );
+                      if (success) {
+                        await ref
+                            .read(biometricEnabledProvider.notifier)
+                            .toggleBiometric(value);
+                      } else {
+                        if (context.mounted) {
+                          final passwordVerified = await _showPasswordVerificationBottomSheet(context);
+                          if (passwordVerified == true) {
+                            await ref
+                                .read(biometricEnabledProvider.notifier)
+                                .toggleBiometric(value);
+                          }
+                        }
+                      }
+                    },
+                  ),
+                  onTap: () async {
+                    final currentValue = ref.read(biometricEnabledProvider);
+                    final newValue = !currentValue;
+                    final biometrics = ref.read(biometricsServiceProvider);
+                    final success = await biometrics.authenticate(
+                      reason: t.auth.biometricReason,
+                    );
+                    if (success) {
+                      await ref
+                          .read(biometricEnabledProvider.notifier)
+                          .toggleBiometric(newValue);
+                    } else {
+                      if (context.mounted) {
+                        final passwordVerified = await _showPasswordVerificationBottomSheet(context);
+                        if (passwordVerified == true) {
+                          await ref
+                              .read(biometricEnabledProvider.notifier)
+                              .toggleBiometric(newValue);
+                        }
+                      }
+                    }
+                  },
+                ),
             ],
           ),
 

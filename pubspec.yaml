@@ -32,6 +32,7 @@ dependencies:
   intl:
   json_annotation:
   logger:
+  local_auth:
   ota_update:
   package_info_plus:
   path:

@@ -19,6 +19,11 @@
         "manageSystemNotificationPermissions": "Manage system notification permissions",
         "locationSetting": "Location Permission",
         "manageSystemLocationPermissions": "Manage system location permissions",
+        "biometrics": "Biometric Authentication",
+        "biometricsSubtitle": "Use Face ID / Fingerprint to login securely",
+        "biometricsPasswordReason": "To change biometric settings, please enter your password.",
+        "faceId": "Face ID",
+        "fingerprint": "Fingerprint",
         "signOutOfCurrentAccount": "Sign out of current account",
         "doYouWantToLogout": "Do you want to logout?",
         "areYouSureYouWantToLogout": "Are you sure you want to log out?",
@@ -40,6 +45,7 @@
         "exitAppConfirm": "Are you sure you want to exit?",
         "exit": "Exit",
         "cancel": "Cancel",
+        "confirm": "Confirm",
         "noInternet": "No internet connection. Please check your network.",
         "internetRestored": "Internet connection restored."
     },
@@ -113,7 +119,11 @@
         "otpSubtitle": "Enter the verification code sent to your device.",
         "resetPassword": "Reset Password",
         "resetPasswordSubtitle": "Set your new password below.",
-        "otp": "OTP"
+        "otp": "OTP",
+        "biometricReason": "Please authenticate to sign in to your account.",
+        "biometricSuccess": "Authentication successful",
+        "biometricFailed": "Authentication failed",
+        "biometricNotEnrolled": "No biometric details found on device"
     },
     "notification": {
         "title": "Notifications",

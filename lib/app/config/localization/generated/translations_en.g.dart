@@ -41,7 +41,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final Translations$setting$en setting = Translations$setting$en.internal(_root);
-	late final Translations$profile$en profile = Translations$profile$en.internal(_root);
 	late final Translations$kDynamic$en kDynamic = Translations$kDynamic$en.internal(_root);
 	late final Translations$common$en common = Translations$common$en.internal(_root);
 	late final Translations$validation$en validation = Translations$validation$en.internal(_root);
@@ -115,6 +114,21 @@ class Translations$setting$en {
 	/// en: 'Manage system location permissions'
 	String get manageSystemLocationPermissions => 'Manage system location permissions';
 
+	/// en: 'Biometric Authentication'
+	String get biometrics => 'Biometric Authentication';
+
+	/// en: 'Use Face ID / Fingerprint to login securely'
+	String get biometricsSubtitle => 'Use Face ID / Fingerprint to login securely';
+
+	/// en: 'To change biometric settings, please enter your password.'
+	String get biometricsPasswordReason => 'To change biometric settings, please enter your password.';
+
+	/// en: 'Face ID'
+	String get faceId => 'Face ID';
+
+	/// en: 'Fingerprint'
+	String get fingerprint => 'Fingerprint';
+
 	/// en: 'Sign out of current account'
 	String get signOutOfCurrentAccount => 'Sign out of current account';
 
@@ -126,42 +140,6 @@ class Translations$setting$en {
 
 	/// en: 'Yes, Log out'
 	String get yesLogout => 'Yes, Log out';
-}
-
-// Path: profile
-class Translations$profile$en {
-	Translations$profile$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Profile'
-	String get title => 'Profile';
-
-	/// en: 'Personal Information'
-	String get personalInfo => 'Personal Information';
-
-	/// en: 'Settings & Security'
-	String get settingsSecurity => 'Settings & Security';
-
-	/// en: 'Edit Profile Details'
-	String get editProfile => 'Edit Profile Details';
-
-	/// en: 'Change Password'
-	String get changePassword => 'Change Password';
-
-	/// en: 'Email'
-	String get email => 'Email';
-
-	/// en: 'Phone'
-	String get phone => 'Phone';
-
-	/// en: 'Joined'
-	String get joined => 'Joined';
-
-	/// en: 'Role'
-	String get role => 'Role';
 }
 
 // Path: kDynamic
@@ -211,6 +189,9 @@ class Translations$common$en {
 
 	/// en: 'Cancel'
 	String get cancel => 'Cancel';
+
+	/// en: 'Confirm'
+	String get confirm => 'Confirm';
 
 	/// en: 'No internet connection. Please check your network.'
 	String get noInternet => 'No internet connection. Please check your network.';
@@ -439,6 +420,18 @@ class Translations$auth$en {
 
 	/// en: 'OTP'
 	String get otp => 'OTP';
+
+	/// en: 'Please authenticate to sign in to your account.'
+	String get biometricReason => 'Please authenticate to sign in to your account.';
+
+	/// en: 'Authentication successful'
+	String get biometricSuccess => 'Authentication successful';
+
+	/// en: 'Authentication failed'
+	String get biometricFailed => 'Authentication failed';
+
+	/// en: 'No biometric details found on device'
+	String get biometricNotEnrolled => 'No biometric details found on device';
 }
 
 // Path: notification
@@ -555,19 +548,15 @@ extension on Translations {
 			'setting.manageSystemNotificationPermissions' => 'Manage system notification permissions',
 			'setting.locationSetting' => 'Location Permission',
 			'setting.manageSystemLocationPermissions' => 'Manage system location permissions',
+			'setting.biometrics' => 'Biometric Authentication',
+			'setting.biometricsSubtitle' => 'Use Face ID / Fingerprint to login securely',
+			'setting.biometricsPasswordReason' => 'To change biometric settings, please enter your password.',
+			'setting.faceId' => 'Face ID',
+			'setting.fingerprint' => 'Fingerprint',
 			'setting.signOutOfCurrentAccount' => 'Sign out of current account',
 			'setting.doYouWantToLogout' => 'Do you want to logout?',
 			'setting.areYouSureYouWantToLogout' => 'Are you sure you want to log out?',
 			'setting.yesLogout' => 'Yes, Log out',
-			'profile.title' => 'Profile',
-			'profile.personalInfo' => 'Personal Information',
-			'profile.settingsSecurity' => 'Settings & Security',
-			'profile.editProfile' => 'Edit Profile Details',
-			'profile.changePassword' => 'Change Password',
-			'profile.email' => 'Email',
-			'profile.phone' => 'Phone',
-			'profile.joined' => 'Joined',
-			'profile.role' => 'Role',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'Welcome back, ${name}! You have ${point} points.',
 			'kDynamic.defaultErrorText' => 'Something went wrong',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'You have no new messages.', one: 'You have 1 new message.', other: 'You have ${n} new messages.', ), 
@@ -577,6 +566,7 @@ extension on Translations {
 			'common.exitAppConfirm' => 'Are you sure you want to exit?',
 			'common.exit' => 'Exit',
 			'common.cancel' => 'Cancel',
+			'common.confirm' => 'Confirm',
 			'common.noInternet' => 'No internet connection. Please check your network.',
 			'common.internetRestored' => 'Internet connection restored.',
 			'validation.emailRequired' => 'Email is required',
@@ -647,6 +637,10 @@ extension on Translations {
 			'auth.resetPassword' => 'Reset Password',
 			'auth.resetPasswordSubtitle' => 'Set your new password below.',
 			'auth.otp' => 'OTP',
+			'auth.biometricReason' => 'Please authenticate to sign in to your account.',
+			'auth.biometricSuccess' => 'Authentication successful',
+			'auth.biometricFailed' => 'Authentication failed',
+			'auth.biometricNotEnrolled' => 'No biometric details found on device',
 			'notification.title' => 'Notifications',
 			'notification.markAllRead' => 'Mark all read',
 			'notification.unread' => ({required Object count}) => 'Unread (${count})',

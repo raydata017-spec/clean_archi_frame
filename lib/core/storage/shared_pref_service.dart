@@ -21,6 +21,7 @@ class SharedPrefService {
   static const String _localeKey = 'app_locale';
   static const String _tokenKey = 'auth_token';
   static const String _refreshTokenKey = 'refresh_token';
+  static const String _biometricEnabledKey = 'biometric_enabled';
 
   // --- Theme ---
   Future<void> saveThemeMode(String mode) async {
@@ -71,6 +72,15 @@ class SharedPrefService {
 
   Future<void> deleteRefreshToken() async {
     await _prefs.remove(_refreshTokenKey);
+  }
+
+  // --- Biometric Preferred State ---
+  Future<void> saveBiometricEnabled(bool enabled) async {
+    await _prefs.setBool(_biometricEnabledKey, enabled);
+  }
+
+  bool getBiometricEnabled() {
+    return _prefs.getBool(_biometricEnabledKey) ?? false;
   }
 
   // --- Clear All ---

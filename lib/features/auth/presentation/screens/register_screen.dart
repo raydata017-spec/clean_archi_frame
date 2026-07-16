@@ -30,9 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   String _selectedCountryCode = '+95';
-  
+
   // Step state: 0 = Info, 1 = Password
-  int _currentStep = 0;
   bool _acceptTerms = false;
   bool _showTermsError = false;
 

@@ -49,5 +49,7 @@
 	<string>This app needs access to location when open to fetch coordinates.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location always to fetch coordinates.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>This app requires Face ID permission to authenticate securely using biometrics.</string>
 </dict>
 </plist>

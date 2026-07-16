@@ -538,5 +538,101 @@ void _checkAndProceedLocation(WidgetRef ref) async {
 | `permissionService` | `PermissionService` | Yes | Settings ဖွင့်လှစ်ရန် အသုံးပြုမည့် service Provider instance။ |
 | `settingsType` | `AppSettingsType` | No (Default: `settings`) | "Open Settings" နှိပ်ချိန်တွင် သွားရောက်မည့် စနစ်၏ settings စာမျက်နှာ အမျိုးအစား။ |
 
+---
+
+## Biometrics Authentication (ဇီဝအမှတ်အသား စစ်ဆေးခြင်း)
+
+ဤ framework တွင် biometric authentication (လက်ဗွေ သို့မဟုတ် မျက်နှာစနစ်) ကို အသုံးပြုနိုင်ရန် **`local_auth`** package ကို အသုံးပြုထားပြီး dynamic setup များနှင့် fallback mechanisms များကို စနစ်တကျ ရေးသားထားပါသည်။
+
+### အလုပ်လုပ်ပုံ ရှင်းလင်းချက် (How it Works)
+1. **Dynamic Support Detection:** စက်ပစ္စည်း (Device) တွင် biometric hardware ပါဝင်ခြင်း ရှိမရှိနှင့် biometrics ထည့်သွင်းထားခြင်း (enrolled) ရှိမရှိကို runtime တွင် dynamic စစ်ဆေးပေးပါသည်။
+2. **Dynamic UI Icon & Label:** စက်ပစ္စည်းပေါ်မူတည်၍ UI ကို အလိုအလျောက် ပြောင်းလဲပြသပေးပါသည်။
+   - Face ID သုံးသောစက်များ (ဥပမာ- iPhone X+) တွင် **Face icon** နှင့် **"Face ID"** စာသားကို ပြသမည်။
+   - Fingerprint သုံးသောစက်များတွင် **Fingerprint icon** နှင့် **"Fingerprint"** စာသားကို ပြသမည်။
+   - Hardware type ကို သဲသဲကွဲကွဲ မသိရလျှင် generic **"Biometric Authentication"** စာသားနှင့် **Security icon** ကို ပြသမည်။
+3. **App Password Fallback Enforcement (biometricOnly: true):** Biometric verify မလုပ်နိုင်ပါက ဖုန်း၏ Screen lock PIN/Pattern ဖြင့် Bypass လုပ်ပြီး ဝင်ရောက်ခြင်းကို ကာကွယ်ရန် `biometricOnly: true` ဟု သတ်မှတ်ထားပါသည်။ သို့မှသာ biometric မအောင်မြင်လျှင် ဖုန်း PIN ဖြင့် bypass လုပ်၍မရဘဲ App ၏ သီးသန့် အကောင့်စကားဝှက် (App Password) ကိုသာ အတင်းအကျပ် ဖြည့်စွက်ဝင်ရောက်ခိုင်းမည် ဖြစ်သဖြင့် ပိုမိုလုံခြုံစိတ်ချရပါသည်။
+4. **Security Settings Fallback (Password Verification BottomSheet):** User မှ settings တွင် biometric authentication ကို switch toggling လုပ်ပြီး အဖွင့်/အပိတ် ပြုလုပ်ချိန်၌ biometric verify မလုပ်နိုင်ပါက (ဥပမာ- finger ညစ်ပတ်နေခြင်း သို့မဟုတ် biometric ပျက်စီးနေခြင်း) fallback အနေဖြင့် **အကောင့်စကားဝှက် (Password)** ရေးသွင်းအတည်ပြုပြီး ပြောင်းလဲနိုင်ရန် **Modal BottomSheet** dialog ကို စနစ်တကျ ပြသပေးပါသည်။
+
+---
+
+### Platform Setup (မဖြစ်မနေ လုပ်ဆောင်ရန်)
+
+#### ၁။ Android Configuration
+- **`android/app/src/main/AndroidManifest.xml`** တွင် အောက်ပါ permission ကို ထည့်သွင်းထားရပါမည်။
+  ```xml
+  <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+  ```
+- Android biometrics dialog ကို native ခေါ်ယူရန် **`MainActivity.kt`** သည် standard `FlutterActivity` အစား `FlutterFragmentActivity` ကို မဖြစ်မနေ extend လုပ်ထားရပါမည်။
+  ```kotlin
+  import io.flutter.embedding.android.FlutterFragmentActivity
+
+  class MainActivity: FlutterFragmentActivity() {
+  }
+  ```
+
+#### ၂။ iOS Configuration
+- **`ios/Runner/Info.plist`** တွင် Face ID အသုံးပြုခွင့် တောင်းခံစာသားကို ထည့်သွင်းပေးရပါမည်။
+  ```xml
+  <key>NSFaceIDUsageDescription</key>
+  <string>Please authenticate to sign in using Face ID.</string>
+  ```
+
+---
+
+### UI နှင့် State စီမံခန့်ခွဲမှု (Riverpod Providers)
+
+- **`biometricsServiceProvider`** (`core/services/biometrics_service.dart`): `local_auth` API wrapper ဖြစ်ပြီး scan ဖတ်ခြင်း၊ devices settings စစ်ဆေးခြင်းများကို လုပ်ဆောင်ပေးသည်။
+- **`biometricSupportProvider`** (`features/auth/presentation/providers/biometric_provider.dart`): စက်ပစ္စည်းသည် biometric scan ဖတ်ရန် အဆင်သင့်ဖြစ်မဖြစ် စစ်ဆေးပေးသော `FutureProvider<bool>` ဖြစ်သည်။
+- **`biometricEnabledProvider`** (`features/auth/presentation/providers/biometric_provider.dart`): User မှ ဆက်တင်တွင် biometric သုံးရန် ဖွင့်ထားခြင်း ရှိမရှိကို `SharedPreferences` မှတစ်ဆင့် reactive စီမံပေးသော `NotifierProvider<bool>` ဖြစ်သည်။
+- **`activeBiometricTypeProvider`** (`features/auth/presentation/providers/biometric_provider.dart`): လက်ရှိစက်၏ biometric အမျိုးအစား (face, fingerprint, strong, weak) ကို ရှာဖွေပေးသော `FutureProvider<BiometricType?>` ဖြစ်သည်။
+
+---
+
+### UI တွင် အသုံးပြုပုံ (Usage Examples)
+
+#### ၁။ Login Screen တွင် Biometric Button ပြသခြင်း
+```dart
+if (isBiometricEnabled && isBiometricSupported) ...[
+  ref.watch(activeBiometricTypeProvider).when(
+    data: (type) {
+      final icon = type == BiometricType.face ? Icons.face_rounded : Icons.fingerprint_rounded;
+      final label = type == BiometricType.face ? t.setting.faceId : t.setting.fingerprint;
+      return OutlinedButton.icon(
+        onPressed: () async {
+          final success = await ref.read(biometricsServiceProvider).authenticate(
+            reason: t.auth.biometricReason,
+          );
+          if (success) context.go(RouteNames.homePath);
+        },
+        icon: Icon(icon),
+        label: Text(label),
+      );
+    },
+    loading: () => const SizedBox.shrink(),
+    error: (_, __) => const SizedBox.shrink(),
+  ),
+]
+```
+
+#### ၂။ ဆက်တင်တွင် password fallback ဖြင့် biometric toggling ပြုလုပ်ခြင်း
+```dart
+onChanged: (value) async {
+  final biometrics = ref.read(biometricsServiceProvider);
+  final success = await biometrics.authenticate(
+    reason: t.auth.biometricReason,
+  );
+  if (success) {
+    await ref.read(biometricEnabledProvider.notifier).toggleBiometric(value);
+  } else {
+    // Biometric မအောင်မြင်လျှင် Password BottomSheet သို့ fallback လုပ်ပါမည်
+    final passwordVerified = await _showPasswordVerificationBottomSheet(context);
+    if (passwordVerified == true) {
+      await ref.read(biometricEnabledProvider.notifier).toggleBiometric(value);
+    }
+  }
+}
+```
+
+
 
 

@@ -92,4 +92,7 @@ sealed class AppSizes {
 
   // Max File Size for Uploads (5MB)
   static const int maxFileSizeInBytes = 5 * 1024 * 1024;
+
+  // Max width of content layout
+  static const double maxContentWidth = 400.0;
 }

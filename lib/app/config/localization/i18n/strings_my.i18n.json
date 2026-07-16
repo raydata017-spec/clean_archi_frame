@@ -19,6 +19,11 @@
     "manageSystemNotificationPermissions": "အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်",
     "locationSetting": "တည်နေရာဆိုင်ရာခွင့်ပြုချက်",
     "manageSystemLocationPermissions": "တည်နေရာဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်",
+    "biometrics": "ဇီဝအမှတ်အသားဖြင့် စစ်ဆေးခြင်း",
+    "biometricsSubtitle": "လုံခြုံစွာ ဝင်ရောက်ရန် Face ID / Fingerprint ကို သုံးပါ",
+    "biometricsPasswordReason": "ဇီဝအမှတ်အသား ဆက်တင်များ ပြောင်းလဲရန် စကားဝှက် ရေးသွင်းပေးပါ။",
+    "faceId": "မျက်နှာစနစ်ဖြင့် အတည်ပြုခြင်း",
+    "fingerprint": "လက်ဗွေစနစ်ဖြင့် အတည်ပြုခြင်း",
     "signOutOfCurrentAccount": "လက်ရှိအကောင့်မှ ထွက်ရန်",
     "doYouWantToLogout": "အကောင့်မှ ထွက်လိုပါသလား။",
     "areYouSureYouWantToLogout": "အကောင့်မှ ထွက်ရန် သေချာပါသလား။",
@@ -39,6 +44,7 @@
     "exitAppConfirm": "အက်ပ်မှ ထွက်ရန် သေချာပါသလား?",
     "exit": "ထွက်မည်",
     "cancel": "မလုပ်တော့ပါ",
+    "confirm": "အတည်ပြုမည်",
     "noInternet": "အင်တာနက် ချိတ်ဆက်မှု မရှိပါ။ သင့်ကွန်ရက်ကို စစ်ဆေးပါ။",
     "internetRestored": "အင်တာနက် ပြန်လည် ချိတ်ဆက်မိပါပြီ။"
   },
@@ -112,7 +118,11 @@
     "otpSubtitle": "သင့်စက်ပစ္စည်းသို့ ပေးပို့ထားသော အတည်ပြုကုဒ်ကို ရိုက်ထည့်ပါ။",
     "resetPassword": "စကားဝှက်အသစ် သတ်မှတ်ရန်",
     "resetPasswordSubtitle": "စကားဝှက်အသစ်ကို အောက်တွင် သတ်မှတ်ပါ။",
-    "otp": "OTP"
+    "otp": "OTP",
+    "biometricReason": "အကောင့်ထဲဝင်ရန် ကျေးဇူးပြု၍ ဇီဝအမှတ်အသားကို စစ်ဆေးပါ",
+    "biometricSuccess": "စစ်ဆေးမှု အောင်မြင်ပါသည်",
+    "biometricFailed": "စစ်ဆေးမှု မအောင်မြင်ပါ",
+    "biometricNotEnrolled": "စက်ပစ္စည်းတွင် biometric အချက်အလက် မရှိပါ"
   },
   "notification": {
     "title": "အကြောင်းကြားချက်များ",
