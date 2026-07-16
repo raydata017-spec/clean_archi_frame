@@ -29,16 +29,19 @@ class LanguageIconButton extends ConsumerWidget {
               value: AppLocaleMode.system,
               label: t.setting.systemLanguage,
               isSelected: currentLocale == AppLocaleMode.system,
+              leading: const Icon(Icons.settings_suggest_outlined),
             ),
             SelectionItem(
               value: AppLocaleMode.english,
               label: 'English',
               isSelected: currentLocale == AppLocaleMode.english,
+              leading: const Text('🇺🇸', style: TextStyle(fontSize: 20)),
             ),
             SelectionItem(
               value: AppLocaleMode.burmese,
               label: 'မြန်မာ',
               isSelected: currentLocale == AppLocaleMode.burmese,
+              leading: const Text('🇲🇲', style: TextStyle(fontSize: 20)),
             ),
           ],
         );

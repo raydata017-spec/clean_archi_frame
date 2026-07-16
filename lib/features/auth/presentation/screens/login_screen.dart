@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -103,7 +101,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   if (isBiometricEnabled && isBiometricSupported) ...[
                     ref.watch(activeBiometricTypeProvider).when(
                           data: (type) {
-                            log("Type: $type");
 
                             final icon = type == BiometricType.face
                                 ? Icons.face_rounded
