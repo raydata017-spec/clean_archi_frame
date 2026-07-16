@@ -41,7 +41,7 @@ class PermissionService {
     return await requestPermission(
       ph.Permission.location,
       permissionName: 'Location',
-      settingsType: AppSettingsType.location,
+      settingsType: AppSettingsType.settings,
     );
   }
 
