@@ -6,7 +6,6 @@ import '../utils/enums/outbox_status_enum.dart';
 import '../utils/enums/sync_engine_enums.dart';
 import '../utils/exceptions/sync_exceptions.dart';
 import '../utils/extensions/duration_extension.dart';
-import 'repositories/local_reference_repository.dart';
 import 'sync_config.dart';
 import 'outbox_action_processor.dart';
 import 'offline_cleanup_handler.dart';
@@ -15,7 +14,6 @@ import 'offline_outbox_item.dart';
 
 class OfflineSyncEngine {
   final OfflineOutboxRepository _outboxRepository;
-  final LocalReferenceRepository _referenceRepository;
   final SyncConfig _config;
   final ConnectivityChecker _connectivity;
 
@@ -36,12 +34,10 @@ class OfflineSyncEngine {
   Stream<SyncEngineEnums> get statusStream => _statusController.stream;
 
   OfflineSyncEngine({
-    required LocalReferenceRepository referenceRepository,
     required OfflineOutboxRepository outboxRepository,
     SyncConfig config = const SyncConfig(),
     ConnectivityChecker? connectivity,
   })  : _outboxRepository = outboxRepository,
-        _referenceRepository = referenceRepository,
         _config = config,
         _connectivity = connectivity ?? ConnectivityService();
 
@@ -91,8 +87,7 @@ class OfflineSyncEngine {
     _outboxSub = _outboxRepository.watchOutbox().listen((items) {
       final hasReadyItems = items.any(
         (item) =>
-            (item.status == OutboxStatusEnum.pending ||
-                item.status == OutboxStatusEnum.failed) &&
+            (item.status == OutboxStatusEnum.pending || item.status == OutboxStatusEnum.failed) &&
             item.isReadyToSync,
       );
       if (hasReadyItems && _status != SyncEngineEnums.offline) {
@@ -195,9 +190,7 @@ class OfflineSyncEngine {
       if (nextItem == null) {
         await runDatabaseCleanup();
         _updateStatus(
-          _status == SyncEngineEnums.offline
-              ? SyncEngineEnums.offline
-              : SyncEngineEnums.idle,
+          _status == SyncEngineEnums.offline ? SyncEngineEnums.offline : SyncEngineEnums.idle,
         );
         await _scheduleNextRetry();
       }
@@ -226,21 +219,7 @@ class OfflineSyncEngine {
         name: 'OfflineSyncEngine',
       );
 
-      final response = await processor.process(item);
-
-      if (response != null && item.clientReferenceId != null) {
-        final serverId = response['id']?.toString();
-        if (serverId != null) {
-          await _referenceRepository.saveMapping(
-            clientId: item.clientReferenceId!,
-            serverId: serverId,
-          );
-          dev.log(
-            '🔗 Saved Mapping: ${item.clientReferenceId} -> $serverId',
-            name: 'OfflineSyncEngine',
-          );
-        }
-      }
+      await processor.process(item);
 
       await _outboxRepository.deleteOutboxItem(item.id);
       dev.log(
@@ -385,11 +364,6 @@ class OfflineSyncEngine {
     );
     await processor.onFailure(error, item, newRetryCount);
     _updateStatus(SyncEngineEnums.error);
-  }
-
-  /// Resolves a client reference to its server ID (if mapped).
-  Future<String?> resolveServerId(String clientId) {
-    return _referenceRepository.getServerId(clientId);
   }
 
   void dispose() {

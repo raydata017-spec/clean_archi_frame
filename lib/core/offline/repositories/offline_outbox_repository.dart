@@ -29,6 +29,9 @@ abstract class OfflineOutboxRepository {
     bool clearNextRetryAt = false,
   });
 
+  /// Resets a failed or conflicted outbox item back to pending to trigger a retry.
+  Future<void> retryOutboxItem(int id);
+
   /// Deletes an outbox item from the queue.
   Future<void> deleteOutboxItem(int id);
 

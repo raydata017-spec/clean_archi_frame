@@ -52,8 +52,10 @@ class BiometricsService {
       // local_auth 3.x: options are top-level named params (not AuthenticationOptions).
       return await _auth.authenticate(
         localizedReason: reason,
-        biometricOnly: biometricOnly,
-        persistAcrossBackgrounding: stickyAuth,
+        options: AuthenticationOptions(
+          biometricOnly: biometricOnly,
+          stickyAuth: stickyAuth,
+        ),
       );
     } on PlatformException catch (_) {
       return false;

@@ -47,7 +47,7 @@ class OutboxDao extends DatabaseAccessor<AppDatabase> with _$OutboxDaoMixin {
                 (t.status.equals(OutboxStatusEnum.pending.index) |
                     t.status.equals(OutboxStatusEnum.failed.index)) &
                 t.retryCount.isSmallerThan(t.maxRetries) &
-                (t.nextRetryAt.isNull() | t.nextRetryAt.isSmallerOrEqualValue(now)),
+                (t.nextRetryAt.isNull() | t.nextRetryAt.isSmallerOrEqual(Variable(now))),
           )
           ..orderBy([
             (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.asc),
@@ -57,8 +57,7 @@ class OutboxDao extends DatabaseAccessor<AppDatabase> with _$OutboxDaoMixin {
   }
 
   Future<int> resetStuckSyncingItems() {
-    return (update(outboxTable)
-          ..where((t) => t.status.equals(OutboxStatusEnum.syncing.index)))
+    return (update(outboxTable)..where((t) => t.status.equals(OutboxStatusEnum.syncing.index)))
         .write(
       OutboxTableCompanion(
         status: Value(OutboxStatusEnum.pending.index),
@@ -85,6 +84,18 @@ class OutboxDao extends DatabaseAccessor<AppDatabase> with _$OutboxDaoMixin {
         nextRetryAt: clearNextRetryAt
             ? const Value(null)
             : (nextRetryAt != null ? Value(nextRetryAt) : const Value.absent()),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+  }
+
+  Future<int> retryOutboxItem(int id) {
+    return (update(outboxTable)..where((t) => t.id.equals(id))).write(
+      OutboxTableCompanion(
+        status: Value(OutboxStatusEnum.pending.index),
+        retryCount: const Value(0),
+        nextRetryAt: const Value(null),
+        lastError: const Value(null),
         updatedAt: Value(DateTime.now()),
       ),
     );

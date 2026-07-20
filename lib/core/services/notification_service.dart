@@ -26,8 +26,7 @@ class NotificationHelper {
   static final NotificationHelper instance = NotificationHelper._();
 
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _localNotifications =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _localNotifications = FlutterLocalNotificationsPlugin();
 
   bool _isFlutterLocalNotificationsInitialized = false;
   bool _areHandlersSetup = false;
@@ -101,8 +100,7 @@ class NotificationHelper {
     );
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
   }
 
@@ -149,8 +147,7 @@ class NotificationHelper {
     );
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     const initializationSettings = InitializationSettings(
@@ -159,7 +156,7 @@ class NotificationHelper {
     );
 
     await _localNotifications.initialize(
-      settings: initializationSettings,
+      initializationSettings,
       onDidReceiveNotificationResponse: (response) {
         _onNotificationTap(response);
       },
@@ -177,15 +174,14 @@ class NotificationHelper {
       final int notificationId = notification.hashCode;
 
       await _localNotifications.show(
-        id: notificationId,
-        title: notification.title,
-        body: notification.body,
-        notificationDetails: const NotificationDetails(
+        notificationId,
+        notification.title,
+        notification.body,
+        const NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',
             'High Importance Notifications',
-            channelDescription:
-                'This channel is used for important notifications.',
+            channelDescription: 'This channel is used for important notifications.',
             importance: Importance.high,
             priority: Priority.high,
             playSound: true,
@@ -203,7 +199,7 @@ class NotificationHelper {
   }
 
   Future<void> cancelNotification(int id) async {
-    await _localNotifications.cancel(id: id);
+    await _localNotifications.cancel(id);
   }
 
   Future<void> cancelAllNotification() async {

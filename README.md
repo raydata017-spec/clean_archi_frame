@@ -727,7 +727,17 @@ onChanged: (value) async {
   }
 }
 ```
+---
 
+## Offline-First Architecture & Outbox Pattern
 
+အင်တာနက် မရှိသည့် အချိန်များတွင်လည်း ရေးသားချက်များကို Local Drift Database တွင် အရင်ဆုံး သိမ်းဆည်းပြီး၊ အင်တာနက် ပြန်ရသည့်အခါမှ Server သို့ Asynchronous Sync ပြုလုပ်ပေးသော **Offline-First Outbox System** ပါဝင်ပါသည်။
 
+- **အသေးစိတ် လမ်းညွှန်ချက် (Full Documentation):** [lib/core/offline/README.md](file:///d:/Projects/clean_archi_frame/lib/core/offline/README.md)
+- **အဓိက အင်္ဂါရပ်များ:**
+  - **Atomic Local Writes:** `OfflineWriteCoordinator` ဖြင့် Local Mutation + Outbox Enqueue ကို Drift Transaction တစ်ခုတည်းဖြင့် ရေးသားခြင်း။
+  - **Dual-ID Strategy:** Local Entities များတွင် Client UUID + Server ID ဖြင့် သိမ်းဆည်းခြင်း။
+  - **Exponential Backoff & Crash Recovery:** Sync မအောင်မြင်ပါက Exponential Backoff အချိန်သတ်မှတ်ပြီး App Crash ဖြစ်ပါက Stuck Syncing Items များကို အလိုအလျောက် ဆယ်ယူပေးခြင်း။
+  - **Auto-Registered Processors:** Feature အလိုက် `OutboxActionProcessor` ရေးသား၍ `outboxProcessorsProvider` တွင် ချိတ်ဆက်ရုံဖြင့် အလိုအလျောက် Sync လုပ်ပေးခြင်း။
+  - **Outbox UI Management:** [OutboxListScreen](file:///d:/Projects/clean_archi_frame/lib/core/offline/screens/outbox_list_screen.dart) ဖြင့် Outbox အခြေအနေများကို ကြည့်ရှု၍ Retry / Discard ပြုလုပ်နိုင်ခြင်း။
 

@@ -1,5 +1,15 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../../core/offline/offline_outbox_item.dart';
 import '../../../../../core/offline/outbox_action_processor.dart';
+
+final createProfileProcessorProvider = Provider<CreateProfileProcessor>((ref) {
+  return CreateProfileProcessor();
+});
+
+final updateProfileProcessorProvider = Provider<UpdateProfileProcessor>((ref) {
+  return UpdateProfileProcessor();
+});
 
 /// Syncs offline-created profiles to the server.
 ///

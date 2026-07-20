@@ -46,7 +46,7 @@ class DriftOutboxRepository implements OfflineOutboxRepository {
             (t.status.equals(OutboxStatusEnum.pending.index) |
                 t.status.equals(OutboxStatusEnum.failed.index)) &
             t.retryCount.isSmallerThan(t.maxRetries) &
-            (t.nextRetryAt.isNull() | t.nextRetryAt.isSmallerOrEqualValue(now)),
+            (t.nextRetryAt.isNull() | t.nextRetryAt.isSmallerOrEqual(Variable(now))),
       )
       ..orderBy([
         (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.asc),
@@ -67,7 +67,7 @@ class DriftOutboxRepository implements OfflineOutboxRepository {
             (t.status.equals(OutboxStatusEnum.pending.index) |
                 t.status.equals(OutboxStatusEnum.failed.index)) &
             t.retryCount.isSmallerThan(t.maxRetries) &
-            t.nextRetryAt.isBiggerThanValue(now),
+            t.nextRetryAt.isBiggerThan(Variable(now)),
       )
       ..orderBy([
         (t) => OrderingTerm(expression: t.nextRetryAt, mode: OrderingMode.asc),
@@ -112,6 +112,11 @@ class DriftOutboxRepository implements OfflineOutboxRepository {
         updatedAt: Value(DateTime.now()),
       ),
     );
+  }
+
+  @override
+  Future<void> retryOutboxItem(int id) async {
+    await _db.outboxDao.retryOutboxItem(id);
   }
 
   @override

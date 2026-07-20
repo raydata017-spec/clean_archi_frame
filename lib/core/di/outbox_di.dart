@@ -6,8 +6,7 @@ import '../offline/repositories/offline_outbox_repository.dart';
 import 'database_di.dart';
 
 /// Provider for OfflineOutboxRepository implementation using Drift database.
-final offlineOutboxRepositoryProvider =
-    Provider<OfflineOutboxRepository>((ref) {
+final offlineOutboxRepositoryProvider = Provider<OfflineOutboxRepository>((ref) {
   final database = ref.watch(appDatabaseProvider);
   return DriftOutboxRepository(database);
 });
@@ -20,5 +19,5 @@ final outboxDaoProvider = Provider<OutboxDao>((ref) {
 
 /// Stream provider for outbox table rows.
 final outboxListProvider = StreamProvider.autoDispose((ref) {
-  return ref.watch(outboxDaoProvider).watchOutbox();
+  return ref.watch(offlineOutboxRepositoryProvider).watchOutbox();
 });

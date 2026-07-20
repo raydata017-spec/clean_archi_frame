@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import '../../../app/config/dimensions.dart';
 import '../../di/outbox_di.dart';
-import '../../utils/enums/outbox_status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,7 +30,7 @@ class OutboxListScreen extends ConsumerWidget {
             separatorBuilder: (_, __) => const SizedBox(height: AppSizes.cardRadiusMd),
             itemBuilder: (context, index) {
               final item = items[index];
-              final statusName = item.status >= 0 && item.status < OutboxStatusEnum.values.length ? OutboxStatusEnum.values[item.status].name : 'unknown';
+              final statusName = item.status.name;
 
               return Card(
                 child: ListTile(
