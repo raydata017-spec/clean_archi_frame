@@ -38,7 +38,6 @@ class TranslationsMy with BaseTranslations<AppLocale, Translations> implements T
 
 	// Translations
 	@override late final _Translations$setting$my setting = _Translations$setting$my._(_root);
-	@override late final _Translations$profile$my profile = _Translations$profile$my._(_root);
 	@override late final _Translations$kDynamic$my kDynamic = _Translations$kDynamic$my._(_root);
 	@override late final _Translations$common$my common = _Translations$common$my._(_root);
 	@override late final _Translations$validation$my validation = _Translations$validation$my._(_root);
@@ -73,28 +72,15 @@ class _Translations$setting$my implements Translations$setting$en {
 	@override String get manageSystemNotificationPermissions => 'အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်';
 	@override String get locationSetting => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်';
 	@override String get manageSystemLocationPermissions => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်';
+	@override String get biometrics => 'ဇီဝအမှတ်အသားဖြင့် စစ်ဆေးခြင်း';
+	@override String get biometricsSubtitle => 'လုံခြုံစွာ ဝင်ရောက်ရန် Face ID / Fingerprint ကို သုံးပါ';
+	@override String get biometricsPasswordReason => 'ဇီဝအမှတ်အသား ဆက်တင်များ ပြောင်းလဲရန် စကားဝှက် ရေးသွင်းပေးပါ။';
+	@override String get faceId => 'မျက်နှာစနစ်ဖြင့် အတည်ပြုခြင်း';
+	@override String get fingerprint => 'လက်ဗွေစနစ်ဖြင့် အတည်ပြုခြင်း';
 	@override String get signOutOfCurrentAccount => 'လက်ရှိအကောင့်မှ ထွက်ရန်';
 	@override String get doYouWantToLogout => 'အကောင့်မှ ထွက်လိုပါသလား။';
 	@override String get areYouSureYouWantToLogout => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။';
 	@override String get yesLogout => 'ဟုတ်ကဲ့၊ ထွက်မည်';
-}
-
-// Path: profile
-class _Translations$profile$my implements Translations$profile$en {
-	_Translations$profile$my._(this._root);
-
-	final TranslationsMy _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'ပရိုဖိုင်';
-	@override String get personalInfo => 'ကိုယ်ရေးအချက်အလက်';
-	@override String get settingsSecurity => 'ဆက်တင်နှင့် လုံခြုံရေး';
-	@override String get editProfile => 'ကိုယ်ရေးအချက်အလက်ပြင်ရန်';
-	@override String get changePassword => 'စကားဝှက် ပြောင်းရန်';
-	@override String get email => 'အီးမေးလ်';
-	@override String get phone => 'ဖုန်းနံပါတ်';
-	@override String get joined => 'စတင်ပူးပေါင်းသည့်ရက်';
-	@override String get role => 'ရာထူး';
 }
 
 // Path: kDynamic
@@ -125,6 +111,7 @@ class _Translations$common$my implements Translations$common$en {
 	@override String get exitAppConfirm => 'အက်ပ်မှ ထွက်ရန် သေချာပါသလား?';
 	@override String get exit => 'ထွက်မည်';
 	@override String get cancel => 'မလုပ်တော့ပါ';
+	@override String get confirm => 'အတည်ပြုမည်';
 	@override String get noInternet => 'အင်တာနက် ချိတ်ဆက်မှု မရှိပါ။ သင့်ကွန်ရက်ကို စစ်ဆေးပါ။';
 	@override String get internetRestored => 'အင်တာနက် ပြန်လည် ချိတ်ဆက်မိပါပြီ။';
 }
@@ -213,6 +200,10 @@ class _Translations$auth$my implements Translations$auth$en {
 	@override String get resetPassword => 'စကားဝှက်အသစ် သတ်မှတ်ရန်';
 	@override String get resetPasswordSubtitle => 'စကားဝှက်အသစ်ကို အောက်တွင် သတ်မှတ်ပါ။';
 	@override String get otp => 'OTP';
+	@override String get biometricReason => 'အကောင့်ထဲဝင်ရန် ကျေးဇူးပြု၍ ဇီဝအမှတ်အသားကို စစ်ဆေးပါ';
+	@override String get biometricSuccess => 'စစ်ဆေးမှု အောင်မြင်ပါသည်';
+	@override String get biometricFailed => 'စစ်ဆေးမှု မအောင်မြင်ပါ';
+	@override String get biometricNotEnrolled => 'စက်ပစ္စည်းတွင် biometric အချက်အလက် မရှိပါ';
 }
 
 // Path: notification
@@ -283,19 +274,15 @@ extension on TranslationsMy {
 			'setting.manageSystemNotificationPermissions' => 'အသိပေးချက်ဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်',
 			'setting.locationSetting' => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်',
 			'setting.manageSystemLocationPermissions' => 'တည်နေရာဆိုင်ရာခွင့်ပြုချက်များ စီမံရန်',
+			'setting.biometrics' => 'ဇီဝအမှတ်အသားဖြင့် စစ်ဆေးခြင်း',
+			'setting.biometricsSubtitle' => 'လုံခြုံစွာ ဝင်ရောက်ရန် Face ID / Fingerprint ကို သုံးပါ',
+			'setting.biometricsPasswordReason' => 'ဇီဝအမှတ်အသား ဆက်တင်များ ပြောင်းလဲရန် စကားဝှက် ရေးသွင်းပေးပါ။',
+			'setting.faceId' => 'မျက်နှာစနစ်ဖြင့် အတည်ပြုခြင်း',
+			'setting.fingerprint' => 'လက်ဗွေစနစ်ဖြင့် အတည်ပြုခြင်း',
 			'setting.signOutOfCurrentAccount' => 'လက်ရှိအကောင့်မှ ထွက်ရန်',
 			'setting.doYouWantToLogout' => 'အကောင့်မှ ထွက်လိုပါသလား။',
 			'setting.areYouSureYouWantToLogout' => 'အကောင့်မှ ထွက်ရန် သေချာပါသလား။',
 			'setting.yesLogout' => 'ဟုတ်ကဲ့၊ ထွက်မည်',
-			'profile.title' => 'ပရိုဖိုင်',
-			'profile.personalInfo' => 'ကိုယ်ရေးအချက်အလက်',
-			'profile.settingsSecurity' => 'ဆက်တင်နှင့် လုံခြုံရေး',
-			'profile.editProfile' => 'ကိုယ်ရေးအချက်အလက်ပြင်ရန်',
-			'profile.changePassword' => 'စကားဝှက် ပြောင်းရန်',
-			'profile.email' => 'အီးမေးလ်',
-			'profile.phone' => 'ဖုန်းနံပါတ်',
-			'profile.joined' => 'စတင်ပူးပေါင်းသည့်ရက်',
-			'profile.role' => 'ရာထူး',
 			'kDynamic.welcomeMessage' => ({required Object name, required Object point}) => 'ပြန်လည်ကြိုဆိုပါတယ် ${name}! သင့်မှာ အမှတ် ${point} မှတ် ရှိပါတယ်။',
 			'kDynamic.defaultErrorText' => 'တစ်စုံတစ်ခုမှားယွင်းနေသည်',
 			'kDynamic.inboxCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('my'))(n, zero: 'မက်ဆေ့ချ် အသစ်မရှိပါ။', other: 'မက်ဆေ့ချ် အသစ် ${n} စောင် ရှိပါတယ်။', ), 
@@ -305,6 +292,7 @@ extension on TranslationsMy {
 			'common.exitAppConfirm' => 'အက်ပ်မှ ထွက်ရန် သေချာပါသလား?',
 			'common.exit' => 'ထွက်မည်',
 			'common.cancel' => 'မလုပ်တော့ပါ',
+			'common.confirm' => 'အတည်ပြုမည်',
 			'common.noInternet' => 'အင်တာနက် ချိတ်ဆက်မှု မရှိပါ။ သင့်ကွန်ရက်ကို စစ်ဆေးပါ။',
 			'common.internetRestored' => 'အင်တာနက် ပြန်လည် ချိတ်ဆက်မိပါပြီ။',
 			'validation.emailRequired' => 'အီးမေးလ် လိုအပ်ပါတယ်',
@@ -375,6 +363,10 @@ extension on TranslationsMy {
 			'auth.resetPassword' => 'စကားဝှက်အသစ် သတ်မှတ်ရန်',
 			'auth.resetPasswordSubtitle' => 'စကားဝှက်အသစ်ကို အောက်တွင် သတ်မှတ်ပါ။',
 			'auth.otp' => 'OTP',
+			'auth.biometricReason' => 'အကောင့်ထဲဝင်ရန် ကျေးဇူးပြု၍ ဇီဝအမှတ်အသားကို စစ်ဆေးပါ',
+			'auth.biometricSuccess' => 'စစ်ဆေးမှု အောင်မြင်ပါသည်',
+			'auth.biometricFailed' => 'စစ်ဆေးမှု မအောင်မြင်ပါ',
+			'auth.biometricNotEnrolled' => 'စက်ပစ္စည်းတွင် biometric အချက်အလက် မရှိပါ',
 			'notification.title' => 'အကြောင်းကြားချက်များ',
 			'notification.markAllRead' => 'အားလုံးဖတ်ပြီးသားမှတ်သားရန်',
 			'notification.unread' => ({required Object count}) => 'မဖတ်ရသေးသော (${count})',

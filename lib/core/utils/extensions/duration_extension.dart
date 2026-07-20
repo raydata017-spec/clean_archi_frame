@@ -10,17 +10,16 @@ extension DurationExtension on num {
     return ((discount / this) * 100).round();
   }
 
-  // Exponential Delay Calculation
-  Duration getExponentialDelay(int retries) {
-    if (retries <= 0) return const Duration(seconds: 5); // 1st failure: 5s
+  /// Exponential backoff based on the current retry attempt (`this`).
+  ///
+  /// attempt 1 → 30s, attempt 2 → 180s, attempt 3 → 1080s (capped at 1h).
+  Duration getExponentialDelay({int maxCapSeconds = 3600}) {
+    final attempt = toInt();
+    if (attempt <= 0) return const Duration(seconds: 5);
 
-    // Formula: 5 * 6^retries (ဥပမာ- retries=1 ဖြစ်လျှင် 5 * 6^1 = 30s)
-    // retries=2 ဖြစ်လျှင် 5 * 6^2 = 180s (3 မိနစ်)
-    int seconds = 5 * pow(6, retries).toInt();
-
-    // Max Delay ကို ၁ နာရီ (၃၆၀၀ စက္ကန့်) ထက် မကျော်အောင် ကန့်သတ်ခြင်း
-    const int maxSeconds = 3600;
-    if (seconds > maxSeconds) seconds = maxSeconds;
+    // Formula: 5 * 6^attempt
+    int seconds = 5 * pow(6, attempt).toInt();
+    if (seconds > maxCapSeconds) seconds = maxCapSeconds;
 
     return Duration(seconds: seconds);
   }

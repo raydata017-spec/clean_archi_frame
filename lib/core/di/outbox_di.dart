@@ -6,7 +6,8 @@ import '../offline/repositories/offline_outbox_repository.dart';
 import 'database_di.dart';
 
 /// Provider for OfflineOutboxRepository implementation using Drift database.
-final offlineOutboxRepositoryProvider = Provider<OfflineOutboxRepository>((ref) {
+final offlineOutboxRepositoryProvider =
+    Provider<OfflineOutboxRepository>((ref) {
   final database = ref.watch(appDatabaseProvider);
   return DriftOutboxRepository(database);
 });

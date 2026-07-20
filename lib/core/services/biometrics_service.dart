@@ -49,12 +49,11 @@ class BiometricsService {
       final hasBiometrics = await canAuthenticate();
       if (!isSupported || !hasBiometrics) return false;
 
+      // local_auth 3.x: options are top-level named params (not AuthenticationOptions).
       return await _auth.authenticate(
         localizedReason: reason,
-        options: AuthenticationOptions(
-          stickyAuth: stickyAuth,
-          biometricOnly: biometricOnly,
-        ),
+        biometricOnly: biometricOnly,
+        persistAcrossBackgrounding: stickyAuth,
       );
     } on PlatformException catch (_) {
       return false;

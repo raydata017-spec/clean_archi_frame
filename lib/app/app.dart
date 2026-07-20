@@ -15,6 +15,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 import '../core/services/connectivity_service.dart';
 import '../core/services/toast_service.dart';
+import '../core/di/profile_di.dart';
 
 final mainBackButtonDispatcherProvider = Provider<MainBackButtonDispatcher>((ref) {
   final goRouter = ref.watch(appRouterProvider);
@@ -30,6 +31,9 @@ class MyApp extends ConsumerWidget {
     // Watch theme and locale providers to rebuild the app when they change
     final themeMode = ref.watch(themeControllerProvider);
     ref.watch(localeControllerProvider);
+
+    // Register offline profile processors (create_profile / update_profile)
+    ref.watch(profileOfflineBootstrapProvider);
 
     // Watch the router provider to get the current router configuration
     final goRouter = ref.watch(appRouterProvider);

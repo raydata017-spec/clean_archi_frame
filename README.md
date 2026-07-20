@@ -140,11 +140,13 @@ import '../../features/product/data/data_sources/local/dao/product_dao.dart';
   tables: [
     ProfileTable, 
     OutboxTable,
+    ReferenceMappingTable,
     ProductTable, // ← စာရင်းအသစ် ထည့်သွင်းရန်
   ],
   daos: [
     ProfileDao, 
     OutboxDao,
+    ReferenceMappingDao,
     ProductDao, // ← စာရင်းအသစ် ထည့်သွင်းရန်
   ],
 )
@@ -224,6 +226,99 @@ final response = await client.multipartRequest(
 ## Offline Sync Processors
 
 The offline core processes queued actions from the local outbox. A processor handles one action type and sends it to the server.
+
+### Enqueue an offline write
+
+Use `OfflineWriteCoordinator` so local DB writes and outbox inserts stay atomic:
+
+```dart
+final coordinator = ref.read(offlineWriteCoordinatorProvider);
+
+await coordinator.writeLocalThenEnqueue(
+  localWrite: () async {
+    // Save/update the local Drift entity here
+    await profileDao.upsert(localProfile);
+  },
+  params: OutboxEnqueueParams(
+    url: '/api/profile',
+    method: 'PUT',
+    actionType: 'update_profile',
+    payload: {'id': clientId, 'name': name},
+    clientReferenceId: clientId, // optional — maps to server id after sync
+    maxRetries: 3,
+  ),
+);
+```
+
+Enqueue-only (no local write):
+
+```dart
+await ref.read(offlineWriteCoordinatorProvider).enqueue(
+  OutboxEnqueueParams(
+    url: '/api/posts',
+    method: 'POST',
+    actionType: 'create_post',
+    payload: {'title': title},
+    clientReferenceId: localTempId,
+  ),
+);
+```
+
+### Retry / crash recovery (built-in)
+
+- Failed network/server errors set `nextRetryAt` with exponential backoff (30s → 180s → …).
+- Exhausted retries stay `failed` and are no longer picked for sync.
+- On engine start, items stuck in `syncing` (app crash) are reset to `pending`.
+- Connectivity uses a real internet check (DNS), not only Wi‑Fi/cellular interface.
+
+### Client → server ID mapping
+
+After a successful sync, if the outbox item has `clientReferenceId` and the API returns `{ "id": "..." }`, the engine stores the mapping via `LocalReferenceRepository`. Resolve later with:
+
+```dart
+final serverId = await ref.read(offlineSyncEngineProvider).resolveServerId(clientId);
+```
+
+### End-to-end sample: Offline Profile
+
+A complete sample feature is included under `features/profile`:
+
+| Piece | Role |
+|---|---|
+| `OfflineProfileRepository` | Local Drift write + outbox enqueue (one transaction) |
+| `CreateProfileProcessor` / `UpdateProfileProcessor` | Sync to server by `actionType` |
+| `profileOfflineBootstrapProvider` | Registers processors at app startup (`MyApp`) |
+
+**Usage**
+
+```dart
+final result = await ref.read(offlineProfileRepositoryProvider).createOffline(
+  name: 'Aye',
+  email: 'aye@example.com',
+);
+// result.localId, result.outboxId, result.clientReferenceId
+
+// Later, after sync succeeds:
+final serverId = await ref
+    .read(offlineSyncEngineProvider)
+    .resolveServerId(result.clientReferenceId);
+```
+
+**Tests** — `test/core/offline/offline_sync_engine_test.dart` covers:
+
+- FIFO enqueue order
+- `nextRetryAt` backoff window
+- Exhausted retries skipped
+- Stuck `syncing` crash recovery
+- Client → server ID mapping
+- Conflict unblocks the queue
+- Full `createOffline` → sync → mapping path
+
+Run:
+
+```bash
+flutter test test/core/offline/offline_sync_engine_test.dart
+```
 
 ### What is an offline processor?
 

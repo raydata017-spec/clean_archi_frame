@@ -380,6 +380,12 @@ class $OutboxTableTable extends OutboxTable
   late final GeneratedColumn<String> lastError = GeneratedColumn<String>(
       'last_error', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _nextRetryAtMeta =
+      const VerificationMeta('nextRetryAt');
+  @override
+  late final GeneratedColumn<DateTime> nextRetryAt = GeneratedColumn<DateTime>(
+      'next_retry_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -406,6 +412,7 @@ class $OutboxTableTable extends OutboxTable
         maxRetries,
         status,
         lastError,
+        nextRetryAt,
         createdAt,
         updatedAt
       ];
@@ -474,6 +481,12 @@ class $OutboxTableTable extends OutboxTable
       context.handle(_lastErrorMeta,
           lastError.isAcceptableOrUnknown(data['last_error']!, _lastErrorMeta));
     }
+    if (data.containsKey('next_retry_at')) {
+      context.handle(
+          _nextRetryAtMeta,
+          nextRetryAt.isAcceptableOrUnknown(
+              data['next_retry_at']!, _nextRetryAtMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -511,6 +524,8 @@ class $OutboxTableTable extends OutboxTable
           .read(DriftSqlType.int, data['${effectivePrefix}status'])!,
       lastError: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}last_error']),
+      nextRetryAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}next_retry_at']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -535,6 +550,9 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
   final int maxRetries;
   final int status;
   final String? lastError;
+
+  /// When set, the item is not syncable until this time (exponential backoff).
+  final DateTime? nextRetryAt;
   final DateTime createdAt;
   final DateTime? updatedAt;
   const OutboxTableData(
@@ -548,6 +566,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
       required this.maxRetries,
       required this.status,
       this.lastError,
+      this.nextRetryAt,
       required this.createdAt,
       this.updatedAt});
   @override
@@ -566,6 +585,9 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
     map['status'] = Variable<int>(status);
     if (!nullToAbsent || lastError != null) {
       map['last_error'] = Variable<String>(lastError);
+    }
+    if (!nullToAbsent || nextRetryAt != null) {
+      map['next_retry_at'] = Variable<DateTime>(nextRetryAt);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     if (!nullToAbsent || updatedAt != null) {
@@ -590,6 +612,9 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
       lastError: lastError == null && nullToAbsent
           ? const Value.absent()
           : Value(lastError),
+      nextRetryAt: nextRetryAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextRetryAt),
       createdAt: Value(createdAt),
       updatedAt: updatedAt == null && nullToAbsent
           ? const Value.absent()
@@ -612,6 +637,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
       maxRetries: serializer.fromJson<int>(json['maxRetries']),
       status: serializer.fromJson<int>(json['status']),
       lastError: serializer.fromJson<String?>(json['lastError']),
+      nextRetryAt: serializer.fromJson<DateTime?>(json['nextRetryAt']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -630,6 +656,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
       'maxRetries': serializer.toJson<int>(maxRetries),
       'status': serializer.toJson<int>(status),
       'lastError': serializer.toJson<String?>(lastError),
+      'nextRetryAt': serializer.toJson<DateTime?>(nextRetryAt),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
@@ -646,6 +673,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
           int? maxRetries,
           int? status,
           Value<String?> lastError = const Value.absent(),
+          Value<DateTime?> nextRetryAt = const Value.absent(),
           DateTime? createdAt,
           Value<DateTime?> updatedAt = const Value.absent()}) =>
       OutboxTableData(
@@ -661,6 +689,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
         maxRetries: maxRetries ?? this.maxRetries,
         status: status ?? this.status,
         lastError: lastError.present ? lastError.value : this.lastError,
+        nextRetryAt: nextRetryAt.present ? nextRetryAt.value : this.nextRetryAt,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
       );
@@ -681,6 +710,8 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
           data.maxRetries.present ? data.maxRetries.value : this.maxRetries,
       status: data.status.present ? data.status.value : this.status,
       lastError: data.lastError.present ? data.lastError.value : this.lastError,
+      nextRetryAt:
+          data.nextRetryAt.present ? data.nextRetryAt.value : this.nextRetryAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -699,6 +730,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
           ..write('maxRetries: $maxRetries, ')
           ..write('status: $status, ')
           ..write('lastError: $lastError, ')
+          ..write('nextRetryAt: $nextRetryAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -717,6 +749,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
       maxRetries,
       status,
       lastError,
+      nextRetryAt,
       createdAt,
       updatedAt);
   @override
@@ -733,6 +766,7 @@ class OutboxTableData extends DataClass implements Insertable<OutboxTableData> {
           other.maxRetries == this.maxRetries &&
           other.status == this.status &&
           other.lastError == this.lastError &&
+          other.nextRetryAt == this.nextRetryAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -748,6 +782,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
   final Value<int> maxRetries;
   final Value<int> status;
   final Value<String?> lastError;
+  final Value<DateTime?> nextRetryAt;
   final Value<DateTime> createdAt;
   final Value<DateTime?> updatedAt;
   const OutboxTableCompanion({
@@ -761,6 +796,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
     this.maxRetries = const Value.absent(),
     this.status = const Value.absent(),
     this.lastError = const Value.absent(),
+    this.nextRetryAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -775,6 +811,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
     this.maxRetries = const Value.absent(),
     this.status = const Value.absent(),
     this.lastError = const Value.absent(),
+    this.nextRetryAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   })  : url = Value(url),
@@ -792,6 +829,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
     Expression<int>? maxRetries,
     Expression<int>? status,
     Expression<String>? lastError,
+    Expression<DateTime>? nextRetryAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
@@ -806,6 +844,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
       if (maxRetries != null) 'max_retries': maxRetries,
       if (status != null) 'status': status,
       if (lastError != null) 'last_error': lastError,
+      if (nextRetryAt != null) 'next_retry_at': nextRetryAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -822,6 +861,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
       Value<int>? maxRetries,
       Value<int>? status,
       Value<String?>? lastError,
+      Value<DateTime?>? nextRetryAt,
       Value<DateTime>? createdAt,
       Value<DateTime?>? updatedAt}) {
     return OutboxTableCompanion(
@@ -835,6 +875,7 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
       maxRetries: maxRetries ?? this.maxRetries,
       status: status ?? this.status,
       lastError: lastError ?? this.lastError,
+      nextRetryAt: nextRetryAt ?? this.nextRetryAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -873,6 +914,9 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
     if (lastError.present) {
       map['last_error'] = Variable<String>(lastError.value);
     }
+    if (nextRetryAt.present) {
+      map['next_retry_at'] = Variable<DateTime>(nextRetryAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -895,8 +939,247 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxTableData> {
           ..write('maxRetries: $maxRetries, ')
           ..write('status: $status, ')
           ..write('lastError: $lastError, ')
+          ..write('nextRetryAt: $nextRetryAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ReferenceMappingTableTable extends ReferenceMappingTable
+    with TableInfo<$ReferenceMappingTableTable, ReferenceMappingTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReferenceMappingTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _clientIdMeta =
+      const VerificationMeta('clientId');
+  @override
+  late final GeneratedColumn<String> clientId = GeneratedColumn<String>(
+      'client_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _serverIdMeta =
+      const VerificationMeta('serverId');
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+      'server_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [clientId, serverId, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'reference_mapping_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ReferenceMappingTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('client_id')) {
+      context.handle(_clientIdMeta,
+          clientId.isAcceptableOrUnknown(data['client_id']!, _clientIdMeta));
+    } else if (isInserting) {
+      context.missing(_clientIdMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(_serverIdMeta,
+          serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta));
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {clientId};
+  @override
+  ReferenceMappingTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReferenceMappingTableData(
+      clientId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}client_id'])!,
+      serverId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_id'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+    );
+  }
+
+  @override
+  $ReferenceMappingTableTable createAlias(String alias) {
+    return $ReferenceMappingTableTable(attachedDatabase, alias);
+  }
+}
+
+class ReferenceMappingTableData extends DataClass
+    implements Insertable<ReferenceMappingTableData> {
+  final String clientId;
+  final String serverId;
+  final DateTime createdAt;
+  const ReferenceMappingTableData(
+      {required this.clientId,
+      required this.serverId,
+      required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['client_id'] = Variable<String>(clientId);
+    map['server_id'] = Variable<String>(serverId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ReferenceMappingTableCompanion toCompanion(bool nullToAbsent) {
+    return ReferenceMappingTableCompanion(
+      clientId: Value(clientId),
+      serverId: Value(serverId),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ReferenceMappingTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReferenceMappingTableData(
+      clientId: serializer.fromJson<String>(json['clientId']),
+      serverId: serializer.fromJson<String>(json['serverId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'clientId': serializer.toJson<String>(clientId),
+      'serverId': serializer.toJson<String>(serverId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ReferenceMappingTableData copyWith(
+          {String? clientId, String? serverId, DateTime? createdAt}) =>
+      ReferenceMappingTableData(
+        clientId: clientId ?? this.clientId,
+        serverId: serverId ?? this.serverId,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  ReferenceMappingTableData copyWithCompanion(
+      ReferenceMappingTableCompanion data) {
+    return ReferenceMappingTableData(
+      clientId: data.clientId.present ? data.clientId.value : this.clientId,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReferenceMappingTableData(')
+          ..write('clientId: $clientId, ')
+          ..write('serverId: $serverId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(clientId, serverId, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReferenceMappingTableData &&
+          other.clientId == this.clientId &&
+          other.serverId == this.serverId &&
+          other.createdAt == this.createdAt);
+}
+
+class ReferenceMappingTableCompanion
+    extends UpdateCompanion<ReferenceMappingTableData> {
+  final Value<String> clientId;
+  final Value<String> serverId;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const ReferenceMappingTableCompanion({
+    this.clientId = const Value.absent(),
+    this.serverId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ReferenceMappingTableCompanion.insert({
+    required String clientId,
+    required String serverId,
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : clientId = Value(clientId),
+        serverId = Value(serverId);
+  static Insertable<ReferenceMappingTableData> custom({
+    Expression<String>? clientId,
+    Expression<String>? serverId,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (clientId != null) 'client_id': clientId,
+      if (serverId != null) 'server_id': serverId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ReferenceMappingTableCompanion copyWith(
+      {Value<String>? clientId,
+      Value<String>? serverId,
+      Value<DateTime>? createdAt,
+      Value<int>? rowid}) {
+    return ReferenceMappingTableCompanion(
+      clientId: clientId ?? this.clientId,
+      serverId: serverId ?? this.serverId,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (clientId.present) {
+      map['client_id'] = Variable<String>(clientId.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReferenceMappingTableCompanion(')
+          ..write('clientId: $clientId, ')
+          ..write('serverId: $serverId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -907,14 +1190,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ProfileTableTable profileTable = $ProfileTableTable(this);
   late final $OutboxTableTable outboxTable = $OutboxTableTable(this);
+  late final $ReferenceMappingTableTable referenceMappingTable =
+      $ReferenceMappingTableTable(this);
   late final ProfileDao profileDao = ProfileDao(this as AppDatabase);
   late final OutboxDao outboxDao = OutboxDao(this as AppDatabase);
+  late final ReferenceMappingDao referenceMappingDao =
+      ReferenceMappingDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [profileTable, outboxTable];
+      [profileTable, outboxTable, referenceMappingTable];
 }
 
 typedef $$ProfileTableTableCreateCompanionBuilder = ProfileTableCompanion
@@ -1096,6 +1383,7 @@ typedef $$OutboxTableTableCreateCompanionBuilder = OutboxTableCompanion
   Value<int> maxRetries,
   Value<int> status,
   Value<String?> lastError,
+  Value<DateTime?> nextRetryAt,
   Value<DateTime> createdAt,
   Value<DateTime?> updatedAt,
 });
@@ -1111,6 +1399,7 @@ typedef $$OutboxTableTableUpdateCompanionBuilder = OutboxTableCompanion
   Value<int> maxRetries,
   Value<int> status,
   Value<String?> lastError,
+  Value<DateTime?> nextRetryAt,
   Value<DateTime> createdAt,
   Value<DateTime?> updatedAt,
 });
@@ -1154,6 +1443,9 @@ class $$OutboxTableTableFilterComposer
 
   ColumnFilters<String> get lastError => $composableBuilder(
       column: $table.lastError, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get nextRetryAt => $composableBuilder(
+      column: $table.nextRetryAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -1202,6 +1494,9 @@ class $$OutboxTableTableOrderingComposer
   ColumnOrderings<String> get lastError => $composableBuilder(
       column: $table.lastError, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<DateTime> get nextRetryAt => $composableBuilder(
+      column: $table.nextRetryAt, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
@@ -1248,6 +1543,9 @@ class $$OutboxTableTableAnnotationComposer
   GeneratedColumn<String> get lastError =>
       $composableBuilder(column: $table.lastError, builder: (column) => column);
 
+  GeneratedColumn<DateTime> get nextRetryAt => $composableBuilder(
+      column: $table.nextRetryAt, builder: (column) => column);
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -1291,6 +1589,7 @@ class $$OutboxTableTableTableManager extends RootTableManager<
             Value<int> maxRetries = const Value.absent(),
             Value<int> status = const Value.absent(),
             Value<String?> lastError = const Value.absent(),
+            Value<DateTime?> nextRetryAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
@@ -1305,6 +1604,7 @@ class $$OutboxTableTableTableManager extends RootTableManager<
             maxRetries: maxRetries,
             status: status,
             lastError: lastError,
+            nextRetryAt: nextRetryAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),
@@ -1319,6 +1619,7 @@ class $$OutboxTableTableTableManager extends RootTableManager<
             Value<int> maxRetries = const Value.absent(),
             Value<int> status = const Value.absent(),
             Value<String?> lastError = const Value.absent(),
+            Value<DateTime?> nextRetryAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
@@ -1333,6 +1634,7 @@ class $$OutboxTableTableTableManager extends RootTableManager<
             maxRetries: maxRetries,
             status: status,
             lastError: lastError,
+            nextRetryAt: nextRetryAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),
@@ -1358,6 +1660,156 @@ typedef $$OutboxTableTableProcessedTableManager = ProcessedTableManager<
     ),
     OutboxTableData,
     PrefetchHooks Function()>;
+typedef $$ReferenceMappingTableTableCreateCompanionBuilder
+    = ReferenceMappingTableCompanion Function({
+  required String clientId,
+  required String serverId,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+typedef $$ReferenceMappingTableTableUpdateCompanionBuilder
+    = ReferenceMappingTableCompanion Function({
+  Value<String> clientId,
+  Value<String> serverId,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+
+class $$ReferenceMappingTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ReferenceMappingTableTable> {
+  $$ReferenceMappingTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get clientId => $composableBuilder(
+      column: $table.clientId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverId => $composableBuilder(
+      column: $table.serverId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$ReferenceMappingTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReferenceMappingTableTable> {
+  $$ReferenceMappingTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get clientId => $composableBuilder(
+      column: $table.clientId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverId => $composableBuilder(
+      column: $table.serverId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ReferenceMappingTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReferenceMappingTableTable> {
+  $$ReferenceMappingTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get clientId =>
+      $composableBuilder(column: $table.clientId, builder: (column) => column);
+
+  GeneratedColumn<String> get serverId =>
+      $composableBuilder(column: $table.serverId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$ReferenceMappingTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ReferenceMappingTableTable,
+    ReferenceMappingTableData,
+    $$ReferenceMappingTableTableFilterComposer,
+    $$ReferenceMappingTableTableOrderingComposer,
+    $$ReferenceMappingTableTableAnnotationComposer,
+    $$ReferenceMappingTableTableCreateCompanionBuilder,
+    $$ReferenceMappingTableTableUpdateCompanionBuilder,
+    (
+      ReferenceMappingTableData,
+      BaseReferences<_$AppDatabase, $ReferenceMappingTableTable,
+          ReferenceMappingTableData>
+    ),
+    ReferenceMappingTableData,
+    PrefetchHooks Function()> {
+  $$ReferenceMappingTableTableTableManager(
+      _$AppDatabase db, $ReferenceMappingTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReferenceMappingTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReferenceMappingTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReferenceMappingTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> clientId = const Value.absent(),
+            Value<String> serverId = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              ReferenceMappingTableCompanion(
+            clientId: clientId,
+            serverId: serverId,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String clientId,
+            required String serverId,
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              ReferenceMappingTableCompanion.insert(
+            clientId: clientId,
+            serverId: serverId,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ReferenceMappingTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $ReferenceMappingTableTable,
+        ReferenceMappingTableData,
+        $$ReferenceMappingTableTableFilterComposer,
+        $$ReferenceMappingTableTableOrderingComposer,
+        $$ReferenceMappingTableTableAnnotationComposer,
+        $$ReferenceMappingTableTableCreateCompanionBuilder,
+        $$ReferenceMappingTableTableUpdateCompanionBuilder,
+        (
+          ReferenceMappingTableData,
+          BaseReferences<_$AppDatabase, $ReferenceMappingTableTable,
+              ReferenceMappingTableData>
+        ),
+        ReferenceMappingTableData,
+        PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1366,4 +1818,6 @@ class $AppDatabaseManager {
       $$ProfileTableTableTableManager(_db, _db.profileTable);
   $$OutboxTableTableTableManager get outboxTable =>
       $$OutboxTableTableTableManager(_db, _db.outboxTable);
+  $$ReferenceMappingTableTableTableManager get referenceMappingTable =>
+      $$ReferenceMappingTableTableTableManager(_db, _db.referenceMappingTable);
 }

@@ -44,6 +44,14 @@ class OutboxListScreen extends ConsumerWidget {
                       Text('Method: ${item.method.toUpperCase()}'),
                       const SizedBox(height: AppSizes.paddingMarginXs),
                       Text('Status: $statusName'),
+                      if (item.nextRetryAt != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: AppSizes.paddingMarginXs),
+                          child: Text(
+                            'Next retry: ${item.nextRetryAt!.toLocal()}',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
                       if (item.lastError != null && item.lastError!.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: AppSizes.paddingMarginXs),
