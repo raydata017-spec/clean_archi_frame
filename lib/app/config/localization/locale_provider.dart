@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/storage/shared_pref_service.dart';
+import '../flavors/flavor_config_provider.dart';
 import 'generated/translations.g.dart';
 
 part 'locale_provider.g.dart';
@@ -17,7 +18,8 @@ class LocaleController extends _$LocaleController {
   @override
   AppLocaleMode build() {
     final savedLocale = ref.watch(sharedPrefServiceProvider).getLocale();
-    final mode = _parseLocaleMode(savedLocale);
+    final defaultMode = ref.watch(appConfigProvider).defaultLocaleMode;
+    final mode = savedLocale == null ? defaultMode : _parseLocaleMode(savedLocale, fallback: defaultMode);
     _applyLocale(mode);
     return mode;
   }
@@ -28,11 +30,11 @@ class LocaleController extends _$LocaleController {
     ref.read(sharedPrefServiceProvider).saveLocale(mode.name);
   }
 
-  AppLocaleMode _parseLocaleMode(String? value) {
-    if (value == null) return AppLocaleMode.system;
+  AppLocaleMode _parseLocaleMode(String? value, {AppLocaleMode fallback = AppLocaleMode.system}) {
+    if (value == null) return fallback;
     return AppLocaleMode.values.firstWhere(
       (e) => e.name == value,
-      orElse: () => AppLocaleMode.system,
+      orElse: () => fallback,
     );
   }
 

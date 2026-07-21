@@ -4,11 +4,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/config/dimensions.dart';
+import '../../../../app/config/flavors/flavor_config_provider.dart';
 import '../../../../app/config/splash_config.dart';
 
 /// Global Riverpod Provider for Splash Configuration.
 final splashConfigProvider = Provider<SplashConfig>((ref) {
-  return SplashConfig.current;
+  final appConfig = ref.watch(appConfigProvider);
+  return SplashConfig.current.copyWith(
+    logoPath: SplashConfig.current.logoPath ?? appConfig.appLogoAsset,
+  );
 });
 
 class SplashScreen extends ConsumerStatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../router/route_names.dart';
+import 'env.dart';
 import '../../core/services/in_app_update_service.dart';
 
 class SplashConfig {
@@ -40,6 +41,28 @@ class SplashConfig {
     this.nextRoute = RouteNames.homePath,
   });
 
+  SplashConfig copyWith({
+    Widget? logoWidget,
+    String? logoPath,
+    Color? backgroundColor,
+    Widget? loadingIndicator,
+    String? versionText,
+    Duration? minDuration,
+    Future<void> Function(BuildContext context)? onInitialize,
+    String? nextRoute,
+  }) {
+    return SplashConfig(
+      logoWidget: logoWidget ?? this.logoWidget,
+      logoPath: logoPath ?? this.logoPath,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      loadingIndicator: loadingIndicator ?? this.loadingIndicator,
+      versionText: versionText ?? this.versionText,
+      minDuration: minDuration ?? this.minDuration,
+      onInitialize: onInitialize ?? this.onInitialize,
+      nextRoute: nextRoute ?? this.nextRoute,
+    );
+  }
+
   /// Centralized static instance for current project splash config values.
   /// Modify this variable to customize branding elements and startup flows.
   static final SplashConfig current = SplashConfig(
@@ -48,12 +71,14 @@ class SplashConfig {
     versionText: 'Version 1.0.0',
     minDuration: const Duration(seconds: 2),
     onInitialize: (context) async {
-      // 1. Run global update checks
-      final updateService = InAppUpdateService();
-      final hasUpdate = await updateService.checkRemoteConfigForUpdate(context: context);
-      if (hasUpdate) {
-        // App update dialog will hold execution flow
-        return;
+      // 1. Run global update checks if feature enabled in active flavor
+      if (Env.isFeatureEnabled('enableInAppUpdate')) {
+        final updateService = InAppUpdateService();
+        final hasUpdate = await updateService.checkRemoteConfigForUpdate(context: context);
+        if (hasUpdate) {
+          // App update dialog will hold execution flow
+          return;
+        }
       }
 
       // 2. Perform other initialization tasks if needed (e.g. database setup)

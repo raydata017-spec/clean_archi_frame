@@ -28,7 +28,7 @@ class SharedPrefService {
     await _prefs.setString(_themeModeKey, mode);
   }
 
-  String getThemeMode() {
+  String? getThemeMode() {
     final value = _prefs.get(_themeModeKey);
     if (value is bool) {
       return value ? 'dark' : 'light';
@@ -36,7 +36,7 @@ class SharedPrefService {
     if (value is String) {
       return value;
     }
-    return 'system';
+    return null;
   }
 
   // --- Locale ---

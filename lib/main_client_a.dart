@@ -12,8 +12,8 @@ import 'core/storage/shared_pref_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Default App Flavor Config
-  Env.init(AppConfig.defaultApp);
+  // Initialize Client A Flavor Config
+  Env.init(AppConfig.clientA);
 
   LocaleSettings.useDeviceLocale();
   final sharedPreferences = await SharedPreferences.getInstance();
@@ -21,7 +21,7 @@ void main() async {
   runApp(
     ProviderScope(
       overrides: [
-        appConfigProvider.overrideWithValue(AppConfig.defaultApp),
+        appConfigProvider.overrideWithValue(AppConfig.clientA),
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],
       child: TranslationProvider(

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 
 import '../../../../app/config/dimensions.dart';
+import '../../../../app/config/flavors/flavor_config_provider.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/services/biometrics_service.dart';
@@ -37,6 +38,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appConfig = ref.watch(appConfigProvider);
     final isBiometricEnabled = ref.watch(biometricEnabledProvider);
     final isBiometricSupported = ref.watch(biometricSupportProvider).value ?? false;
 
@@ -98,7 +100,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: AppSizes.paddingMarginXl),
 
                   // Biometric Login Button
-                  if (isBiometricEnabled && isBiometricSupported) ...[
+                  if (appConfig.isFeatureEnabled('enableBiometrics') &&
+                      isBiometricEnabled &&
+                      isBiometricSupported) ...[
                     ref.watch(activeBiometricTypeProvider).when(
                           data: (type) {
 

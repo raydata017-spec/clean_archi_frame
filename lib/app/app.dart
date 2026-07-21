@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'config/flavors/flavor_config_provider.dart';
 import 'config/localization/generated/translations.g.dart';
 import 'config/localization/locale_provider.dart';
 import 'config/theme/theme.dart';
@@ -28,6 +29,9 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Watch flavor config provider
+    final appConfig = ref.watch(appConfigProvider);
+
     // Watch theme and locale providers to rebuild the app when they change
     final themeMode = ref.watch(themeControllerProvider);
     ref.watch(localeControllerProvider);
@@ -61,11 +65,11 @@ class MyApp extends ConsumerWidget {
       backGestureWidth: BackGestureWidth.fraction(0.5),
       child: StyledToast(
         child: MaterialApp.router(
-          title: 'BDATA Core Template V1.0.0',
-          // Theme Configuration
+          title: appConfig.appName,
+          // Dynamic Flavor Theme Configuration
           themeMode: themeMode,
-          theme: lightThemeData,
-          darkTheme: darkThemeData,
+          theme: buildLightTheme(config: appConfig),
+          darkTheme: buildDarkTheme(config: appConfig),
 
           // Slang Localization Configuration
           locale: TranslationProvider.of(context).flutterLocale,

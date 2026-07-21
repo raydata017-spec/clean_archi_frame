@@ -6,6 +6,24 @@ This framework is built with **Riverpod**, **Clean Architecture**, and **SharedP
 
 ---
 
+## White-Label Architecture Structure
+
+ဤ framework တွင် Codebase တစ်ခုတည်း (Single Codebase) ဖြင့် Client/Brand အမျိုးမျိုးအတွက် သီးခြား မိုဘိုင်းအက်ပ်များ ထုတ်ယူနိုင်သော **White-Label Architecture** စနစ် ပါဝင်ပါသည်။
+
+- **Single Point Configuration**: Developer အနေဖြင့် [app_config.dart](file:///d:/Projects/clean_archi_frame/lib/app/config/flavors/app_config.dart) ဖိုင်တစ်ခုတည်းတွင် App Name, Brand Colors, Logos, System Defaults နှင့် Feature Flags များကို သတ်မှတ်ရုံဖြင့် UI နှင့် Logic အားလုံး အလိုအလျောက် သက်ရောက်မှု ရှိပါသည်။
+- **Flavor Commands**:
+  ```bash
+  # Run Client A (Enterprise)
+  flutter run --flavor client_a -t lib/main_client_a.dart
+
+  # Run Client B (Commerce)
+  flutter run --flavor client_b -t lib/main_client_b.dart
+  ```
+
+> 📖 **အသေးစိတ် လမ်းညွှန်ချက်**: Flavor အသစ် ထည့်သွင်းနည်းအပြည့်အစုံ၊ Configuration Parameters နှင့် Usage Examples များကို [flavors/README.md](file:///d:/Projects/clean_archi_frame/lib/app/config/flavors/README.md) တွင် သီးခြားလေ့လာနိုင်ပါသည်။
+
+---
+
 ## Theme Architecture
 
 Theme စနစ်ကို UI မှ လွယ်ကူစွာ ခေါ်သုံးနိုင်ရန် `Extension` များဖြင့် တည်ဆောက်ထားပါသည်။

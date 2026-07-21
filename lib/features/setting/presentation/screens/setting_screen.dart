@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/config/dimensions.dart';
+import '../../../../app/config/flavors/flavor_config_provider.dart';
 import '../../../../app/config/localization/generated/translations.g.dart';
 import '../../../../app/config/localization/locale_provider.dart';
 import '../../../../app/config/theme/theme_provider.dart';
@@ -40,6 +41,7 @@ class SettingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appConfig = ref.watch(appConfigProvider);
     final themeMode = ref.watch(themeControllerProvider);
     final currentLocale = ref.watch(localeControllerProvider);
 
@@ -167,7 +169,8 @@ class SettingScreen extends ConsumerWidget {
                   }
                 },
               ),
-              if (ref.watch(biometricSupportProvider).value ?? false)
+              if (appConfig.isFeatureEnabled('enableBiometrics') &&
+                  (ref.watch(biometricSupportProvider).value ?? false))
                 SettingListTile(
                   title: t.setting.biometrics,
                   subtitle: t.setting.biometricsSubtitle,
@@ -276,19 +279,20 @@ class SettingScreen extends ConsumerWidget {
                   context.push(RouteNames.resetPasswordPath);
                 },
               ),
-              SettingListTile(
-                title: t.setting.offlineSync,
-                subtitle: t.setting.offlineSyncSubtitle,
-                icon: Icons.sync_rounded,
-                trailing: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: AppSizes.iconSm,
-                  color: context.colorScheme.onSurface.withValues(alpha: .3),
+              if (appConfig.isFeatureEnabled('enableOfflineSync'))
+                SettingListTile(
+                  title: t.setting.offlineSync,
+                  subtitle: t.setting.offlineSyncSubtitle,
+                  icon: Icons.sync_rounded,
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: AppSizes.iconSm,
+                    color: context.colorScheme.onSurface.withValues(alpha: .3),
+                  ),
+                  onTap: () {
+                    context.pushNamed(RouteNames.outboxName);
+                  },
                 ),
-                onTap: () {
-                  context.pushNamed(RouteNames.outboxName);
-                },
-              ),
               SettingListTile(
                 title: t.auth.logout,
                 subtitle: t.setting.signOutOfCurrentAccount,
