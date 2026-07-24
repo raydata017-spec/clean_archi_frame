@@ -156,6 +156,7 @@ class NotificationHelper {
     );
 
     await _localNotifications.initialize(
+      settings: 
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
         _onNotificationTap(response);
@@ -174,9 +175,13 @@ class NotificationHelper {
       final int notificationId = notification.hashCode;
 
       await _localNotifications.show(
+        id: 
         notificationId,
+        title:
         notification.title,
+        body:
         notification.body,
+        notificationDetails:
         const NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',
@@ -199,7 +204,7 @@ class NotificationHelper {
   }
 
   Future<void> cancelNotification(int id) async {
-    await _localNotifications.cancel(id);
+    await _localNotifications.cancel(id: id);
   }
 
   Future<void> cancelAllNotification() async {

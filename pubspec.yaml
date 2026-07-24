@@ -31,7 +31,8 @@ dependencies:
   go_router:
   intl:
   json_annotation:
-  local_auth:
+  local_auth: ^2.3.0
+  local_auth_android: ^1.0.56
   logger:
   ota_update:
   package_info_plus:
