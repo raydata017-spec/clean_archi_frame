@@ -158,10 +158,18 @@ class FakeOutboxRepository implements OfflineOutboxRepository {
 
 class FakeConnectivity implements ConnectivityChecker {
   bool hasInternetAccess = true;
+  bool isWifi = true;
   final _controller = StreamController<bool>.broadcast();
 
   @override
-  Future<bool> hasInternet() async => hasInternetAccess;
+  Future<bool> hasInternet({bool wifiOnly = false}) async {
+    if (!hasInternetAccess) return false;
+    if (wifiOnly && !isWifi) return false;
+    return true;
+  }
+
+  @override
+  Future<bool> isWifiConnected() async => isWifi;
 
   @override
   Stream<bool> get onStatusChanged => _controller.stream;
@@ -271,5 +279,46 @@ void main() {
     expect(fakeRepo.items.length, equals(1));
     expect(fakeRepo.items.first.status, equals(OutboxStatusEnum.pending));
     expect(engine.status, equals(SyncEngineEnums.offline));
+  });
+
+  test('should skip syncing when syncWifiOnly is enabled and connection is not WiFi', () async {
+    engine.setSyncWifiOnly(true);
+    fakeConnectivity.hasInternetAccess = true;
+    fakeConnectivity.isWifi = false;
+
+    await fakeRepo.enqueue(
+      const OutboxEnqueueParams(
+        url: '/api/items',
+        method: 'POST',
+        actionType: 'CREATE_ITEM',
+        payload: {'name': 'Test'},
+      ),
+    );
+    await engine.triggerSync();
+
+    expect(fakeRepo.items.length, equals(1));
+    expect(fakeRepo.items.first.status, equals(OutboxStatusEnum.pending));
+    expect(testProcessor.processCount, equals(0));
+    expect(engine.status, equals(SyncEngineEnums.offline));
+  });
+
+  test('should sync successfully when syncWifiOnly is enabled and connection is WiFi', () async {
+    engine.setSyncWifiOnly(true);
+    fakeConnectivity.hasInternetAccess = true;
+    fakeConnectivity.isWifi = true;
+
+    await fakeRepo.enqueue(
+      const OutboxEnqueueParams(
+        url: '/api/items',
+        method: 'POST',
+        actionType: 'CREATE_ITEM',
+        payload: {'name': 'Test'},
+      ),
+    );
+    await engine.triggerSync();
+
+    expect(fakeRepo.items, isEmpty);
+    expect(testProcessor.processCount, equals(1));
+    expect(engine.status, equals(SyncEngineEnums.idle));
   });
 }

@@ -13,6 +13,8 @@ import '../offline/repositories/drift_local_reference_repository.dart';
 import '../offline/repositories/local_reference_repository.dart';
 import 'database_di.dart';
 
+import '../storage/shared_pref_service.dart';
+
 final referenceMappingDaoProvider = Provider<ReferenceMappingDao>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return ReferenceMappingDao(db);
@@ -41,11 +43,13 @@ final offlineSyncEngineProvider = Provider<OfflineSyncEngine>((ref) {
   final outboxRepo = ref.watch(offlineOutboxRepositoryProvider);
   final connectivity = ref.watch(connectivityServiceProvider);
   final processors = ref.watch(outboxProcessorsProvider);
+  final sharedPrefs = ref.watch(sharedPrefServiceProvider);
 
   final engine = OfflineSyncEngine(
     outboxRepository: outboxRepo,
     connectivity: connectivity,
     config: const SyncConfig(),
+    syncWifiOnly: sharedPrefs.getSyncWifiOnly(),
   );
 
   for (final processor in processors) {

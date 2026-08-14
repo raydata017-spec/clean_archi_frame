@@ -17,7 +17,8 @@ final connectivityServiceProvider = Provider<ConnectivityChecker>((ref) {
 
 /// Minimal contract used by [OfflineSyncEngine] (easy to fake in tests).
 abstract class ConnectivityChecker {
-  Future<bool> hasInternet();
+  Future<bool> hasInternet({bool wifiOnly = false});
+  Future<bool> isWifiConnected();
   Stream<bool> get onStatusChanged;
   void dispose();
 }
@@ -79,12 +80,21 @@ class ConnectivityService implements ConnectivityChecker {
   }
 
   @override
-  Future<bool> hasInternet() async {
+  Future<bool> hasInternet({bool wifiOnly = false}) async {
     final results = await _connectivity.checkConnectivity();
     if (results.contains(ConnectivityResult.none)) {
       return false;
     }
+    if (wifiOnly && !results.contains(ConnectivityResult.wifi)) {
+      return false;
+    }
     return _checkInternetAccess();
+  }
+
+  @override
+  Future<bool> isWifiConnected() async {
+    final results = await _connectivity.checkConnectivity();
+    return results.contains(ConnectivityResult.wifi);
   }
 
   @override

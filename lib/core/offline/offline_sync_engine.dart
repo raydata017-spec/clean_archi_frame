@@ -23,12 +23,19 @@ class OfflineSyncEngine {
   SyncEngineEnums _status = SyncEngineEnums.idle;
   bool _isProcessing = false;
   bool _initialized = false;
+  bool _syncWifiOnly = false;
   StreamSubscription<bool>? _connectivitySub;
   StreamSubscription<List<OfflineOutboxItem>>? _outboxSub;
   Timer? _retryTimer;
 
   SyncEngineEnums get status => _status;
   bool get isProcessing => _isProcessing;
+  bool get syncWifiOnly => _syncWifiOnly;
+
+  void setSyncWifiOnly(bool value) {
+    _syncWifiOnly = value;
+    dev.log('📡 Sync Wi-Fi only set to: $value', name: 'OfflineSyncEngine');
+  }
 
   final _statusController = StreamController<SyncEngineEnums>.broadcast();
   Stream<SyncEngineEnums> get statusStream => _statusController.stream;
@@ -37,9 +44,11 @@ class OfflineSyncEngine {
     required OfflineOutboxRepository outboxRepository,
     SyncConfig config = const SyncConfig(),
     ConnectivityChecker? connectivity,
+    bool? syncWifiOnly,
   })  : _outboxRepository = outboxRepository,
         _config = config,
-        _connectivity = connectivity ?? ConnectivityService();
+        _connectivity = connectivity ?? ConnectivityService(),
+        _syncWifiOnly = syncWifiOnly ?? config.wifiOnly;
 
   /// Must be called once after construction (e.g. from the Riverpod provider).
   Future<void> initialize() async {
@@ -144,9 +153,18 @@ class OfflineSyncEngine {
       return;
     }
 
-    final hasInternet = await _connectivity.hasInternet();
+    final hasInternet = await _connectivity.hasInternet(wifiOnly: _syncWifiOnly);
     if (!hasInternet) {
-      dev.log('🚫 Cannot sync: Offline', name: 'OfflineSyncEngine');
+      if (_syncWifiOnly) {
+        final isWifi = await _connectivity.isWifiConnected();
+        if (!isWifi) {
+          dev.log('🚫 Cannot sync: Wi-Fi only mode enabled and not connected to Wi-Fi', name: 'OfflineSyncEngine');
+        } else {
+          dev.log('🚫 Cannot sync: Offline', name: 'OfflineSyncEngine');
+        }
+      } else {
+        dev.log('🚫 Cannot sync: Offline', name: 'OfflineSyncEngine');
+      }
       _updateStatus(SyncEngineEnums.offline);
       await _scheduleNextRetry();
       return;
@@ -251,7 +269,7 @@ class OfflineSyncEngine {
     _updateStatus(SyncEngineEnums.syncing);
 
     try {
-      final hasInternet = await _connectivity.hasInternet();
+      final hasInternet = await _connectivity.hasInternet(wifiOnly: _syncWifiOnly);
       if (!hasInternet) {
         _updateStatus(SyncEngineEnums.offline);
         return;

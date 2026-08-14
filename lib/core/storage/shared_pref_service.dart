@@ -22,6 +22,7 @@ class SharedPrefService {
   static const String _tokenKey = 'auth_token';
   static const String _refreshTokenKey = 'refresh_token';
   static const String _biometricEnabledKey = 'biometric_enabled';
+  static const String _syncWifiOnlyKey = 'sync_wifi_only';
 
   // --- Theme ---
   Future<void> saveThemeMode(String mode) async {
@@ -81,6 +82,15 @@ class SharedPrefService {
 
   bool getBiometricEnabled() {
     return _prefs.getBool(_biometricEnabledKey) ?? false;
+  }
+
+  // --- Sync Wi-Fi Only ---
+  Future<void> saveSyncWifiOnly(bool enabled) async {
+    await _prefs.setBool(_syncWifiOnlyKey, enabled);
+  }
+
+  bool getSyncWifiOnly() {
+    return _prefs.getBool(_syncWifiOnlyKey) ?? false;
   }
 
   // --- Clear All ---
